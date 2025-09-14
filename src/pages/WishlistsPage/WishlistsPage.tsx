@@ -14,6 +14,9 @@ import './WishlistsPage.css';
 import {
   SectionHeader
 } from "@telegram-apps/telegram-ui/dist/components/Blocks/Section/components/SectionHeader/SectionHeader";
+import {Icon28Person} from "@/icons/28/Person.tsx";
+import {Icon28Group} from "@/icons/28/Group.tsx";
+import {Icon28Actions} from "@/icons/28/Actions.tsx";
 
 interface Wishlist {
   id: string;
@@ -102,11 +105,11 @@ export const WishlistsPage: FC = () => {
         <Section>
           <Button
             mode="filled"
-            size="l"
+            size="m"
             stretched
             onClick={handleAddWishlist}
           >
-            Create New Wishlist
+            Add wishlist
           </Button>
         </Section>
       </List>
@@ -118,19 +121,26 @@ export const WishlistsPage: FC = () => {
           text="My Lists"
           selected={activeTab === 'my-lists'}
           onClick={() => handleTabChange('my-lists')}
-        />
+        >
+          <Icon28Actions></Icon28Actions>
+        </Tabbar.Item>
+
         <Tabbar.Item
           key="friends"
           text="Friends"
           selected={activeTab === 'friends'}
           onClick={() => handleTabChange('friends')}
-        />
+        >
+          <Icon28Group></Icon28Group>
+        </Tabbar.Item>
         <Tabbar.Item
           key="profile"
           text="Profile"
           selected={activeTab === 'profile'}
           onClick={() => handleTabChange('profile')}
-        />
+        >
+          <Icon28Person></Icon28Person>
+        </Tabbar.Item>
       </Tabbar>
     </Page>
   );

@@ -25,3 +25,7 @@ dist-ssr
 .cursor
 
 *.pem
+.env
+
+nginx/*
+!nginx/nginx.conf.example
