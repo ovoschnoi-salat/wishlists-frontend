@@ -5,11 +5,13 @@ import {
   List,
   Tabbar,
   Button,
-  Text, Navigation,
+  Text, 
+  Navigation,
 } from '@telegram-apps/telegram-ui';
 import type {FC} from 'react';
 
 import {Page} from '@/components/Page.tsx';
+import {NewWishlist} from '@/components/NewWishlist/NewWishlist.tsx';
 import './WishlistsPage.css';
 import {
   SectionHeader
@@ -55,7 +57,8 @@ const mockWishlists: Wishlist[] = [
 
 export const WishlistsPage: FC = () => {
   const [activeTab, setActiveTab] = useState('my-lists');
-  const [wishlists] = useState<Wishlist[]>(mockWishlists);
+  const [wishlists, setWishlists] = useState<Wishlist[]>(mockWishlists);
+  const [showNewWishlist, setShowNewWishlist] = useState(false);
 
   const handleTabChange = (tab: string) => {
     setActiveTab(tab);
@@ -67,9 +70,40 @@ export const WishlistsPage: FC = () => {
   };
 
   const handleAddWishlist = () => {
-    console.log('Add new wishlist');
-    // TODO: Open add wishlist modal
+    setShowNewWishlist(true);
   };
+
+  const handleSaveNewWishlist = (newWishlist: {
+    title: string;
+    description: string;
+    isPrivate: boolean;
+    usersWithAccess: number;
+  }) => {
+    const wishlist: Wishlist = {
+      id: Date.now().toString(),
+      title: newWishlist.title,
+      description: newWishlist.description,
+      isPrivate: newWishlist.isPrivate,
+    };
+    
+    setWishlists(prev => [wishlist, ...prev]);
+    setShowNewWishlist(false);
+  };
+
+  const handleCancelNewWishlist = () => {
+    setShowNewWishlist(false);
+  };
+
+  if (showNewWishlist) {
+    return (
+      <Page back={true}>
+        <NewWishlist
+          onSave={handleSaveNewWishlist}
+          onCancel={handleCancelNewWishlist}
+        />
+      </Page>
+    );
+  }
 
   return (
     <Page back={true}>
