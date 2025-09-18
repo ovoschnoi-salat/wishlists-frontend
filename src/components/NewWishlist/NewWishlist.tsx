@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import {useState} from 'react';
 import {
   Section,
   Cell,
@@ -10,8 +10,11 @@ import {
   Textarea,
   Navigation,
 } from '@telegram-apps/telegram-ui';
-import type { FC } from 'react';
-import { Icon28Plus } from '@/icons/28/Plus.tsx';
+import type {FC} from 'react';
+import {Icon28Plus} from '@/icons/28/Plus.tsx';
+import {
+  SectionHeader
+} from "@telegram-apps/telegram-ui/dist/components/Blocks/Section/components/SectionHeader/SectionHeader";
 
 interface NewWishlistProps {
   onSave?: (wishlist: {
@@ -20,17 +23,19 @@ interface NewWishlistProps {
     isPrivate: boolean;
     usersWithAccess: number;
   }) => void;
-  onCancel?: () => void;
 }
 
-export const NewWishlist: FC<NewWishlistProps> = ({ onSave, onCancel }) => {
+export const NewWishlist: FC<NewWishlistProps> = ({onSave}) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [isPrivate, setIsPrivate] = useState(true);
-  const [usersWithAccess, setUsersWithAccess] = useState(3);
+  const [isPrivate, setIsPrivate] = useState(false);
+  const [usersWithAccess, _] = useState(3);
+  const [isSaving, setIsSaving] = useState(false);
 
   const handleSave = () => {
     if (title.trim()) {
+      setIsSaving(true)
+      // TODO
       onSave?.({
         title: title.trim(),
         description: description.trim(),
@@ -47,13 +52,14 @@ export const NewWishlist: FC<NewWishlistProps> = ({ onSave, onCancel }) => {
 
   return (
     <List>
-      <Section header="New Wishlist">
       {/* Title Section */}
       <Section
         header={
-          <Text size="s" weight="2" style={{ textTransform: 'uppercase' }}>
-            Title
-          </Text>
+          <SectionHeader>
+            <Text weight="2" style={{textTransform: 'uppercase'}}>
+              Title
+            </Text>
+          </SectionHeader>
         }
       >
         <Input
@@ -66,9 +72,12 @@ export const NewWishlist: FC<NewWishlistProps> = ({ onSave, onCancel }) => {
       {/* Description Section */}
       <Section
         header={
-          <Text size="s" weight="2" style={{ textTransform: 'uppercase' }}>
-            Description
-          </Text>
+
+          <SectionHeader>
+            <Text weight="2" style={{textTransform: 'uppercase'}}>
+              Description
+            </Text>
+          </SectionHeader>
         }
       >
         <Textarea
@@ -82,9 +91,11 @@ export const NewWishlist: FC<NewWishlistProps> = ({ onSave, onCancel }) => {
       {/* Privacy Settings Section */}
       <Section
         header={
-          <Text size="s" weight="2" style={{ textTransform: 'uppercase' }}>
-            Privacy settings
-          </Text>
+          <SectionHeader>
+            <Text weight="2" style={{textTransform: 'uppercase'}}>
+              Privacy settings
+            </Text>
+          </SectionHeader>
         }
       >
         {/* Private List Toggle */}
@@ -92,7 +103,7 @@ export const NewWishlist: FC<NewWishlistProps> = ({ onSave, onCancel }) => {
           after={
             <Switch
               checked={isPrivate}
-              onChange={(checked) => setIsPrivate(checked)}
+              onChange={(event) => setIsPrivate(event.target.checked)}
             />
           }
         >
@@ -100,17 +111,24 @@ export const NewWishlist: FC<NewWishlistProps> = ({ onSave, onCancel }) => {
         </Cell>
 
         {/* Users with Access */}
-        <Cell
-          after={
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <Text>{usersWithAccess}</Text>
-              <Navigation />
-            </div>
-          }
-          onClick={handleUsersWithAccessPress}
-        >
-          <Text>Users with access</Text>
-        </Cell>
+        {
+          isPrivate ?
+            (
+            <>
+              <Cell
+                after={
+                  <div style={{display: 'flex', alignItems: 'center', gap: '8px'}}>
+                    <Text>{usersWithAccess}</Text>
+                    <Navigation/>
+                  </div>
+                }
+                onClick={handleUsersWithAccessPress}
+              >
+                <Text>Users with access</Text>
+              </Cell>
+            </>
+            ) : (<></>)
+        }
       </Section>
 
       {/* Create List Button */}
@@ -120,12 +138,11 @@ export const NewWishlist: FC<NewWishlistProps> = ({ onSave, onCancel }) => {
           size="m"
           stretched
           onClick={handleSave}
-          disabled={!title.trim()}
-          before={<Icon28Plus />}
+          disabled={!title.trim() || isSaving}
+          before={<Icon28Plus/>}
         >
           Create list
         </Button>
-      </Section>
       </Section>
     </List>
   );

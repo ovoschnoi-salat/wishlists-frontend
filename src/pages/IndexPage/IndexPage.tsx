@@ -1,11 +1,10 @@
-import {Section, Cell, Image, List} from '@telegram-apps/telegram-ui';
+import {Section, Cell, List} from '@telegram-apps/telegram-ui';
 import type {FC} from 'react';
 
 import {Link} from '@/components/Link/Link.tsx';
 import {Page} from '@/components/Page.tsx';
 
-import tonSvg from './ton.svg';
-
+// TODO: replace with WishlistsPage
 export const IndexPage: FC = () => {
   return (
     <Page back={false}>
@@ -16,18 +15,9 @@ export const IndexPage: FC = () => {
         >
           <Link to="/wishlists">
             <Cell
-              before={<Image src={tonSvg} style={{backgroundColor: '#FF6B6B'}}/>}
               subtitle="Manage your wishlists"
             >
               My Wishlists
-            </Cell>
-          </Link>
-          <Link to="/ton-connect">
-            <Cell
-              before={<Image src={tonSvg} style={{backgroundColor: '#007AFF'}}/>}
-              subtitle="Connect your TON wallet"
-            >
-              TON Connect
             </Cell>
           </Link>
         </Section>

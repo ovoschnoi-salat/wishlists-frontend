@@ -8,8 +8,5 @@ dist
 node_modules
 README.md
 .dockerignore
-.env
-.env.example
 .gitignore
 Dockerfile
-docker-compose.yml

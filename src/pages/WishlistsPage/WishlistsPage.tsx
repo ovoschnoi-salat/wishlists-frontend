@@ -1,12 +1,13 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {
   Section,
   Cell,
   List,
   Tabbar,
   Button,
-  Text, 
+  Text,
   Navigation,
+  Modal,
 } from '@telegram-apps/telegram-ui';
 import type {FC} from 'react';
 
@@ -19,6 +20,7 @@ import {
 import {Icon28Person} from "@/icons/28/Person.tsx";
 import {Icon28Group} from "@/icons/28/Group.tsx";
 import {Icon28Actions} from "@/icons/28/Actions.tsx";
+import {getUserWishlists} from '@/backend-client';
 
 interface Wishlist {
   id: string;
@@ -58,7 +60,29 @@ const mockWishlists: Wishlist[] = [
 export const WishlistsPage: FC = () => {
   const [activeTab, setActiveTab] = useState('my-lists');
   const [wishlists, setWishlists] = useState<Wishlist[]>(mockWishlists);
-  const [showNewWishlist, setShowNewWishlist] = useState(false);
+  const [isNewWishlistModalOpen, setIsNewWishlistModalOpen] = useState(false);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        let {data, error} = await getUserWishlists({});
+        if (error) {
+          console.error('Failed to load wishlists', error);
+          return
+        }
+        data = data? data : []
+        const mapped: Wishlist[] = data.map((w: any) => ({
+          id: w.id ?? '',
+          title: w.title ?? '',
+          description: w.description ?? '',
+          isPrivate: w.isPrivate ?? false,
+        }));
+        setWishlists(mapped);
+      } catch (e) {
+        console.error('Failed to load wishlists', e);
+      }
+    })();
+  }, []);
 
   const handleTabChange = (tab: string) => {
     setActiveTab(tab);
@@ -70,7 +94,7 @@ export const WishlistsPage: FC = () => {
   };
 
   const handleAddWishlist = () => {
-    setShowNewWishlist(true);
+    // setShowNewWishlist(true);
   };
 
   const handleSaveNewWishlist = (newWishlist: {
@@ -85,25 +109,11 @@ export const WishlistsPage: FC = () => {
       description: newWishlist.description,
       isPrivate: newWishlist.isPrivate,
     };
-    
+
     setWishlists(prev => [wishlist, ...prev]);
-    setShowNewWishlist(false);
-  };
 
-  const handleCancelNewWishlist = () => {
-    setShowNewWishlist(false);
+    setIsNewWishlistModalOpen(false);
   };
-
-  if (showNewWishlist) {
-    return (
-      <Page back={true}>
-        <NewWishlist
-          onSave={handleSaveNewWishlist}
-          onCancel={handleCancelNewWishlist}
-        />
-      </Page>
-    );
-  }
 
   return (
     <Page back={true}>
@@ -137,14 +147,23 @@ export const WishlistsPage: FC = () => {
 
         {/* Add List Button */}
         <Section>
-          <Button
-            mode="filled"
-            size="m"
-            stretched
-            onClick={handleAddWishlist}
+          <Modal
+            open={isNewWishlistModalOpen}
+            onOpenChange={setIsNewWishlistModalOpen}
+            header={<Modal.Header>New Wishlist</Modal.Header>}
+            trigger={<Button
+              mode="filled"
+              size="m"
+              stretched
+              onClick={handleAddWishlist}
+            >
+              Add wishlist
+            </Button>}
           >
-            Add wishlist
-          </Button>
+            <NewWishlist
+              onSave={handleSaveNewWishlist}
+            />
+          </Modal>
         </Section>
       </List>
 

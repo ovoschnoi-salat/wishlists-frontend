@@ -2,12 +2,14 @@
 import '@telegram-apps/telegram-ui/dist/styles.css';
 
 import ReactDOM from 'react-dom/client';
-import { StrictMode } from 'react';
-import { retrieveLaunchParams } from '@telegram-apps/sdk-react';
+import {StrictMode} from 'react';
+import {retrieveLaunchParams} from '@telegram-apps/sdk-react';
 
-import { Root } from '@/components/Root.tsx';
-import { EnvUnsupported } from '@/components/EnvUnsupported.tsx';
-import { init } from '@/init.ts';
+import {Root} from '@/components/Root.tsx';
+import {EnvUnsupported} from '@/components/EnvUnsupported.tsx';
+import {init} from '@/init.ts';
+
+import {client} from './backend-client/client.gen';
 
 import './index.css';
 
@@ -16,9 +18,16 @@ import './mockEnv.ts';
 
 const root = ReactDOM.createRoot(document.getElementById('root')!);
 
+
 try {
+  const {initDataRaw} = retrieveLaunchParams();
+  client.setConfig({
+    auth: `tma ${initDataRaw}`,
+    baseUrl: 'http://localhost:8080/',
+  });
+
   const launchParams = retrieveLaunchParams();
-  const { tgWebAppPlatform: platform } = launchParams;
+  const {tgWebAppPlatform: platform} = launchParams;
   const debug = (launchParams.tgWebAppStartParam || '').includes('platformer_debug')
     || import.meta.env.DEV;
 
