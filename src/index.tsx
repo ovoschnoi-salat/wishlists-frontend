@@ -23,7 +23,7 @@ try {
   const {initDataRaw} = retrieveLaunchParams();
   client.setConfig({
     auth: `tma ${initDataRaw}`,
-    baseUrl: 'http://localhost:8080/',
+    baseUrl: 'http://localhost:8080/api',
   });
 
   const launchParams = retrieveLaunchParams();

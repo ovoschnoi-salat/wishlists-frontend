@@ -1,9 +1,14 @@
 import { useMemo } from 'react';
-import { Navigate, Route, Routes, HashRouter } from 'react-router-dom';
 import { retrieveLaunchParams, useSignal, isMiniAppDark } from '@telegram-apps/sdk-react';
 import { AppRoot } from '@telegram-apps/telegram-ui';
 
-import { routes } from '@/navigation/routes.tsx';
+import { createBrowserRouter } from "react-router";
+import {IndexPage} from "@/pages/IndexPage/IndexPage.tsx";
+import {WishlistsPage} from "@/pages/WishlistsPage/WishlistsPage.tsx";
+import {InitDataPage} from "@/pages/InitDataPage.tsx";
+import {ThemeParamsPage} from "@/pages/ThemeParamsPage.tsx";
+import {LaunchParamsPage} from "@/pages/LaunchParamsPage.tsx";
+import { RouterProvider } from "react-router/dom";
 
 export function App() {
   const lp = useMemo(() => retrieveLaunchParams(), []);
@@ -14,12 +19,21 @@ export function App() {
       appearance={isDark ? 'dark' : 'light'}
       platform={['macos', 'ios'].includes(lp.tgWebAppPlatform) ? 'ios' : 'base'}
     >
-      <HashRouter>
-        <Routes>
-          {routes.map((route) => <Route key={route.path} {...route} />)}
-          <Route path="*" element={<Navigate to="/"/>}/>
-        </Routes>
-      </HashRouter>
+      <RouterProvider router={router} />
     </AppRoot>
   );
 }
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    Component: IndexPage,
+    children:
+      [
+        {index: true, Component: WishlistsPage},
+        {path: '/init-data', Component: InitDataPage},
+        {path: '/theme-params', Component: ThemeParamsPage},
+        {path: '/launch-params', Component: LaunchParamsPage}
+      ]
+  },
+]);

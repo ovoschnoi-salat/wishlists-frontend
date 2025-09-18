@@ -3,7 +3,6 @@ import {
   Section,
   Cell,
   List,
-  Tabbar,
   Button,
   Text,
   Navigation,
@@ -11,15 +10,11 @@ import {
 } from '@telegram-apps/telegram-ui';
 import type {FC} from 'react';
 
-import {Page} from '@/components/Page.tsx';
 import {NewWishlist} from '@/components/NewWishlist/NewWishlist.tsx';
 import './WishlistsPage.css';
 import {
   SectionHeader
 } from "@telegram-apps/telegram-ui/dist/components/Blocks/Section/components/SectionHeader/SectionHeader";
-import {Icon28Person} from "@/icons/28/Person.tsx";
-import {Icon28Group} from "@/icons/28/Group.tsx";
-import {Icon28Actions} from "@/icons/28/Actions.tsx";
 import {getUserWishlists} from '@/backend-client';
 
 interface Wishlist {
@@ -58,7 +53,6 @@ const mockWishlists: Wishlist[] = [
 ];
 
 export const WishlistsPage: FC = () => {
-  const [activeTab, setActiveTab] = useState('my-lists');
   const [wishlists, setWishlists] = useState<Wishlist[]>(mockWishlists);
   const [isNewWishlistModalOpen, setIsNewWishlistModalOpen] = useState(false);
 
@@ -68,9 +62,10 @@ export const WishlistsPage: FC = () => {
         let {data, error} = await getUserWishlists({});
         if (error) {
           console.error('Failed to load wishlists', error);
+          setWishlists(mockWishlists)
           return
         }
-        data = data? data : []
+        data = data ? data : []
         const mapped: Wishlist[] = data.map((w: any) => ({
           id: w.id ?? '',
           title: w.title ?? '',
@@ -83,10 +78,6 @@ export const WishlistsPage: FC = () => {
       }
     })();
   }, []);
-
-  const handleTabChange = (tab: string) => {
-    setActiveTab(tab);
-  };
 
   const handleWishlistPress = (wishlist: Wishlist) => {
     console.log('Navigate to wishlist:', wishlist.id);
@@ -116,85 +107,52 @@ export const WishlistsPage: FC = () => {
   };
 
   return (
-    <Page back={true}>
-
-      {/* Main Content */}
-      <List>
-        <Section
-          header={
-            <SectionHeader>
-              <Text weight="2">
-                {activeTab === 'my-lists' ? 'My Lists' : 'Shared Lists'}
-              </Text>
-            </SectionHeader>
-          }
-        >
-          {wishlists
-            // .filter(wishlist =>
-            //   activeTab === 'my-lists' ? !wishlist.isPrivate : wishlist.isPrivate
-            // )
-            .map((wishlist) => (
-              <Cell
-                key={wishlist.id}
-                after={<Navigation></Navigation>}
-                subtitle={wishlist.isPrivate ? `Private` : undefined}
-                onClick={() => handleWishlistPress(wishlist)}
-              >
-                {wishlist.title}
-              </Cell>
-            ))}
-        </Section>
-
-        {/* Add List Button */}
-        <Section>
-          <Modal
-            open={isNewWishlistModalOpen}
-            onOpenChange={setIsNewWishlistModalOpen}
-            header={<Modal.Header>New Wishlist</Modal.Header>}
-            trigger={<Button
-              mode="filled"
-              size="m"
-              stretched
-              onClick={handleAddWishlist}
+    <List>
+      <Section
+        header={
+          <SectionHeader>
+            <Text weight="2">
+              {'My Lists'}
+            </Text>
+          </SectionHeader>
+        }
+      >
+        {wishlists
+          // .filter(wishlist =>
+          //   activeTab === 'my-lists' ? !wishlist.isPrivate : wishlist.isPrivate
+          // )
+          .map((wishlist) => (
+            <Cell
+              key={wishlist.id}
+              after={<Navigation></Navigation>}
+              subtitle={wishlist.isPrivate ? `Private` : undefined}
+              onClick={() => handleWishlistPress(wishlist)}
             >
-              Add wishlist
-            </Button>}
+              {wishlist.title}
+            </Cell>
+          ))}
+      </Section>
+
+      {/* Add List Button */}
+      <Section>
+        <Modal
+          open={isNewWishlistModalOpen}
+          onOpenChange={setIsNewWishlistModalOpen}
+          header={<Modal.Header>New Wishlist</Modal.Header>}
+          trigger={<Button
+            mode="filled"
+            size="m"
+            stretched
+            onClick={handleAddWishlist}
           >
-            <NewWishlist
-              onSave={handleSaveNewWishlist}
-            />
-          </Modal>
-        </Section>
-      </List>
-
-      {/* Tab Bar */}
-      <Tabbar>
-        <Tabbar.Item
-          key="my-lists"
-          text="My Lists"
-          selected={activeTab === 'my-lists'}
-          onClick={() => handleTabChange('my-lists')}
+            Add wishlist
+          </Button>}
         >
-          <Icon28Actions></Icon28Actions>
-        </Tabbar.Item>
-
-        <Tabbar.Item
-          key="friends"
-          text="Friends"
-          selected={activeTab === 'friends'}
-          onClick={() => handleTabChange('friends')}
-        >
-          <Icon28Group></Icon28Group>
-        </Tabbar.Item>
-        <Tabbar.Item
-          key="profile"
-          text="Profile"
-          selected={activeTab === 'profile'}
-          onClick={() => handleTabChange('profile')}
-        >
-          <Icon28Person></Icon28Person>
-        </Tabbar.Item>
-      </Tabbar>
-    </Page>
+          <NewWishlist
+            onSave={handleSaveNewWishlist}
+          />
+        </Modal>
+      </Section>
+    </List>
   );
 };

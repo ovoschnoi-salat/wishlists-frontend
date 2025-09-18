@@ -49,5 +49,5 @@ export type PostUserWishlistsResponses = {
 export type PostUserWishlistsResponse = PostUserWishlistsResponses[keyof PostUserWishlistsResponses];
 
 export type ClientOptions = {
-    baseUrl: string;
+    baseUrl: 'localhost:8080/api' | (string & {});
 };
