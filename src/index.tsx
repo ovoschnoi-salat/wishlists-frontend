@@ -5,7 +5,6 @@ import ReactDOM from 'react-dom/client';
 import {StrictMode} from 'react';
 import {retrieveLaunchParams} from '@telegram-apps/sdk-react';
 
-import {Root} from '@/components/Root.tsx';
 import {EnvUnsupported} from '@/components/EnvUnsupported.tsx';
 import {init} from '@/init.ts';
 
@@ -15,6 +14,7 @@ import './index.css';
 
 // Mock the environment in case, we are outside Telegram.
 import './mockEnv.ts';
+import {App} from "@/components/App.tsx";
 
 const root = ReactDOM.createRoot(document.getElementById('root')!);
 
@@ -40,7 +40,7 @@ try {
     .then(() => {
       root.render(
         <StrictMode>
-          <Root/>
+          <App/>
         </StrictMode>,
       );
     });

@@ -4,57 +4,30 @@ import {
   Cell,
   List,
   Button,
-  Text,
   Navigation,
   Modal,
 } from '@telegram-apps/telegram-ui';
+import {useNavigate} from 'react-router-dom';
 import type {FC} from 'react';
 
 import {NewWishlist} from '@/components/NewWishlist/NewWishlist.tsx';
-import './WishlistsPage.css';
-import {
-  SectionHeader
-} from "@telegram-apps/telegram-ui/dist/components/Blocks/Section/components/SectionHeader/SectionHeader";
 import {getUserWishlists, postUserWishlists, ServiceWishlist} from '@/backend-client';
+
+import './WishlistsPage.css';
 
 interface Wishlist {
   id: number;
   title: string;
   description: string;
-  // itemCount: number;
   isPrivate: boolean;
 }
 
-const mockWishlists: Wishlist[] = [
-  {
-    id: 1,
-    title: 'Birthday Wishlist',
-    description: 'Things I want for my birthday',
-    isPrivate: true,
-  },
-  {
-    id: 2,
-    title: 'Christmas Gifts',
-    description: 'Holiday gift ideas',
-    isPrivate: false,
-  },
-  {
-    id: 3,
-    title: 'Home Decor',
-    description: 'New apartment essentials',
-    isPrivate: true,
-  },
-  {
-    id: 4,
-    title: 'Tech Gadgets',
-    description: 'Latest tech I want to buy',
-    isPrivate: false,
-  }
-];
 
 export const WishlistsPage: FC = () => {
-  const [wishlists, setWishlists] = useState<Wishlist[]>(mockWishlists);
+  const [wishlists, setWishlists] = useState<Wishlist[]>([]);
   const [isNewWishlistModalOpen, setIsNewWishlistModalOpen] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     (async () => {
@@ -62,8 +35,8 @@ export const WishlistsPage: FC = () => {
         let {data, error} = await getUserWishlists({});
         if (error) {
           console.error('Failed to load wishlists', error);
-          setWishlists(mockWishlists)
-          return
+          setError(typeof error === 'string' ? error : (error as any)?.message ?? 'Failed to load wishlists');
+          return;
         }
         data = data ? data : []
         const mapped: Wishlist[] = data.map((w: ServiceWishlist) => ({
@@ -74,14 +47,18 @@ export const WishlistsPage: FC = () => {
         } as Wishlist));
         setWishlists(mapped);
       } catch (e) {
-        console.error('Failed to load wishlists', e);
+        setError((e as Error)?.message ?? 'Failed to load wishlists');
       }
     })();
   }, []);
 
+  if (error) {
+    throw new Error(error);
+  }
+
   const handleWishlistPress = (wishlist: Wishlist) => {
     console.log('Navigate to wishlist:', wishlist.id);
-    // TODO: Navigate to wishlist detail page
+    navigate(`/wishlists/${wishlist.id}`);
   };
 
   const handleSaveNewWishlist = async (newWishlist: {
@@ -90,46 +67,36 @@ export const WishlistsPage: FC = () => {
     isPrivate: boolean;
     usersWithAccess: number;
   }) => {
-    try {
-      const {data, error} = await postUserWishlists({
-        body: {
-          title: newWishlist.title,
-          description: newWishlist.description,
-          is_private: newWishlist.isPrivate,
-        }
-      });
-
-      if (error) {
-        console.error('Failed to create wishlist', error);
-        return;
+    const {data, error} = await postUserWishlists({
+      body: {
+        title: newWishlist.title,
+        description: newWishlist.description,
+        is_private: newWishlist.isPrivate,
       }
+    });
 
-      if (data) {
-        const wishlist: Wishlist = {
-          id: data.id ?? 0,
-          title: data.title ?? '',
-          description: data.description ?? '',
-          isPrivate: data.is_private ?? false,
-        };
+    if (error) {
+      console.error('Failed to create wishlist', error);
+      return;
+    }
 
-        setWishlists(prev => [...prev, wishlist]);
-        setIsNewWishlistModalOpen(false);
-      }
-    } catch (e) {
-      console.error('Failed to create wishlist', e);
+    if (data) {
+      const wishlist: Wishlist = {
+        id: data.id ?? 0,
+        title: data.title ?? '',
+        description: data.description ?? '',
+        isPrivate: data.is_private ?? false,
+      };
+
+      setWishlists(prev => [...prev, wishlist]);
+      setIsNewWishlistModalOpen(false);
     }
   };
 
   return (
     <List>
       <Section
-        header={
-          <SectionHeader>
-            <Text weight="2">
-              {'My Lists'}
-            </Text>
-          </SectionHeader>
-        }
+        header='My Lists'
       >
         {wishlists
           // .filter(wishlist =>
@@ -138,7 +105,7 @@ export const WishlistsPage: FC = () => {
           .map((wishlist) => (
             <Cell
               key={wishlist.id}
-              after={<Navigation></Navigation>}
+              after={<Navigation/>}
               subtitle={wishlist.isPrivate ? `Private` : undefined}
               onClick={() => handleWishlistPress(wishlist)}
             >

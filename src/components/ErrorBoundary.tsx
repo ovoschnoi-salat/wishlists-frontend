@@ -14,7 +14,7 @@ interface ErrorBoundaryState {
   error?: unknown;
 }
 
-export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
+export class GlobalErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
   state: ErrorBoundaryState = {};
 
   // eslint-disable-next-line max-len

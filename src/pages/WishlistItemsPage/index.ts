@@ -1,0 +1,1 @@
+export { WishlistItemsPage } from './WishlistItemsPage';

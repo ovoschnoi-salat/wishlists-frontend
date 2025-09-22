@@ -139,6 +139,7 @@ export const NewWishlist: FC<NewWishlistProps> = ({onSave}) => {
           stretched
           onClick={handleSave}
           disabled={!title.trim() || isSaving}
+          loading={isSaving}
           before={<Icon28Plus/>}
         >
           Create list
