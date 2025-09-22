@@ -3,10 +3,9 @@ import {
   Cell,
   List,
   Button,
-  Text, Divider, Title,
+  Text, Divider, Title, Placeholder,
 } from '@telegram-apps/telegram-ui';
 import type {FC} from 'react';
-import './WishlistItem.css';
 import {loadWishlistItem} from "@/hooks/loadWishlistItem.ts";
 import {ServiceWishlistItemLink} from "@/backend-client";
 
@@ -41,12 +40,14 @@ export interface WishlistItemData {
 
 interface WishlistItemProps {
   itemId: number;
+  isLoading: boolean;
   onEdit?: (item: WishlistItemData) => void;
   onOpenLink?: (url: string) => void;
 }
 
 export const WishlistItem: FC<WishlistItemProps> = ({
                                                       itemId,
+                                                      isLoading,
                                                     }) => {
   const {item} = loadWishlistItem(itemId);
 
@@ -62,6 +63,18 @@ export const WishlistItem: FC<WishlistItemProps> = ({
     // }
     window.open(url, '_blank');
   };
+
+  if (isLoading) {
+    return <Placeholder
+      description="Loading items..."
+    >
+      <img
+        alt="Telegram sticker"
+        className="blt0jZBzpxuR4oDhJc8s"
+        src="https://xelene.me/telegram.gif"
+      />
+    </Placeholder>
+  }
 
   return (
     <List>

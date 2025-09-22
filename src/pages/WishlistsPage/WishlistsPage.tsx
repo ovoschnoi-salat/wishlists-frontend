@@ -1,65 +1,21 @@
-import {useEffect, useState} from 'react';
+import {useState} from 'react';
 import {
   Section,
-  Cell,
   List,
   Button,
-  Navigation,
   Modal,
 } from '@telegram-apps/telegram-ui';
-import {useNavigate} from 'react-router-dom';
 import type {FC} from 'react';
 
 import {NewWishlist} from '@/components/NewWishlist/NewWishlist.tsx';
-import {getUserWishlists, postUserWishlists, ServiceWishlist} from '@/backend-client';
-
-import './WishlistsPage.css';
-
-interface Wishlist {
-  id: number;
-  title: string;
-  description: string;
-  isPrivate: boolean;
-}
-
+import {postUserWishlists} from '@/backend-client';
+import {loadWishlists} from "@/hooks/loadWishlists.ts";
+import {Wishlists} from "@/components/Wishlists/wishlists.tsx";
+import {Page} from "@/components/Page.tsx";
 
 export const WishlistsPage: FC = () => {
-  const [wishlists, setWishlists] = useState<Wishlist[]>([]);
+  const {wishlists, isLoading, refetch} = loadWishlists();
   const [isNewWishlistModalOpen, setIsNewWishlistModalOpen] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    (async () => {
-      try {
-        let {data, error} = await getUserWishlists({});
-        if (error) {
-          console.error('Failed to load wishlists', error);
-          setError(typeof error === 'string' ? error : (error as any)?.message ?? 'Failed to load wishlists');
-          return;
-        }
-        data = data ? data : []
-        const mapped: Wishlist[] = data.map((w: ServiceWishlist) => ({
-          id: w.id ?? 0,
-          title: w.title ?? '',
-          description: w.description ?? '',
-          isPrivate: w.is_private ?? false,
-        } as Wishlist));
-        setWishlists(mapped);
-      } catch (e) {
-        setError((e as Error)?.message ?? 'Failed to load wishlists');
-      }
-    })();
-  }, []);
-
-  if (error) {
-    throw new Error(error);
-  }
-
-  const handleWishlistPress = (wishlist: Wishlist) => {
-    console.log('Navigate to wishlist:', wishlist.id);
-    navigate(`/wishlists/${wishlist.id}`);
-  };
 
   const handleSaveNewWishlist = async (newWishlist: {
     title: string;
@@ -67,7 +23,7 @@ export const WishlistsPage: FC = () => {
     isPrivate: boolean;
     usersWithAccess: number;
   }) => {
-    const {data, error} = await postUserWishlists({
+    const {error} = await postUserWishlists({
       body: {
         title: newWishlist.title,
         description: newWishlist.description,
@@ -76,63 +32,37 @@ export const WishlistsPage: FC = () => {
     });
 
     if (error) {
-      console.error('Failed to create wishlist', error);
-      return;
+      throw error
     }
 
-    if (data) {
-      const wishlist: Wishlist = {
-        id: data.id ?? 0,
-        title: data.title ?? '',
-        description: data.description ?? '',
-        isPrivate: data.is_private ?? false,
-      };
-
-      setWishlists(prev => [...prev, wishlist]);
-      setIsNewWishlistModalOpen(false);
-    }
+    await refetch()
+    setIsNewWishlistModalOpen(false);
   };
 
-  return (
-    <List>
-      <Section
-        header='My Lists'
-      >
-        {wishlists
-          // .filter(wishlist =>
-          //   activeTab === 'my-lists' ? !wishlist.isPrivate : wishlist.isPrivate
-          // )
-          .map((wishlist) => (
-            <Cell
-              key={wishlist.id}
-              after={<Navigation/>}
-              subtitle={wishlist.isPrivate ? `Private` : undefined}
-              onClick={() => handleWishlistPress(wishlist)}
-            >
-              {wishlist.title}
-            </Cell>
-          ))}
-      </Section>
+  return (<Page>
+      <List>
+        <Wishlists wishlists={wishlists} isLoading={isLoading}/>
 
-      {/* Add List Button */}
-      <Section>
-        <Modal
-          open={isNewWishlistModalOpen}
-          onOpenChange={setIsNewWishlistModalOpen}
-          header={<Modal.Header>New Wishlist</Modal.Header>}
-          trigger={<Button
-            mode="filled"
-            size="m"
-            stretched
+        {/* Add List Button */}
+        <Section>
+          <Modal
+            open={isNewWishlistModalOpen}
+            onOpenChange={setIsNewWishlistModalOpen}
+            header={<Modal.Header>New Wishlist</Modal.Header>}
+            trigger={<Button
+              mode="filled"
+              size="m"
+              stretched
+            >
+              Add wishlist
+            </Button>}
           >
-            Add wishlist
-          </Button>}
-        >
-          <NewWishlist
-            onSave={handleSaveNewWishlist}
-          />
-        </Modal>
-      </Section>
-    </List>
+            <NewWishlist
+              onSave={handleSaveNewWishlist}
+            />
+          </Modal>
+        </Section>
+      </List>
+    </Page>
   );
 };

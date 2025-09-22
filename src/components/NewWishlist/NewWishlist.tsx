@@ -12,9 +12,6 @@ import {
 } from '@telegram-apps/telegram-ui';
 import type {FC} from 'react';
 import {Icon28Plus} from '@/icons/28/Plus.tsx';
-import {
-  SectionHeader
-} from "@telegram-apps/telegram-ui/dist/components/Blocks/Section/components/SectionHeader/SectionHeader";
 
 interface NewWishlistProps {
   onSave?: (wishlist: {
@@ -51,16 +48,11 @@ export const NewWishlist: FC<NewWishlistProps> = ({onSave}) => {
   };
 
   return (
+
     <List>
       {/* Title Section */}
       <Section
-        header={
-          <SectionHeader>
-            <Text weight="2" style={{textTransform: 'uppercase'}}>
-              Title
-            </Text>
-          </SectionHeader>
-        }
+        header="Title"
       >
         <Input
           placeholder="Title"
@@ -71,14 +63,20 @@ export const NewWishlist: FC<NewWishlistProps> = ({onSave}) => {
 
       {/* Description Section */}
       <Section
-        header={
+        header="Description"
+      >
+        <Textarea
+          placeholder="Description"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          rows={3}
+        />
+      </Section>
 
-          <SectionHeader>
-            <Text weight="2" style={{textTransform: 'uppercase'}}>
-              Description
-            </Text>
-          </SectionHeader>
-        }
+      {/* Description Section */}
+      <Section
+        header={<Section.Header>"Links" <Button mode="plain">Remove</Button></Section.Header> }
+
       >
         <Textarea
           placeholder="Description"
@@ -90,13 +88,7 @@ export const NewWishlist: FC<NewWishlistProps> = ({onSave}) => {
 
       {/* Privacy Settings Section */}
       <Section
-        header={
-          <SectionHeader>
-            <Text weight="2" style={{textTransform: 'uppercase'}}>
-              Privacy settings
-            </Text>
-          </SectionHeader>
-        }
+        header="Privacy settings"
       >
         {/* Private List Toggle */}
         <Cell
@@ -111,24 +103,17 @@ export const NewWishlist: FC<NewWishlistProps> = ({onSave}) => {
         </Cell>
 
         {/* Users with Access */}
-        {
-          isPrivate ?
-            (
-            <>
-              <Cell
-                after={
-                  <div style={{display: 'flex', alignItems: 'center', gap: '8px'}}>
-                    <Text>{usersWithAccess}</Text>
-                    <Navigation/>
-                  </div>
-                }
-                onClick={handleUsersWithAccessPress}
-              >
-                <Text>Users with access</Text>
-              </Cell>
-            </>
-            ) : (<></>)
-        }
+        {isPrivate && <Cell
+         after={
+           <div style={{display: 'flex', alignItems: 'center', gap: '8px'}}>
+             <Text>{usersWithAccess}</Text>
+             <Navigation/>
+           </div>
+         }
+         onClick={handleUsersWithAccessPress}
+        >
+          Users with access
+        </Cell>}
       </Section>
 
       {/* Create List Button */}
