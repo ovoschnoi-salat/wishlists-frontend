@@ -10,8 +10,10 @@ import type {FC} from 'react';
 import {NewWishlist} from '@/components/NewWishlist/NewWishlist.tsx';
 import {postUserWishlists} from '@/backend-client';
 import {loadWishlists} from "@/hooks/loadWishlists.ts";
-import {Wishlists} from "@/components/Wishlists/wishlists.tsx";
+import {Wishlists} from "@/components/Wishlists/Wishlists.tsx";
 import {Page} from "@/components/Page.tsx";
+import {Loading} from "@/components/Loading.tsx";
+import {Icon28Plus} from "@/icons/28/Plus.tsx";
 
 export const WishlistsPage: FC = () => {
   const {wishlists, isLoading, refetch} = loadWishlists();
@@ -39,6 +41,10 @@ export const WishlistsPage: FC = () => {
     setIsNewWishlistModalOpen(false);
   };
 
+  if (isLoading) {
+    return <Loading/>;
+  }
+
   return (<Page>
       <List>
         <Wishlists wishlists={wishlists} isLoading={isLoading}/>
@@ -53,6 +59,7 @@ export const WishlistsPage: FC = () => {
               mode="filled"
               size="m"
               stretched
+              before={<Icon28Plus/>}
             >
               Add wishlist
             </Button>}

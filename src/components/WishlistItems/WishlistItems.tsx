@@ -1,11 +1,12 @@
 import {
   Cell,
   Text,
-  Section, Navigation, Placeholder
+  Section, Navigation
 } from '@telegram-apps/telegram-ui';
 import type {FC} from 'react';
 import {useNavigate} from "react-router-dom";
 import {ServiceWishlistItem} from '@/backend-client';
+import {Loading} from "@/components/Loading.tsx";
 
 // Use the ServiceWishlistItem type from backend-client
 export type WishlistItem = ServiceWishlistItem;
@@ -25,17 +26,7 @@ export const WishlistItems: FC<WishlistItemsProps> = ({
   };
 
   if (isLoading) {
-    return (
-      <Placeholder
-        description="Loading items..."
-      >
-        <img
-          alt="Telegram sticker"
-          className="blt0jZBzpxuR4oDhJc8s"
-          src="https://xelene.me/telegram.gif"
-        />
-      </Placeholder>
-    );
+    return <Loading/>;
   }
 
   return <Section

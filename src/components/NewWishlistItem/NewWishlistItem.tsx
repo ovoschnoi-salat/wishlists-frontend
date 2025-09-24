@@ -117,9 +117,9 @@ export const NewWishlistItem: FC<NewWishlistItemProps> = ({onSave}) => {
             </Button>
           </Section.Header>
         }>
-          <Input name={"linkTitle" + index} header={"Title"} value={link.title || ""}
+          <Input key={"linkTitle" + index} name={"linkTitle" + index} header={"Title"} value={link.title}
                  onChange={(e) => handleTitleChange(index, e.target.value)}/>
-          <Textarea name={"linkUrl" + index} header={"Url"} value={link.url || ""}
+          <Textarea key={"linkUrl" + index} name={"linkUrl" + index} header={"Url"} value={link.url}
                     onChange={(e) => handleUrlChange(index, e.target.value)}/>
         </Section>
       )}

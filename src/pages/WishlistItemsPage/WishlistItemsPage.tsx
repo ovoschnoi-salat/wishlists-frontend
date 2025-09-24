@@ -5,9 +5,10 @@ import {Button, List, Modal, Section} from "@telegram-apps/telegram-ui";
 import {Page} from "@/components/Page.tsx";
 import {NewWishlistItem} from "@/components/NewWishlistItem/NewWishlistItem.tsx";
 import {loadWishlistItems} from "@/hooks/loadWishlistItems.ts";
+import {Icon28Plus} from "@/icons/28/Plus.tsx";
 
 export const WishlistItemsPage: FC = () => {
-  const [isNewWishlistModalOpen, setIsNewWishlistModalOpen] = useState(false);
+  const [isNewWishlistItemModalOpen, setIsNewWishlistItemModalOpen] = useState(false);
   // const navigate = useNavigate();
   const {wishlistId} = useParams<{ wishlistId: string }>();
 
@@ -38,15 +39,16 @@ export const WishlistItemsPage: FC = () => {
       />
       <Section>
         <Modal
-          open={isNewWishlistModalOpen}
-          onOpenChange={setIsNewWishlistModalOpen}
+          open={isNewWishlistItemModalOpen}
+          onOpenChange={setIsNewWishlistItemModalOpen}
           header={<Modal.Header>New item</Modal.Header>}
           trigger={<Button
             mode="filled"
             size="m"
             stretched
+            before={<Icon28Plus/>}
           >
-            Add wishlist
+            Add item
           </Button>}
         >
           <NewWishlistItem

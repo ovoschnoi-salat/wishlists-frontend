@@ -1,9 +1,10 @@
 import {
-  Cell, Section, Navigation, Placeholder
+  Cell, Section, Navigation
 } from '@telegram-apps/telegram-ui';
 import type {FC} from 'react';
 import {useNavigate} from "react-router-dom";
 import {ServiceWishlist} from '@/backend-client';
+import {Loading} from "@/components/Loading.tsx";
 
 // Use the ServiceWishlistItem type from backend-client
 export type Wishlist = ServiceWishlist;
@@ -14,34 +15,21 @@ interface WishlistsProps {
   onAddItem?: () => void;
 }
 
-export const Wishlists: FC<WishlistsProps> = ({
-                                                wishlists,
-                                                isLoading,
-                                              }) => {
+export const Wishlists: FC<WishlistsProps> = ({wishlists, isLoading}) => {
   let navigate = useNavigate()
-
 
   const handleWishlistPress = (wishlistId: number) => {
     navigate(`/wishlists/${wishlistId}`);
   };
 
-
   if (isLoading) {
-    return <Placeholder
-      description="Loading items..."
-    >
-      <img
-        alt="Telegram sticker"
-        className="blt0jZBzpxuR4oDhJc8s"
-        src="https://xelene.me/telegram.gif"
-      />
-    </Placeholder>;
+    return <Loading/>;
   }
 
   return <Section
     header='My Lists'
   >
-    {wishlists.map((wishlist) => (
+    {wishlists && wishlists.map((wishlist) =>
       <Cell
         key={wishlist.id}
         after={<Navigation/>}
@@ -50,6 +38,6 @@ export const Wishlists: FC<WishlistsProps> = ({
       >
         {wishlist.title}
       </Cell>
-    ))}
+    )}
   </Section>;
 };

@@ -8,7 +8,7 @@ interface LoadWishlistsResult {
 }
 
 export const loadWishlists = (): LoadWishlistsResult => {
-  const [items, setitems] = useState<ServiceWishlist[]>([]);
+  const [wishlists, setWishlists] = useState<ServiceWishlist[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
   const fetchLists = async () => {
@@ -18,11 +18,11 @@ export const loadWishlists = (): LoadWishlistsResult => {
       const { data, error: apiError } = await getUserWishlists({});
 
       if (apiError) {
-        setitems([])
-        throw apiError;
+        setWishlists([])
+        return
       }
 
-      setitems(data || []);
+      setWishlists(data || []);
     } catch (err) {
       throw err;
     } finally {
@@ -35,7 +35,7 @@ export const loadWishlists = (): LoadWishlistsResult => {
   }, []);
 
   return {
-    wishlists: items,
+    wishlists: wishlists,
     isLoading,
     refetch: fetchLists,
   };

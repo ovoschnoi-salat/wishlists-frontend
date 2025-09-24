@@ -48,7 +48,6 @@ export const NewWishlist: FC<NewWishlistProps> = ({onSave}) => {
   };
 
   return (
-
     <List>
       {/* Title Section */}
       <Section

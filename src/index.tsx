@@ -23,7 +23,7 @@ try {
   const {initDataRaw} = retrieveLaunchParams();
   client.setConfig({
     auth: `tma ${initDataRaw}`,
-    baseUrl: 'http://localhost:8080/api',
+    baseUrl: import.meta.env.VITE_API_ADDR,
   });
 
   const launchParams = retrieveLaunchParams();
@@ -45,5 +45,6 @@ try {
       );
     });
 } catch (e) {
+  console.error(e);
   root.render(<EnvUnsupported/>);
 }
