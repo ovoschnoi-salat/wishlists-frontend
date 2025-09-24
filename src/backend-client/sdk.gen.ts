@@ -23,6 +23,12 @@ export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends 
  */
 export const getUserFriends = <ThrowOnError extends boolean = false>(options?: Options<GetUserFriendsData, ThrowOnError>) => {
     return (options?.client ?? client).get<GetUserFriendsResponses, unknown, ThrowOnError>({
+        security: [
+            {
+                name: 'Authorization',
+                type: 'apiKey'
+            }
+        ],
         url: '/user/friends',
         ...options
     });
@@ -33,6 +39,12 @@ export const getUserFriends = <ThrowOnError extends boolean = false>(options?: O
  */
 export const getUserFriendsRequestsIncoming = <ThrowOnError extends boolean = false>(options?: Options<GetUserFriendsRequestsIncomingData, ThrowOnError>) => {
     return (options?.client ?? client).get<GetUserFriendsRequestsIncomingResponses, unknown, ThrowOnError>({
+        security: [
+            {
+                name: 'Authorization',
+                type: 'apiKey'
+            }
+        ],
         url: '/user/friends/requests/incoming',
         ...options
     });
@@ -43,6 +55,12 @@ export const getUserFriendsRequestsIncoming = <ThrowOnError extends boolean = fa
  */
 export const postUserFriendsRequestsByFriendId = <ThrowOnError extends boolean = false>(options: Options<PostUserFriendsRequestsByFriendIdData, ThrowOnError>) => {
     return (options.client ?? client).post<PostUserFriendsRequestsByFriendIdResponses, unknown, ThrowOnError>({
+        security: [
+            {
+                name: 'Authorization',
+                type: 'apiKey'
+            }
+        ],
         url: '/user/friends/requests/{friend_id}',
         ...options
     });
@@ -53,6 +71,12 @@ export const postUserFriendsRequestsByFriendId = <ThrowOnError extends boolean =
  */
 export const postUserFriendsRequestsByFriendIdAccept = <ThrowOnError extends boolean = false>(options: Options<PostUserFriendsRequestsByFriendIdAcceptData, ThrowOnError>) => {
     return (options.client ?? client).post<PostUserFriendsRequestsByFriendIdAcceptResponses, unknown, ThrowOnError>({
+        security: [
+            {
+                name: 'Authorization',
+                type: 'apiKey'
+            }
+        ],
         url: '/user/friends/requests/{friend_id}/accept',
         ...options
     });
@@ -63,6 +87,12 @@ export const postUserFriendsRequestsByFriendIdAccept = <ThrowOnError extends boo
  */
 export const getUserWishlistItem = <ThrowOnError extends boolean = false>(options: Options<GetUserWishlistItemData, ThrowOnError>) => {
     return (options.client ?? client).get<GetUserWishlistItemResponses, unknown, ThrowOnError>({
+        security: [
+            {
+                name: 'Authorization',
+                type: 'apiKey'
+            }
+        ],
         url: '/user/wishlist/item',
         ...options
     });
@@ -73,6 +103,12 @@ export const getUserWishlistItem = <ThrowOnError extends boolean = false>(option
  */
 export const postUserWishlistItem = <ThrowOnError extends boolean = false>(options: Options<PostUserWishlistItemData, ThrowOnError>) => {
     return (options.client ?? client).post<PostUserWishlistItemResponses, unknown, ThrowOnError>({
+        security: [
+            {
+                name: 'Authorization',
+                type: 'apiKey'
+            }
+        ],
         url: '/user/wishlist/item',
         ...options,
         headers: {
@@ -87,6 +123,12 @@ export const postUserWishlistItem = <ThrowOnError extends boolean = false>(optio
  */
 export const getUserWishlistItems = <ThrowOnError extends boolean = false>(options: Options<GetUserWishlistItemsData, ThrowOnError>) => {
     return (options.client ?? client).get<GetUserWishlistItemsResponses, unknown, ThrowOnError>({
+        security: [
+            {
+                name: 'Authorization',
+                type: 'apiKey'
+            }
+        ],
         url: '/user/wishlist/items',
         ...options
     });
@@ -97,6 +139,12 @@ export const getUserWishlistItems = <ThrowOnError extends boolean = false>(optio
  */
 export const getUserWishlists = <ThrowOnError extends boolean = false>(options?: Options<GetUserWishlistsData, ThrowOnError>) => {
     return (options?.client ?? client).get<GetUserWishlistsResponses, unknown, ThrowOnError>({
+        security: [
+            {
+                name: 'Authorization',
+                type: 'apiKey'
+            }
+        ],
         url: '/user/wishlists',
         ...options
     });
@@ -107,6 +155,12 @@ export const getUserWishlists = <ThrowOnError extends boolean = false>(options?:
  */
 export const postUserWishlists = <ThrowOnError extends boolean = false>(options: Options<PostUserWishlistsData, ThrowOnError>) => {
     return (options.client ?? client).post<PostUserWishlistsResponses, unknown, ThrowOnError>({
+        security: [
+            {
+                name: 'Authorization',
+                type: 'apiKey'
+            }
+        ],
         url: '/user/wishlists',
         ...options,
         headers: {

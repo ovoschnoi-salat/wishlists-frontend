@@ -30,17 +30,20 @@ export const NewWishlistItem: FC<NewWishlistItemProps> = ({onSave}) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [links, setLinks] = useState([{
+    id: 0,
     title: "",
     url: "",
-  }] as WishlistItemLink[]);
+  }]);
   const [isSaving, setIsSaving] = useState(false);
-
+  let idCounter = 1
 
   const addLink = () => {
     setLinks([...links, {
+      id: idCounter,
       title: "",
       url: "",
-    }] as WishlistItemLink[])
+    }])
+    idCounter++
   }
 
   const handleTitleChange = (i: number, title: string) => {
@@ -56,10 +59,16 @@ export const NewWishlistItem: FC<NewWishlistItemProps> = ({onSave}) => {
   }
 
   const removeLink = (i: number) => {
-    console.log(i)
-    console.log(links)
-    const newLinks = [...links.slice(0, i), ...links.slice(i + 1)]
-    console.log(newLinks)
+    var newLinks = [] as {
+      id: number
+      title: string
+      url: string
+    }[]
+    for (const link of links) {
+      if (link.id !== i) {
+        newLinks = [...newLinks, link]
+      }
+    }
     setLinks(newLinks)
   }
 
@@ -108,19 +117,19 @@ export const NewWishlistItem: FC<NewWishlistItemProps> = ({onSave}) => {
         />
       </Section>
 
-      {links.map((link, index) =>
+      {links.map((link) =>
         <Section header={
-          <Section.Header>{"Link №" + index}
+          <Section.Header>{"Link"}
             <Button mode="plain"
-                    onClick={() => removeLink(index)}>
+                    onClick={() => removeLink(link.id)}>
               Remove
             </Button>
           </Section.Header>
         }>
-          <Input key={"linkTitle" + index} name={"linkTitle" + index} header={"Title"} value={link.title}
-                 onChange={(e) => handleTitleChange(index, e.target.value)}/>
-          <Textarea key={"linkUrl" + index} name={"linkUrl" + index} header={"Url"} value={link.url}
-                    onChange={(e) => handleUrlChange(index, e.target.value)}/>
+          <Input key={"linkTitle" + link.id} name={"linkTitle" + link.id} header={"Title"} value={link.title}
+                 onChange={(e) => handleTitleChange(link.id, e.target.value)}/>
+          <Textarea key={"linkUrl" + link.id} name={"linkUrl" + link.id} header={"Url"} value={link.url}
+                    onChange={(e) => handleUrlChange(link.id, e.target.value)}/>
         </Section>
       )}
 

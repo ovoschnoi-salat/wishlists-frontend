@@ -3,7 +3,7 @@ import '@telegram-apps/telegram-ui/dist/styles.css';
 
 import ReactDOM from 'react-dom/client';
 import {StrictMode} from 'react';
-import {retrieveLaunchParams} from '@telegram-apps/sdk-react';
+import {retrieveRawInitData, retrieveLaunchParams} from '@telegram-apps/sdk-react';
 
 import {EnvUnsupported} from '@/components/EnvUnsupported.tsx';
 import {init} from '@/init.ts';
@@ -15,18 +15,19 @@ import './index.css';
 // Mock the environment in case, we are outside Telegram.
 import './mockEnv.ts';
 import {App} from "@/components/App.tsx";
-
 const root = ReactDOM.createRoot(document.getElementById('root')!);
 
 
 try {
-  const {initDataRaw} = retrieveLaunchParams();
   client.setConfig({
-    auth: `tma ${initDataRaw}`,
+    auth: () => {
+      const initDataRaw  = retrieveRawInitData()
+      return `tma ${initDataRaw || ''}`},
     baseUrl: import.meta.env.VITE_API_ADDR,
   });
 
   const launchParams = retrieveLaunchParams();
+
   const {tgWebAppPlatform: platform} = launchParams;
   const debug = (launchParams.tgWebAppStartParam || '').includes('platformer_debug')
     || import.meta.env.DEV;
