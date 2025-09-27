@@ -1,5 +1,5 @@
-import { useState, type FC } from "react";
-import { Icon28Plus } from "@/icons/28/Plus.tsx";
+import {useState, type FC} from "react";
+import {Icon28Plus} from "@/icons/28/Plus.tsx";
 import {
   Section,
   List,
@@ -7,20 +7,33 @@ import {
   Input,
   Textarea,
 } from "@telegram-apps/telegram-ui";
-import {
-  initialNewWishlistItemFormState,
-  NewWishlistItemProps,
-  WishlistItemLink,
-} from "./model";
 
-export const NewWishlistItem: FC<NewWishlistItemProps> = ({ onSave }) => {
+import {ServiceCreateWishlistItemRequest, ServiceWishlistItemLink} from "@/backend-client";
+
+export interface WishlistItemLink {
+  fieldGroupId: number;
+  title: string;
+  url: string;
+}
+
+export interface NewWishlistItemProps {
+  onSave: (wishlistItem: ServiceCreateWishlistItemRequest) => void;
+}
+
+export const NewWishlistItem: FC<NewWishlistItemProps> = ({onSave}) => {
   // Всю логику можно вынести в отдельный хук, useWishlist, где будут метоты обновления, удаления и т.п.
   // Представление оставить тут
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [isSaving, setIsSaving] = useState<boolean>(false);
   const [links, setLinks] = useState<WishlistItemLink[]>(
-    initialNewWishlistItemFormState
+    [
+      {
+        fieldGroupId: 1,
+        title: "",
+        url: "",
+      },
+    ]
   );
 
   const handleAddLink = () => {
@@ -47,7 +60,7 @@ export const NewWishlistItem: FC<NewWishlistItemProps> = ({ onSave }) => {
     setLinks((prevState) =>
       prevState.map((link) =>
         link.fieldGroupId === targetFieldGroupId
-          ? { ...link, [field]: value }
+          ? {...link, [field]: value}
           : link
       )
     );
@@ -68,21 +81,20 @@ export const NewWishlistItem: FC<NewWishlistItemProps> = ({ onSave }) => {
   const handleSubmit = () => {
     if (links.length || title.trim()) {
       setIsSaving(true);
-      onSave!({
+      onSave({
         title: "string",
         description: "string",
         price: "string",
-        links: [] as WishlistItemLink[],
+        links: links.map((link) => {
+          return {
+            title: link.title,
+            url: link.url,
+          } as ServiceWishlistItemLink
+        }),
         reservable: true,
       });
 
-      // TODO
-      // onSave?.({
-      //   title: title.trim(),
-      //   description: description.trim(),
-      //   isPrivate,
-      //   usersWithAccess,
-      // });
+      setIsSaving(false);
     }
   };
 
@@ -140,7 +152,7 @@ export const NewWishlistItem: FC<NewWishlistItemProps> = ({ onSave }) => {
       ))}
 
       <Section>
-        <Button mode="outline" onClick={handleAddLink}>
+        <Button onClick={handleAddLink}>
           Add link
         </Button>
       </Section>
@@ -189,7 +201,7 @@ export const NewWishlistItem: FC<NewWishlistItemProps> = ({ onSave }) => {
           onClick={handleSubmit}
           disabled={!isFormValid || isSaving}
           loading={isSaving}
-          before={<Icon28Plus />}
+          before={<Icon28Plus/>}
         >
           Create list
         </Button>

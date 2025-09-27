@@ -20,13 +20,13 @@ export const loadFriendWishlists = (friendId: number | null): LoadFriendWishlist
     try {
       setIsLoading(true);
 
-      const { data, error: apiError } = await getUserFriendWishlists({
+      const { data, error } = await getUserFriendWishlists({
         query: {
           friend_id: friendId
         }
       });
 
-      if (apiError) {
+      if (error) {
         setFriendWishlists([])
         return
       }

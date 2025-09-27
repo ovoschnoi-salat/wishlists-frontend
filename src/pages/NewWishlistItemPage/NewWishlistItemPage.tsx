@@ -3,6 +3,10 @@ import {FC} from 'react';
 import {List} from "@telegram-apps/telegram-ui";
 import {Page} from "@/components/Page.tsx";
 import {NewWishlistItem} from "@/components/NewWishlistItem/NewWishlistItem.tsx";
+import {
+  postUserWishlistItem,
+  ServiceCreateWishlistItemRequest
+} from "@/backend-client";
 
 export const NewWishlistItemPage: FC = () => {
   const {wishlistId} = useParams<{ wishlistId: string }>();
@@ -19,13 +23,17 @@ export const NewWishlistItemPage: FC = () => {
 
   const navigate = useNavigate()
 
+  const  handleSaveNewWishlistItem = async (item: ServiceCreateWishlistItemRequest) => {
+    const {data, error} = await postUserWishlistItem({
+      body: item,
+      query: {wishlist_id: wishlistIdNumber},
+    })
 
-  const handleSaveNewWishlistItem = () => {
-    console.log('Navigate to add item page');
-    // TODO: Navigate to add item page
-    // Example: navigate(`/wishlist/${wishlistId}/add-item`);
-    let itemId = 0
-    navigate(`/wishlist/${wishlistId}/item/${itemId}`)
+    if (error !== undefined || data === undefined) {
+      throw error
+    }
+
+    navigate(`/wishlist/${wishlistId}/item/${data.id!}`)
   };
 
   return (
