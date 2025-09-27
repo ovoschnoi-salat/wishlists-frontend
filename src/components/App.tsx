@@ -3,16 +3,22 @@ import {retrieveLaunchParams, useSignal, isMiniAppDark} from '@telegram-apps/sdk
 import {AppRoot} from '@telegram-apps/telegram-ui';
 
 import {createBrowserRouter} from "react-router";
-import {PageWithTabbar} from "@/pages/PageWithTabbar/PageWithTabbar.tsx";
-import {WishlistsPage} from "@/pages/WishlistsPage";
-import {InitDataPage} from "@/pages/InitDataPage.tsx";
-import {ThemeParamsPage} from "@/pages/ThemeParamsPage.tsx";
-import {LaunchParamsPage} from "@/pages/LaunchParamsPage.tsx";
 import {RouterProvider} from "react-router/dom";
-import {WishlistItemsPage} from '@/pages/WishlistItemsPage';
+import {
+  InitDataPage,
+  ThemeParamsPage,
+  LaunchParamsPage,
+  PageWithTabbar,
+  WishlistsPage,
+  WishlistItemPage,
+  FriendsPage,
+  FriendWishlistsPage,
+  FriendWishlistItemsPage,
+  NewWishlistPage,
+  NewWishlistItemPage, WishlistItemsPage
+} from "@/pages";
 import {Button, Snackbar, Text} from "@telegram-apps/telegram-ui";
 import {useRouteError} from "react-router-dom";
-import {WishlistItemPage} from "@/pages/WishlistItemPage";
 
 function ErrorBoundaryError() {
   let error = useRouteError();
@@ -34,7 +40,6 @@ function ErrorBoundaryError() {
         }
       </Text>
     </Snackbar>
-
   );
 }
 
@@ -59,12 +64,19 @@ const router = createBrowserRouter([
     errorElement: <ErrorBoundaryError/>,
     children:
       [
-        {index: true, Component: WishlistsPage},
         {path: '/init-data', Component: InitDataPage},
         {path: '/theme-params', Component: ThemeParamsPage},
         {path: '/launch-params', Component: LaunchParamsPage},
-        {path: '/wishlists/:wishlistId', Component: WishlistItemsPage},
-        {path: '/wishlists/item/:itemId', Component: WishlistItemPage}
+
+        {index: true, Component: WishlistsPage},
+        {path: '/wishlists/new', Component: NewWishlistPage},
+        {path: '/wishlist/:wishlistId/items', Component: WishlistItemsPage},
+        {path: '/wishlist/:wishlistId/items/new', Component: NewWishlistItemPage},
+        {path: '/wishlist/:wishlistId/item/:itemId', Component: WishlistItemPage},
+
+        {path: '/friends', Component: FriendsPage},
+        {path: '/friend/:friendId/wishlists', Component: FriendWishlistsPage},
+        {path: '/friend/:friendId/wishlist/:wishlistId/items', Component: FriendWishlistItemsPage}
       ]
   },
 ]);

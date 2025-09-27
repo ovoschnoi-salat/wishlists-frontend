@@ -72,19 +72,6 @@ export const NewWishlist: FC<NewWishlistProps> = ({onSave}) => {
         />
       </Section>
 
-      {/* Description Section */}
-      <Section
-        header={<Section.Header>"Links" <Button mode="plain">Remove</Button></Section.Header> }
-
-      >
-        <Textarea
-          placeholder="Description"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          rows={3}
-        />
-      </Section>
-
       {/* Privacy Settings Section */}
       <Section
         header="Privacy settings"

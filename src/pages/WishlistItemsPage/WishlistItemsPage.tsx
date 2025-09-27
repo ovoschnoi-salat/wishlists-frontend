@@ -1,14 +1,12 @@
 import {WishlistItems} from '@/components/WishlistItems';
-import {useParams} from 'react-router-dom';
-import {FC, useState} from 'react';
-import {Button, List, Modal, Section} from "@telegram-apps/telegram-ui";
+import {useNavigate, useParams} from 'react-router-dom';
+import {FC} from 'react';
+import {Button, List, Section} from "@telegram-apps/telegram-ui";
 import {Page} from "@/components/Page.tsx";
-import {NewWishlistItem} from "@/components/NewWishlistItem/NewWishlistItem.tsx";
 import {loadWishlistItems} from "@/hooks/loadWishlistItems.ts";
 import {Icon28Plus} from "@/icons/28/Plus.tsx";
 
 export const WishlistItemsPage: FC = () => {
-  const [isNewWishlistItemModalOpen, setIsNewWishlistItemModalOpen] = useState(false);
   // const navigate = useNavigate();
   const {wishlistId} = useParams<{ wishlistId: string }>();
 
@@ -22,40 +20,36 @@ export const WishlistItemsPage: FC = () => {
     return <div>Invalid wishlist ID</div>;
   }
 
+  const navigate = useNavigate()
+  const handleItemPress = (itemId: number) => {
+    navigate(`/wishlist/item/${itemId}`)
+  };
+
   const {items, isLoading} = loadWishlistItems(wishlistIdNumber);
 
-  const handleSaveNewWishlistItem = () => {
+  const handleNewWishlistPress = () => {
     console.log('Navigate to add item page');
     // TODO: Navigate to add item page
     // Example: navigate(`/wishlist/${wishlistId}/add-item`);
+    navigate(`/wishlist/${wishlistIdNumber}/items/new`)
   };
 
   return (
     <Page>
       <List>
-      <WishlistItems
-        items={items}
-        isLoading={isLoading}
-      />
-      <Section>
-        <Modal
-          open={isNewWishlistItemModalOpen}
-          onOpenChange={setIsNewWishlistItemModalOpen}
-          header={<Modal.Header>New item</Modal.Header>}
-          trigger={<Button
+        <WishlistItems items={items} isLoading={isLoading} onItemClick={handleItemPress}/>
+
+        <Section>
+          <Button
             mode="filled"
             size="m"
             stretched
             before={<Icon28Plus/>}
+            onClick={handleNewWishlistPress}
           >
             Add item
-          </Button>}
-        >
-          <NewWishlistItem
-            onSave={handleSaveNewWishlistItem}
-          />
-        </Modal>
-      </Section>
+          </Button>
+        </Section>
       </List>
     </Page>
   );

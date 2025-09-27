@@ -16,8 +16,14 @@ export type ServiceCreateWishlistRequest = {
 
 export type ServiceFriend = {
     id?: number;
+    name?: string;
     photo_url?: string;
     username?: string;
+};
+
+export type ServiceFriendWishlist = {
+    id?: number;
+    title?: string;
 };
 
 export type ServiceWishlist = {
@@ -42,6 +48,94 @@ export type ServiceWishlistItemLink = {
     title?: string;
     url?: string;
 };
+
+export type PostUserFriendRequestAcceptData = {
+    body?: never;
+    path?: never;
+    query: {
+        /**
+         * Friend ID
+         */
+        friend_id: number;
+    };
+    url: '/user/friend/request/accept';
+};
+
+export type PostUserFriendRequestAcceptResponses = {
+    /**
+     * OK
+     */
+    200: {
+        [key: string]: string;
+    };
+};
+
+export type PostUserFriendRequestAcceptResponse = PostUserFriendRequestAcceptResponses[keyof PostUserFriendRequestAcceptResponses];
+
+export type PostUserFriendRequestNewData = {
+    body?: never;
+    path?: never;
+    query: {
+        /**
+         * Friend ID
+         */
+        friend_id: number;
+    };
+    url: '/user/friend/request/new';
+};
+
+export type PostUserFriendRequestNewResponses = {
+    /**
+     * OK
+     */
+    200: {
+        [key: string]: string;
+    };
+};
+
+export type PostUserFriendRequestNewResponse = PostUserFriendRequestNewResponses[keyof PostUserFriendRequestNewResponses];
+
+export type GetUserFriendWishlistItemsData = {
+    body?: never;
+    path?: never;
+    query: {
+        /**
+         * Wishlist ID
+         */
+        wishlist_id: number;
+    };
+    url: '/user/friend/wishlist/items';
+};
+
+export type GetUserFriendWishlistItemsResponses = {
+    /**
+     * OK
+     */
+    200: Array<ServiceWishlistItem>;
+};
+
+export type GetUserFriendWishlistItemsResponse = GetUserFriendWishlistItemsResponses[keyof GetUserFriendWishlistItemsResponses];
+
+export type GetUserFriendWishlistsData = {
+    body?: never;
+    path?: never;
+    query: {
+        /**
+         * Friend ID
+         */
+        friend_id: number;
+    };
+    url: '/user/friend/wishlists';
+};
+
+export type GetUserFriendWishlistsResponses = {
+    /**
+     * OK
+     */
+    200: Array<ServiceFriendWishlist>;
+};
+
+export type GetUserFriendWishlistsResponse = GetUserFriendWishlistsResponses[keyof GetUserFriendWishlistsResponses];
 
 export type GetUserFriendsData = {
     body?: never;
@@ -75,51 +169,24 @@ export type GetUserFriendsRequestsIncomingResponses = {
 
 export type GetUserFriendsRequestsIncomingResponse = GetUserFriendsRequestsIncomingResponses[keyof GetUserFriendsRequestsIncomingResponses];
 
-export type PostUserFriendsRequestsByFriendIdData = {
-    body?: never;
-    path: {
-        /**
-         * Friend ID
-         */
-        friend_id: number;
-    };
+export type PostUserWishlistData = {
+    /**
+     * request body
+     */
+    body: ServiceCreateWishlistRequest;
+    path?: never;
     query?: never;
-    url: '/user/friends/requests/{friend_id}';
+    url: '/user/wishlist';
 };
 
-export type PostUserFriendsRequestsByFriendIdResponses = {
+export type PostUserWishlistResponses = {
     /**
      * OK
      */
-    200: {
-        [key: string]: string;
-    };
+    200: ServiceWishlist;
 };
 
-export type PostUserFriendsRequestsByFriendIdResponse = PostUserFriendsRequestsByFriendIdResponses[keyof PostUserFriendsRequestsByFriendIdResponses];
-
-export type PostUserFriendsRequestsByFriendIdAcceptData = {
-    body?: never;
-    path: {
-        /**
-         * Friend ID
-         */
-        friend_id: number;
-    };
-    query?: never;
-    url: '/user/friends/requests/{friend_id}/accept';
-};
-
-export type PostUserFriendsRequestsByFriendIdAcceptResponses = {
-    /**
-     * OK
-     */
-    200: {
-        [key: string]: string;
-    };
-};
-
-export type PostUserFriendsRequestsByFriendIdAcceptResponse = PostUserFriendsRequestsByFriendIdAcceptResponses[keyof PostUserFriendsRequestsByFriendIdAcceptResponses];
+export type PostUserWishlistResponse = PostUserWishlistResponses[keyof PostUserWishlistResponses];
 
 export type GetUserWishlistItemData = {
     body?: never;
@@ -202,25 +269,6 @@ export type GetUserWishlistsResponses = {
 };
 
 export type GetUserWishlistsResponse = GetUserWishlistsResponses[keyof GetUserWishlistsResponses];
-
-export type PostUserWishlistsData = {
-    /**
-     * request body
-     */
-    body: ServiceCreateWishlistRequest;
-    path?: never;
-    query?: never;
-    url: '/user/wishlists';
-};
-
-export type PostUserWishlistsResponses = {
-    /**
-     * OK
-     */
-    200: ServiceWishlist;
-};
-
-export type PostUserWishlistsResponse = PostUserWishlistsResponses[keyof PostUserWishlistsResponses];
 
 export type ClientOptions = {
     baseUrl: 'localhost:8080/api' | (string & {});

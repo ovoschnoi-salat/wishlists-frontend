@@ -1,87 +1,81 @@
-import {useState} from 'react';
+import { useState, type FC } from "react";
+import { Icon28Plus } from "@/icons/28/Plus.tsx";
 import {
   Section,
   List,
   Button,
   Input,
   Textarea,
-} from '@telegram-apps/telegram-ui';
-import type {FC} from 'react';
-import {Icon28Plus} from '@/icons/28/Plus.tsx';
+} from "@telegram-apps/telegram-ui";
+import {
+  initialNewWishlistItemFormState,
+  NewWishlistItemProps,
+  WishlistItemLink,
+} from "./model";
 
+export const NewWishlistItem: FC<NewWishlistItemProps> = ({ onSave }) => {
+  // Всю логику можно вынести в отдельный хук, useWishlist, где будут метоты обновления, удаления и т.п.
+  // Представление оставить тут
+  const [title, setTitle] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
+  const [isSaving, setIsSaving] = useState<boolean>(false);
+  const [links, setLinks] = useState<WishlistItemLink[]>(
+    initialNewWishlistItemFormState
+  );
 
-interface WishlistItemLink {
-  title: string;
-  url: string;
-}
+  const handleAddLink = () => {
+    setLinks((prevState) => [
+      ...prevState,
+      {
+        fieldGroupId:
+          prevState.length > 0
+            ? Math.max(...prevState.map((l) => l.fieldGroupId)) + 1
+            : 1,
+        title: "",
+        url: "",
+      },
+    ]);
+  };
 
-interface NewWishlistItemProps {
-  onSave?: (wishlistItem: {
-    title: string;
-    description: string;
-    price: string;
-    links: WishlistItemLink[];
-    reservable: boolean;
-  }) => void;
-}
+  const handleInputChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    targetFieldGroupId: number,
+    field: "title" | "url"
+  ) => {
+    const value = event.target.value;
 
+    setLinks((prevState) =>
+      prevState.map((link) =>
+        link.fieldGroupId === targetFieldGroupId
+          ? { ...link, [field]: value }
+          : link
+      )
+    );
+  };
 
-export const NewWishlistItem: FC<NewWishlistItemProps> = ({onSave}) => {
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [links, setLinks] = useState([{
-    id: 0,
-    title: "",
-    url: "",
-  }]);
-  const [isSaving, setIsSaving] = useState(false);
-  let idCounter = 1
+  const removeLink = (targetFieldGroupId: number) => {
+    setLinks((prevState) =>
+      prevState.filter((link) => link.fieldGroupId !== targetFieldGroupId)
+    );
+  };
 
-  const addLink = () => {
-    setLinks([...links, {
-      id: idCounter,
-      title: "",
-      url: "",
-    }])
-    idCounter++
-  }
+  const isFormValid = () => {
+    return (
+      title.trim() && links.some((link) => link.title.trim() || link.url.trim())
+    );
+  };
 
-  const handleTitleChange = (i: number, title: string) => {
-    const newLinks = links
-    newLinks[i].title = title
-    setLinks(newLinks)
-  }
-
-  const handleUrlChange = (i: number, url: string) => {
-    const newLinks = links
-    newLinks[i].url = url
-    setLinks(newLinks)
-  }
-
-  const removeLink = (i: number) => {
-    var newLinks = [] as {
-      id: number
-      title: string
-      url: string
-    }[]
-    for (const link of links) {
-      if (link.id !== i) {
-        newLinks = [...newLinks, link]
-      }
-    }
-    setLinks(newLinks)
-  }
-
-  const handleSave = () => {
-    if (title.trim()) {
-      setIsSaving(true)
+  const handleSubmit = () => {
+    if (links.length || title.trim()) {
+      setIsSaving(true);
       onSave!({
         title: "string",
         description: "string",
         price: "string",
         links: [] as WishlistItemLink[],
-        reservable: true
-      })
+        reservable: true,
+      });
+
       // TODO
       // onSave?.({
       //   title: title.trim(),
@@ -95,9 +89,7 @@ export const NewWishlistItem: FC<NewWishlistItemProps> = ({onSave}) => {
   return (
     <List>
       {/* Title Section */}
-      <Section
-        header="Title"
-      >
+      <Section header="Title">
         <Input
           placeholder="Title"
           value={title}
@@ -106,9 +98,7 @@ export const NewWishlistItem: FC<NewWishlistItemProps> = ({onSave}) => {
       </Section>
 
       {/* Description Section */}
-      <Section
-        header="Description"
-      >
+      <Section header="Description">
         <Textarea
           placeholder="Description"
           value={description}
@@ -117,30 +107,46 @@ export const NewWishlistItem: FC<NewWishlistItemProps> = ({onSave}) => {
         />
       </Section>
 
-      {links.map((link) =>
-        <Section header={
-          <Section.Header>{"Link"}
-            <Button mode="plain"
-                    onClick={() => removeLink(link.id)}>
-              Remove
-            </Button>
-          </Section.Header>
-        }>
-          <Input key={"linkTitle" + link.id} name={"linkTitle" + link.id} header={"Title"} value={link.title}
-                 onChange={(e) => handleTitleChange(link.id, e.target.value)}/>
-          <Textarea key={"linkUrl" + link.id} name={"linkUrl" + link.id} header={"Url"} value={link.url}
-                    onChange={(e) => handleUrlChange(link.id, e.target.value)}/>
+      {links.map((link) => (
+        <Section
+          key={link.fieldGroupId}
+          header={
+            <Section.Header>
+              {"Link"}
+              <Button
+                mode="plain"
+                onClick={() => removeLink(link.fieldGroupId)}
+              >
+                Remove
+              </Button>
+            </Section.Header>
+          }
+        >
+          <Input
+            name={"linkTitle" + link.fieldGroupId}
+            header={"Title"}
+            value={link.title}
+            placeholder="Link title"
+            onChange={(e) => handleInputChange(e, link.fieldGroupId, "title")}
+          />
+          <Textarea
+            name={"linkUrl" + link.fieldGroupId}
+            header={"Url"}
+            value={link.url}
+            placeholder="https://example-link.com/"
+            onChange={(e) => handleInputChange(e, link.fieldGroupId, "url")}
+          />
         </Section>
-      )}
+      ))}
 
       <Section>
-        <Button mode="outline" onClick={addLink}>Add link</Button>
+        <Button mode="outline" onClick={handleAddLink}>
+          Add link
+        </Button>
       </Section>
 
       {/* Privacy Settings Section */}
-      <Section
-        header="Privacy settings"
-      >
+      <Section header="Privacy settings">
         {/* Private List Toggle */}
         {/*<Cell*/}
         {/*  after={*/}
@@ -180,10 +186,10 @@ export const NewWishlistItem: FC<NewWishlistItemProps> = ({onSave}) => {
           mode="filled"
           size="m"
           stretched
-          onClick={handleSave}
-          disabled={!title.trim() || isSaving}
+          onClick={handleSubmit}
+          disabled={!isFormValid || isSaving}
           loading={isSaving}
-          before={<Icon28Plus/>}
+          before={<Icon28Plus />}
         >
           Create list
         </Button>

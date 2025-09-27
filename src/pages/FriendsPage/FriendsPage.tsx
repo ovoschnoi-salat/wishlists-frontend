@@ -5,22 +5,24 @@ import {
 } from '@telegram-apps/telegram-ui';
 import type {FC} from 'react';
 
-import {loadWishlists} from "@/hooks/loadWishlists.ts";
-import {Wishlists} from "@/components/Wishlists/Wishlists.tsx";
+import {loadFriends} from "@/hooks/loadFriends.ts";
+import {Friends} from "@/components/Friends/Friends.tsx";
 import {Page} from "@/components/Page.tsx";
 import {Loading} from "@/components/Loading.tsx";
 import {Icon28Plus} from "@/icons/28/Plus.tsx";
 import {useNavigate} from "react-router-dom";
 
-export const WishlistsPage: FC = () => {
-  const {wishlists, isLoading} = loadWishlists();
+export const FriendsPage: FC = () => {
+  const {friends, isLoading} = loadFriends();
+
+  const handleAddFriend = () => {
+     // TODO
+  }
 
   const navigate = useNavigate()
-  const handleNewWishlistPress = async () => {
-    navigate(`/wishlists/new`)
-  };
-  const handleWishlistPress = (wishlistId: number) => {
-    navigate(`/wishlist/${wishlistId}/items`);
+
+  const handleFriendPress = (friendId: number) => {
+    navigate(`/friend/${friendId}/wishlists`);
   };
 
   if (isLoading) {
@@ -30,7 +32,7 @@ export const WishlistsPage: FC = () => {
   return (
     <Page>
       <List>
-        <Wishlists wishlists={wishlists} isLoading={isLoading} onWishlistClick={handleWishlistPress}/>
+        <Friends friends={friends} onFriendClick={handleFriendPress}/>
 
         <Section>
           <Button
@@ -38,9 +40,9 @@ export const WishlistsPage: FC = () => {
             size="m"
             stretched
             before={<Icon28Plus/>}
-            onClick={handleNewWishlistPress}
+            onClick={handleAddFriend}
           >
-            Add wishlist
+            Add friend
           </Button>
         </Section>
       </List>

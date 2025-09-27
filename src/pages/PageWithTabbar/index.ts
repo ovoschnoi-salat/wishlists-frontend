@@ -1,0 +1,1 @@
+export { PageWithTabbar } from './PageWithTabbar';

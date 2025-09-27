@@ -1,1 +1,1 @@
-export { WishlistItemsPage } from './WishlistItemsPage';
+export { WishlistItemsPage } from './WishlistItemsPage.tsx';

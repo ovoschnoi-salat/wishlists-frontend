@@ -6,8 +6,7 @@ import {
   Text, Divider, Title, Placeholder,
 } from '@telegram-apps/telegram-ui';
 import type {FC} from 'react';
-import {loadWishlistItem} from "@/hooks/loadWishlistItem.ts";
-import {ServiceWishlistItemLink} from "@/backend-client";
+import {ServiceWishlistItem, ServiceWishlistItemLink} from "@/backend-client";
 
 // Icons - we'll need to create these or use existing ones
 const LinkIcon = () => (
@@ -28,29 +27,17 @@ const EditIcon = () => (
   </svg>
 );
 
-export interface WishlistItemData {
-  id: number;
-  title: string;
-  description: string;
-  link?: string;
-  price?: string;
-  reservationStatus: 'free' | 'reserved' | 'unreserved';
-  isOwnWish: boolean;
-}
-
 interface WishlistItemProps {
-  itemId: number;
+  item: ServiceWishlistItem;
   isLoading: boolean;
-  onEdit?: (item: WishlistItemData) => void;
+  onEdit?: (item: ServiceWishlistItem) => void;
   onOpenLink?: (url: string) => void;
 }
 
 export const WishlistItem: FC<WishlistItemProps> = ({
-                                                      itemId,
+                                                      item,
                                                       isLoading,
                                                     }) => {
-  const {item} = loadWishlistItem(itemId);
-
   const handleEdit = () => {
     // onEdit?.(item);
     console.log("handleEdit")

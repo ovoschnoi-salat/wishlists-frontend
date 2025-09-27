@@ -2,7 +2,6 @@ import {
   Cell, Section, Navigation
 } from '@telegram-apps/telegram-ui';
 import type {FC} from 'react';
-import {useNavigate} from "react-router-dom";
 import {ServiceWishlist} from '@/backend-client';
 import {Loading} from "@/components/Loading.tsx";
 
@@ -12,29 +11,21 @@ export type Wishlist = ServiceWishlist;
 interface WishlistsProps {
   wishlists: Wishlist[];
   isLoading: boolean;
-  onAddItem?: () => void;
+  onWishlistClick: (wishlistId: number) => void;
 }
 
-export const Wishlists: FC<WishlistsProps> = ({wishlists, isLoading}) => {
-  let navigate = useNavigate()
-
-  const handleWishlistPress = (wishlistId: number) => {
-    navigate(`/wishlists/${wishlistId}`);
-  };
-
+export const Wishlists: FC<WishlistsProps> = ({wishlists, isLoading, onWishlistClick}) => {
   if (isLoading) {
     return <Loading/>;
   }
 
-  return <Section
-    header='My Lists'
-  >
+  return <Section header='Wishlists'>
     {wishlists && wishlists.map((wishlist) =>
       <Cell
         key={wishlist.id}
         after={<Navigation/>}
         subtitle={wishlist.is_private ? `Private` : undefined}
-        onClick={() => handleWishlistPress(wishlist.id!)}
+        onClick={() => onWishlistClick(wishlist.id!)}
       >
         {wishlist.title}
       </Cell>
