@@ -9,47 +9,41 @@ import type {FC} from 'react';
 import {Icon28Plus} from '@/icons/28/Plus.tsx';
 
 interface NewFriendProps {
-  onSave?: (friend: {
-    id: number | undefined
-    username: string | undefined
-  }) => void;
+  onSend: (username: string) => void;
 }
 
-export const NewFriend: FC<NewFriendProps> = ({onSave}) => {
+export const NewFriend: FC<NewFriendProps> = ({onSend}) => {
   const [username, setUsername] = useState('');
   const [isSaving, setIsSaving] = useState(false);
 
-  const handleSave = () => {
+  const handleSend = () => {
     if (username.trim()) {
       setIsSaving(true)
-      // TODO
-      onSave?.({
-        id: undefined,
-        username: username
-      });
+
+      onSend(username.trim())
+
+      setIsSaving(false)
     }
   };
 
   return (
     <List>
       {/* Username Section */}
-      <Section
-        header="Username"
-      >
+      <Section header="Username">
         <Input
-          placeholder="Title"
+          placeholder="Username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
         />
       </Section>
 
-      {/* Create List Button */}
+      {/* Send request Button */}
       <Section>
         <Button
           mode="filled"
           size="m"
           stretched
-          onClick={handleSave}
+          onClick={handleSend}
           disabled={!username.trim() || isSaving}
           loading={isSaving}
           before={<Icon28Plus/>}

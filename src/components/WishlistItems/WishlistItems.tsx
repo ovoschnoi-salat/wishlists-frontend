@@ -1,7 +1,6 @@
 import {
   Cell,
-  Text,
-  Section, Navigation
+  Navigation
 } from '@telegram-apps/telegram-ui';
 import type {FC} from 'react';
 import {ServiceWishlistItem} from '@/backend-client';
@@ -21,24 +20,20 @@ export const WishlistItems: FC<WishlistItemsProps> = ({items, isLoading, onItemC
     return <Loading/>;
   }
 
-  return <Section
-    header='Wishlist items'
-  >
-    {/* Items List */}
-    {items.length === 0 ? (
-      <Text className="wishlist-items__empty-text">
-        No items in this wishlist yet
-      </Text>
-    ) : (
-      items.map((item) => (
-        <Cell
-          key={item.id}
-          onClick={() => onItemClick(item.id!)}
-          after={<Navigation/>}
-        >
-          {item.title || 'Untitled Item'}
-        </Cell>
-      ))
-    )}
-  </Section>;
+  if (items.length === 0) {
+    return <Cell>No items in this wishlist yet</Cell>
+  }
+
+  return items.map((item) => (
+    <Cell
+      key={item.id}
+      onClick={() => onItemClick(item.id!)}
+      after={<Navigation/>}
+    >
+      {item.title || 'Untitled Item'}
+    </Cell>
+  ))
+
+
+  // </Section>;
 };

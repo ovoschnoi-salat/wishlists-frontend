@@ -1,5 +1,5 @@
 import {
-  Cell, Section, Navigation
+  Cell, Navigation
 } from '@telegram-apps/telegram-ui';
 import type {FC} from 'react';
 import {ServiceWishlist} from '@/backend-client';
@@ -19,8 +19,7 @@ export const Wishlists: FC<WishlistsProps> = ({wishlists, isLoading, onWishlistC
     return <Loading/>;
   }
 
-  return <Section header='Wishlists'>
-    {wishlists && wishlists.map((wishlist) =>
+  return wishlists.map((wishlist) =>
       <Cell
         key={wishlist.id}
         after={<Navigation/>}
@@ -29,6 +28,5 @@ export const Wishlists: FC<WishlistsProps> = ({wishlists, isLoading, onWishlistC
       >
         {wishlist.title}
       </Cell>
-    )}
-  </Section>;
+    )
 };

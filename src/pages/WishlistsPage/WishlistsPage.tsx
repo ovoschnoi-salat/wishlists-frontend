@@ -1,7 +1,7 @@
 import {
   List,
-  Button,
   Section,
+  ButtonCell,
 } from '@telegram-apps/telegram-ui';
 import type {FC} from 'react';
 
@@ -30,10 +30,10 @@ export const WishlistsPage: FC = () => {
   return (
     <Page>
       <List>
-        <Wishlists wishlists={wishlists} isLoading={isLoading} onWishlistClick={handleWishlistPress}/>
+        <Section header='Wishlists'>
+          <Wishlists wishlists={wishlists} isLoading={isLoading} onWishlistClick={handleWishlistPress}/>
 
-        <Section>
-          <Button
+          <ButtonCell
             mode="filled"
             size="m"
             stretched
@@ -41,7 +41,7 @@ export const WishlistsPage: FC = () => {
             onClick={handleNewWishlistPress}
           >
             Add wishlist
-          </Button>
+          </ButtonCell>
         </Section>
       </List>
     </Page>

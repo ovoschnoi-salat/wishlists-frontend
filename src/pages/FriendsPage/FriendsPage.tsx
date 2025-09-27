@@ -1,7 +1,7 @@
 import {
   List,
   Button,
-  Section,
+  Section, ButtonCell,
 } from '@telegram-apps/telegram-ui';
 import type {FC} from 'react';
 
@@ -16,7 +16,7 @@ export const FriendsPage: FC = () => {
   const {friends, isLoading} = loadFriends();
 
   const handleAddFriend = () => {
-     // TODO
+    // TODO
   }
 
   const navigate = useNavigate()
@@ -29,23 +29,21 @@ export const FriendsPage: FC = () => {
     return <Loading/>;
   }
 
-  return (
-    <Page>
-      <List>
+  return <Page back={false}>
+    <List>
+      <Section header='My friends'>
         <Friends friends={friends} onFriendClick={handleFriendPress}/>
 
-        <Section>
-          <Button
-            mode="filled"
-            size="m"
-            stretched
-            before={<Icon28Plus/>}
-            onClick={handleAddFriend}
-          >
-            Add friend
-          </Button>
-        </Section>
-      </List>
-    </Page>
-  );
+        <ButtonCell
+          mode="filled"
+          size="m"
+          stretched
+          before={<Icon28Plus/>}
+          onClick={handleAddFriend}
+        >
+          Add friend
+        </ButtonCell>
+      </Section>
+    </List>
+  </Page>
 };

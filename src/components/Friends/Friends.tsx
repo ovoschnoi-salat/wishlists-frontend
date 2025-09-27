@@ -13,10 +13,7 @@ interface FriendsProps {
 }
 
 export const Friends: FC<FriendsProps> = ({friends, onFriendClick}) => {
-  return <Section
-    header='My Lists'
-  >
-    {friends && friends.map((friend) =>
+  return    friends.map((friend) =>
       <Cell
         key={friend.id}
         before={friend.photo_url ? <Avatar size={28} src={friend.photo_url} acronym={"B"}/> : undefined}
@@ -26,6 +23,5 @@ export const Friends: FC<FriendsProps> = ({friends, onFriendClick}) => {
       >
         {friend.name || friend.username}
       </Cell>
-    )}
-  </Section>;
+    )
 };

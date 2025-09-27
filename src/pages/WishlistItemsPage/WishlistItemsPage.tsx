@@ -1,7 +1,7 @@
 import {WishlistItems} from '@/components/WishlistItems';
 import {useNavigate, useParams} from 'react-router-dom';
 import {FC} from 'react';
-import {Button, List, Section} from "@telegram-apps/telegram-ui";
+import {ButtonCell, List, Section} from "@telegram-apps/telegram-ui";
 import {Page} from "@/components/Page.tsx";
 import {loadWishlistItems} from "@/hooks/loadWishlistItems.ts";
 import {Icon28Plus} from "@/icons/28/Plus.tsx";
@@ -37,10 +37,10 @@ export const WishlistItemsPage: FC = () => {
   return (
     <Page>
       <List>
+        <Section header={"Wishlist items"}>
         <WishlistItems items={items} isLoading={isLoading} onItemClick={handleItemPress}/>
 
-        <Section>
-          <Button
+          <ButtonCell
             mode="filled"
             size="m"
             stretched
@@ -48,7 +48,7 @@ export const WishlistItemsPage: FC = () => {
             onClick={handleNewWishlistPress}
           >
             Add item
-          </Button>
+          </ButtonCell>
         </Section>
       </List>
     </Page>
