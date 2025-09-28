@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import {getUserFriendWishlists, ServiceFriend, ServiceFriendWishlist} from '@/backend-client';
+import {getApiUserFriendWishlists, ServiceFriend, ServiceFriendWishlist} from '@/backend-client';
 
 interface LoadFriendWishlistsResult {
   wishlists: ServiceFriend[];
@@ -20,7 +20,7 @@ export const loadFriendWishlists = (friendId: number | null): LoadFriendWishlist
     try {
       setIsLoading(true);
 
-      const { data, error } = await getUserFriendWishlists({
+      const { data, error } = await getApiUserFriendWishlists({
         query: {
           friend_id: friendId
         }

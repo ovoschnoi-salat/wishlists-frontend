@@ -119,8 +119,6 @@ export const WishlistItem: FC<WishlistItemProps> = ({
       <Button
         mode="filled"
         size="m"
-
-        stretched
         onClick={handleEdit}
         before={<EditIcon/>}
       >

@@ -4,7 +4,7 @@ import {List} from "@telegram-apps/telegram-ui";
 import {Page} from "@/components/Page.tsx";
 import {NewWishlistItem} from "@/components/NewWishlistItem/NewWishlistItem.tsx";
 import {
-  postUserWishlistItem,
+  postApiUserWishlistItem,
   ServiceCreateWishlistItemRequest
 } from "@/backend-client";
 
@@ -24,7 +24,7 @@ export const NewWishlistItemPage: FC = () => {
   const navigate = useNavigate()
 
   const  handleSaveNewWishlistItem = async (item: ServiceCreateWishlistItemRequest) => {
-    const {data, error} = await postUserWishlistItem({
+    const {data, error} = await postApiUserWishlistItem({
       body: item,
       query: {wishlist_id: wishlistIdNumber},
     })

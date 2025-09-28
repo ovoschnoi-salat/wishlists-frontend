@@ -1,5 +1,5 @@
 import {
-  Cell, Section, Navigation, Avatar
+  Cell, Navigation, Avatar
 } from '@telegram-apps/telegram-ui';
 import type {FC} from 'react';
 import {ServiceFriend} from '@/backend-client';

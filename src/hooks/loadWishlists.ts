@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { getUserWishlists, ServiceWishlist } from '@/backend-client';
+import { getApiUserWishlists, ServiceWishlist } from '@/backend-client';
 
 interface LoadWishlistsResult {
   wishlists: ServiceWishlist[];
@@ -15,7 +15,7 @@ export const loadWishlists = (): LoadWishlistsResult => {
     try {
       setIsLoading(true);
 
-      const { data, error: apiError } = await getUserWishlists({});
+      const { data, error: apiError } = await getApiUserWishlists({});
 
       if (apiError) {
         setWishlists([])

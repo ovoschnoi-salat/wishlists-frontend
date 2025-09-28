@@ -31,8 +31,9 @@ export const NewFriend: FC<NewFriendProps> = ({onSend}) => {
       {/* Username Section */}
       <Section header="Username">
         <Input
-          placeholder="Username"
+          placeholder="@Username"
           value={username}
+          after={"Your friend username from telegram"}
           onChange={(e) => setUsername(e.target.value)}
         />
       </Section>

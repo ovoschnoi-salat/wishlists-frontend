@@ -7,6 +7,7 @@ export {NewWishlistItemPage} from './NewWishlistItemPage';
 export {WishlistItemPage} from './WishlistItemPage';
 
 export {FriendsPage} from './FriendsPage';
+export {NewFriendPage} from './NewFriendPage';
 export {FriendWishlistsPage} from './FriendWishlistsPage';
 export {FriendWishlistItemsPage} from './FriendWishlistItemsPage';
 

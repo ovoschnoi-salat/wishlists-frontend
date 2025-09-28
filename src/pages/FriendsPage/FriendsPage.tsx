@@ -1,6 +1,5 @@
 import {
   List,
-  Button,
   Section, ButtonCell,
 } from '@telegram-apps/telegram-ui';
 import type {FC} from 'react';
@@ -14,12 +13,12 @@ import {useNavigate} from "react-router-dom";
 
 export const FriendsPage: FC = () => {
   const {friends, isLoading} = loadFriends();
+  const navigate = useNavigate()
 
   const handleAddFriend = () => {
-    // TODO
+    navigate(`/friend/new`);
   }
 
-  const navigate = useNavigate()
 
   const handleFriendPress = (friendId: number) => {
     navigate(`/friend/${friendId}/wishlists`);
@@ -35,9 +34,6 @@ export const FriendsPage: FC = () => {
         <Friends friends={friends} onFriendClick={handleFriendPress}/>
 
         <ButtonCell
-          mode="filled"
-          size="m"
-          stretched
           before={<Icon28Plus/>}
           onClick={handleAddFriend}
         >

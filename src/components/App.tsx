@@ -15,7 +15,7 @@ import {
   FriendWishlistsPage,
   FriendWishlistItemsPage,
   NewWishlistPage,
-  NewWishlistItemPage, WishlistItemsPage
+  NewWishlistItemPage, WishlistItemsPage, NewFriendPage
 } from "@/pages";
 import {Button, Snackbar, Text} from "@telegram-apps/telegram-ui";
 import {useRouteError} from "react-router-dom";
@@ -75,6 +75,7 @@ const router = createBrowserRouter([
         {path: '/wishlist/:wishlistId/item/:itemId', Component: WishlistItemPage},
 
         {path: '/friends', Component: FriendsPage},
+        {path: '/friend/new', Component: NewFriendPage},
         {path: '/friend/:friendId/wishlists', Component: FriendWishlistsPage},
         {path: '/friend/:friendId/wishlist/:wishlistId/items', Component: FriendWishlistItemsPage}
       ]

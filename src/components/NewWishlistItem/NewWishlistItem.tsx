@@ -5,7 +5,7 @@ import {
   List,
   Button,
   Input,
-  Textarea,
+  Textarea, Cell, Switch,
 } from "@telegram-apps/telegram-ui";
 
 import {ServiceCreateWishlistItemRequest, ServiceWishlistItemLink} from "@/backend-client";
@@ -23,9 +23,10 @@ export interface NewWishlistItemProps {
 export const NewWishlistItem: FC<NewWishlistItemProps> = ({onSave}) => {
   // Всю логику можно вынести в отдельный хук, useWishlist, где будут метоты обновления, удаления и т.п.
   // Представление оставить тут
-  const [title, setTitle] = useState<string>("");
-  const [description, setDescription] = useState<string>("");
-  const [isSaving, setIsSaving] = useState<boolean>(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [price, setPrice] = useState("")
   const [links, setLinks] = useState<WishlistItemLink[]>(
     [
       {
@@ -35,6 +36,7 @@ export const NewWishlistItem: FC<NewWishlistItemProps> = ({onSave}) => {
       },
     ]
   );
+  const [isReservable, setIsReservable] = useState(false)
 
   const handleAddLink = () => {
     setLinks((prevState) => [
@@ -82,16 +84,16 @@ export const NewWishlistItem: FC<NewWishlistItemProps> = ({onSave}) => {
     if (links.length || title.trim()) {
       setIsSaving(true);
       onSave({
-        title: "string",
-        description: "string",
-        price: "string",
+        title: title,
+        description: description,
+        price: price,
         links: links.map((link) => {
           return {
             title: link.title,
             url: link.url,
           } as ServiceWishlistItemLink
         }),
-        reservable: true,
+        reservable: isReservable,
       });
 
       setIsSaving(false);
@@ -116,6 +118,15 @@ export const NewWishlistItem: FC<NewWishlistItemProps> = ({onSave}) => {
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           rows={3}
+        />
+      </Section>
+
+      {/* Price Section */}
+      <Section header="Price">
+        <Input
+          placeholder="Price"
+          value={price}
+          onChange={(e) => setPrice(e.target.value)}
         />
       </Section>
 
@@ -158,38 +169,17 @@ export const NewWishlistItem: FC<NewWishlistItemProps> = ({onSave}) => {
       </Section>
 
       {/* Privacy Settings Section */}
-      <Section header="Privacy settings">
-        {/* Private List Toggle */}
-        {/*<Cell*/}
-        {/*  after={*/}
-        {/*    <Switch*/}
-        {/*      checked={isPrivate}*/}
-        {/*      onChange={(event) => setIsPrivate(event.target.checked)}*/}
-        {/*    />*/}
-        {/*  }*/}
-        {/*>*/}
-        {/*  <Text>Private list</Text>*/}
-        {/*</Cell>*/}
-
-        {/* Users with Access */}
-        {/*{*/}
-        {/*  isPrivate ?*/}
-        {/*    (*/}
-        {/*      <>*/}
-        {/*        <Cell*/}
-        {/*          after={*/}
-        {/*            <div style={{display: 'flex', alignItems: 'center', gap: '8px'}}>*/}
-        {/*              <Text>{usersWithAccess}</Text>*/}
-        {/*              <Navigation/>*/}
-        {/*            </div>*/}
-        {/*          }*/}
-        {/*          onClick={handleUsersWithAccessPress}*/}
-        {/*        >*/}
-        {/*          <Text>Users with access</Text>*/}
-        {/*        </Cell>*/}
-        {/*      </>*/}
-        {/*    ) : (<></>)*/}
-        {/*}*/}
+      <Section header="Reservation settings">
+        <Cell
+          after={
+            <Switch
+              checked={isReservable}
+              onChange={(event) => setIsReservable(event.target.checked)}
+            />
+          }
+        >
+          Reservable
+        </Cell>
       </Section>
 
       {/* Create List Button */}

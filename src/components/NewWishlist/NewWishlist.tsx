@@ -4,11 +4,10 @@ import {
   Cell,
   List,
   Button,
-  Text,
   Switch,
   Input,
   Textarea,
-  Navigation,
+  Badge,
 } from '@telegram-apps/telegram-ui';
 import type {FC} from 'react';
 import {Icon28Plus} from '@/icons/28/Plus.tsx';
@@ -85,17 +84,12 @@ export const NewWishlist: FC<NewWishlistProps> = ({onSave}) => {
             />
           }
         >
-          <Text>Private list</Text>
+          Private list
         </Cell>
 
         {/* Users with Access */}
         {isPrivate && <Cell
-         after={
-           <div style={{display: 'flex', alignItems: 'center', gap: '8px'}}>
-             <Text>{usersWithAccess}</Text>
-             <Navigation/>
-           </div>
-         }
+         after={<Badge type="number">{usersWithAccess}</Badge>}
          onClick={handleUsersWithAccessPress}
         >
           Users with access

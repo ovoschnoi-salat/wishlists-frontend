@@ -34,9 +34,6 @@ export const WishlistsPage: FC = () => {
           <Wishlists wishlists={wishlists} isLoading={isLoading} onWishlistClick={handleWishlistPress}/>
 
           <ButtonCell
-            mode="filled"
-            size="m"
-            stretched
             before={<Icon28Plus/>}
             onClick={handleNewWishlistPress}
           >

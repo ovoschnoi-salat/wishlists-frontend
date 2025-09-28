@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { getUserFriends, ServiceFriend } from '@/backend-client';
+import { getApiUserFriends, ServiceFriend } from '@/backend-client';
 
 interface LoadFriendsResult {
   friends: ServiceFriend[];
@@ -15,7 +15,7 @@ export const loadFriends = (): LoadFriendsResult => {
     try {
       setIsLoading(true);
 
-      const { data, error: apiError } = await getUserFriends({});
+      const { data, error: apiError } = await getApiUserFriends({});
 
       if (apiError) {
         setFriends([])

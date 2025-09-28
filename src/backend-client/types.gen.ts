@@ -49,7 +49,7 @@ export type ServiceWishlistItemLink = {
     url?: string;
 };
 
-export type PostUserFriendRequestAcceptData = {
+export type PostApiUserFriendRequestAcceptData = {
     body?: never;
     path?: never;
     query: {
@@ -58,10 +58,10 @@ export type PostUserFriendRequestAcceptData = {
          */
         friend_id: number;
     };
-    url: '/user/friend/request/accept';
+    url: '/api/user/friend/request/accept';
 };
 
-export type PostUserFriendRequestAcceptResponses = {
+export type PostApiUserFriendRequestAcceptResponses = {
     /**
      * OK
      */
@@ -70,21 +70,21 @@ export type PostUserFriendRequestAcceptResponses = {
     };
 };
 
-export type PostUserFriendRequestAcceptResponse = PostUserFriendRequestAcceptResponses[keyof PostUserFriendRequestAcceptResponses];
+export type PostApiUserFriendRequestAcceptResponse = PostApiUserFriendRequestAcceptResponses[keyof PostApiUserFriendRequestAcceptResponses];
 
-export type PostUserFriendRequestNewData = {
+export type PostApiUserFriendRequestNewData = {
     body?: never;
     path?: never;
     query: {
         /**
-         * Friend ID
+         * Friend username
          */
-        friend_id: number;
+        username: string;
     };
-    url: '/user/friend/request/new';
+    url: '/api/user/friend/request/new';
 };
 
-export type PostUserFriendRequestNewResponses = {
+export type PostApiUserFriendRequestNewResponses = {
     /**
      * OK
      */
@@ -93,9 +93,9 @@ export type PostUserFriendRequestNewResponses = {
     };
 };
 
-export type PostUserFriendRequestNewResponse = PostUserFriendRequestNewResponses[keyof PostUserFriendRequestNewResponses];
+export type PostApiUserFriendRequestNewResponse = PostApiUserFriendRequestNewResponses[keyof PostApiUserFriendRequestNewResponses];
 
-export type GetUserFriendWishlistItemsData = {
+export type GetApiUserFriendWishlistItemsData = {
     body?: never;
     path?: never;
     query: {
@@ -104,19 +104,19 @@ export type GetUserFriendWishlistItemsData = {
          */
         wishlist_id: number;
     };
-    url: '/user/friend/wishlist/items';
+    url: '/api/user/friend/wishlist/items';
 };
 
-export type GetUserFriendWishlistItemsResponses = {
+export type GetApiUserFriendWishlistItemsResponses = {
     /**
      * OK
      */
     200: Array<ServiceWishlistItem>;
 };
 
-export type GetUserFriendWishlistItemsResponse = GetUserFriendWishlistItemsResponses[keyof GetUserFriendWishlistItemsResponses];
+export type GetApiUserFriendWishlistItemsResponse = GetApiUserFriendWishlistItemsResponses[keyof GetApiUserFriendWishlistItemsResponses];
 
-export type GetUserFriendWishlistsData = {
+export type GetApiUserFriendWishlistsData = {
     body?: never;
     path?: never;
     query: {
@@ -125,70 +125,70 @@ export type GetUserFriendWishlistsData = {
          */
         friend_id: number;
     };
-    url: '/user/friend/wishlists';
+    url: '/api/user/friend/wishlists';
 };
 
-export type GetUserFriendWishlistsResponses = {
+export type GetApiUserFriendWishlistsResponses = {
     /**
      * OK
      */
     200: Array<ServiceFriendWishlist>;
 };
 
-export type GetUserFriendWishlistsResponse = GetUserFriendWishlistsResponses[keyof GetUserFriendWishlistsResponses];
+export type GetApiUserFriendWishlistsResponse = GetApiUserFriendWishlistsResponses[keyof GetApiUserFriendWishlistsResponses];
 
-export type GetUserFriendsData = {
+export type GetApiUserFriendsData = {
     body?: never;
     path?: never;
     query?: never;
-    url: '/user/friends';
+    url: '/api/user/friends';
 };
 
-export type GetUserFriendsResponses = {
+export type GetApiUserFriendsResponses = {
     /**
      * OK
      */
     200: Array<ServiceFriend>;
 };
 
-export type GetUserFriendsResponse = GetUserFriendsResponses[keyof GetUserFriendsResponses];
+export type GetApiUserFriendsResponse = GetApiUserFriendsResponses[keyof GetApiUserFriendsResponses];
 
-export type GetUserFriendsRequestsIncomingData = {
+export type GetApiUserFriendsRequestsIncomingData = {
     body?: never;
     path?: never;
     query?: never;
-    url: '/user/friends/requests/incoming';
+    url: '/api/user/friends/requests/incoming';
 };
 
-export type GetUserFriendsRequestsIncomingResponses = {
+export type GetApiUserFriendsRequestsIncomingResponses = {
     /**
      * OK
      */
     200: Array<ServiceFriend>;
 };
 
-export type GetUserFriendsRequestsIncomingResponse = GetUserFriendsRequestsIncomingResponses[keyof GetUserFriendsRequestsIncomingResponses];
+export type GetApiUserFriendsRequestsIncomingResponse = GetApiUserFriendsRequestsIncomingResponses[keyof GetApiUserFriendsRequestsIncomingResponses];
 
-export type PostUserWishlistData = {
+export type PostApiUserWishlistData = {
     /**
      * request body
      */
     body: ServiceCreateWishlistRequest;
     path?: never;
     query?: never;
-    url: '/user/wishlist';
+    url: '/api/user/wishlist';
 };
 
-export type PostUserWishlistResponses = {
+export type PostApiUserWishlistResponses = {
     /**
      * OK
      */
     200: ServiceWishlist;
 };
 
-export type PostUserWishlistResponse = PostUserWishlistResponses[keyof PostUserWishlistResponses];
+export type PostApiUserWishlistResponse = PostApiUserWishlistResponses[keyof PostApiUserWishlistResponses];
 
-export type GetUserWishlistItemData = {
+export type GetApiUserWishlistItemData = {
     body?: never;
     path?: never;
     query: {
@@ -197,19 +197,19 @@ export type GetUserWishlistItemData = {
          */
         item_id: number;
     };
-    url: '/user/wishlist/item';
+    url: '/api/user/wishlist/item';
 };
 
-export type GetUserWishlistItemResponses = {
+export type GetApiUserWishlistItemResponses = {
     /**
      * OK
      */
     200: ServiceWishlistItem;
 };
 
-export type GetUserWishlistItemResponse = GetUserWishlistItemResponses[keyof GetUserWishlistItemResponses];
+export type GetApiUserWishlistItemResponse = GetApiUserWishlistItemResponses[keyof GetApiUserWishlistItemResponses];
 
-export type PostUserWishlistItemData = {
+export type PostApiUserWishlistItemData = {
     /**
      * request body
      */
@@ -221,19 +221,19 @@ export type PostUserWishlistItemData = {
          */
         wishlist_id: number;
     };
-    url: '/user/wishlist/item';
+    url: '/api/user/wishlist/item';
 };
 
-export type PostUserWishlistItemResponses = {
+export type PostApiUserWishlistItemResponses = {
     /**
      * OK
      */
     200: ServiceWishlistItem;
 };
 
-export type PostUserWishlistItemResponse = PostUserWishlistItemResponses[keyof PostUserWishlistItemResponses];
+export type PostApiUserWishlistItemResponse = PostApiUserWishlistItemResponses[keyof PostApiUserWishlistItemResponses];
 
-export type GetUserWishlistItemsData = {
+export type GetApiUserWishlistItemsData = {
     body?: never;
     path?: never;
     query: {
@@ -242,34 +242,34 @@ export type GetUserWishlistItemsData = {
          */
         wishlist_id: number;
     };
-    url: '/user/wishlist/items';
+    url: '/api/user/wishlist/items';
 };
 
-export type GetUserWishlistItemsResponses = {
+export type GetApiUserWishlistItemsResponses = {
     /**
      * OK
      */
     200: Array<ServiceWishlistItem>;
 };
 
-export type GetUserWishlistItemsResponse = GetUserWishlistItemsResponses[keyof GetUserWishlistItemsResponses];
+export type GetApiUserWishlistItemsResponse = GetApiUserWishlistItemsResponses[keyof GetApiUserWishlistItemsResponses];
 
-export type GetUserWishlistsData = {
+export type GetApiUserWishlistsData = {
     body?: never;
     path?: never;
     query?: never;
-    url: '/user/wishlists';
+    url: '/api/user/wishlists';
 };
 
-export type GetUserWishlistsResponses = {
+export type GetApiUserWishlistsResponses = {
     /**
      * OK
      */
     200: Array<ServiceWishlist>;
 };
 
-export type GetUserWishlistsResponse = GetUserWishlistsResponses[keyof GetUserWishlistsResponses];
+export type GetApiUserWishlistsResponse = GetApiUserWishlistsResponses[keyof GetApiUserWishlistsResponses];
 
 export type ClientOptions = {
-    baseUrl: 'localhost:8080/api' | (string & {});
+    baseUrl: 'localhost:8080' | (string & {});
 };

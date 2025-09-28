@@ -1,0 +1,1 @@
+export { NewFriendPage } from './NewFriendPage';

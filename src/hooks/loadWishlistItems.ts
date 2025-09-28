@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { getUserWishlistItems, ServiceWishlistItem } from '@/backend-client';
+import { getApiUserWishlistItems, ServiceWishlistItem } from '@/backend-client';
 
 interface LoadWishlistItemsResult {
   items: ServiceWishlistItem[];
@@ -23,7 +23,7 @@ export const loadWishlistItems = (wishlistId: number | null): LoadWishlistItemsR
       setIsLoading(true);
       setError(null);
       
-      const { data, error: apiError } = await getUserWishlistItems({
+      const { data, error: apiError } = await getApiUserWishlistItems({
         query: { wishlist_id: wishlistId }
       });
 

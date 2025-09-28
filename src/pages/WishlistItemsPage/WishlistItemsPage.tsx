@@ -22,7 +22,7 @@ export const WishlistItemsPage: FC = () => {
 
   const navigate = useNavigate()
   const handleItemPress = (itemId: number) => {
-    navigate(`/wishlist/item/${itemId}`)
+    navigate(`/wishlist/${wishlistIdNumber}/item/${itemId}`)
   };
 
   const {items, isLoading} = loadWishlistItems(wishlistIdNumber);
@@ -38,12 +38,9 @@ export const WishlistItemsPage: FC = () => {
     <Page>
       <List>
         <Section header={"Wishlist items"}>
-        <WishlistItems items={items} isLoading={isLoading} onItemClick={handleItemPress}/>
+        <WishlistItems items={items} isFriendList={false} isLoading={isLoading} onItemClick={handleItemPress}/>
 
           <ButtonCell
-            mode="filled"
-            size="m"
-            stretched
             before={<Icon28Plus/>}
             onClick={handleNewWishlistPress}
           >
