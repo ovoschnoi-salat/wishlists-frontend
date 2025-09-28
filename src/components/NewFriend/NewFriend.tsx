@@ -1,7 +1,6 @@
 import {useState} from 'react';
 import {
   Section,
-  List,
   Button,
   Input,
 } from '@telegram-apps/telegram-ui';
@@ -27,13 +26,12 @@ export const NewFriend: FC<NewFriendProps> = ({onSend}) => {
   };
 
   return (
-    <List>
-      {/* Username Section */}
+    <>
       <Section header="Username">
         <Input
           placeholder="@Username"
           value={username}
-          after={"Your friend username from telegram"}
+          header={"Your friend username from telegram"}
           onChange={(e) => setUsername(e.target.value)}
         />
       </Section>
@@ -52,6 +50,6 @@ export const NewFriend: FC<NewFriendProps> = ({onSend}) => {
           Send friends request
         </Button>
       </Section>
-    </List>
+    </>
   );
 };

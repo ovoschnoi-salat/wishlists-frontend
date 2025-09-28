@@ -23,10 +23,10 @@ export const NewWishlistItemPage: FC = () => {
 
   const navigate = useNavigate()
 
-  const  handleSaveNewWishlistItem = async (item: ServiceCreateWishlistItemRequest) => {
+  const handleSaveNewWishlistItem = async (item: ServiceCreateWishlistItemRequest) => {
+    item.wishlist_id = wishlistIdNumber
     const {data, error} = await postApiUserWishlistItem({
       body: item,
-      query: {wishlist_id: wishlistIdNumber},
     })
 
     if (error !== undefined || data === undefined) {
@@ -36,13 +36,11 @@ export const NewWishlistItemPage: FC = () => {
     navigate(`/wishlist/${wishlistId}/item/${data.id!}`)
   };
 
-  return (
-    <Page>
-      <List>
-        <NewWishlistItem
-          onSave={handleSaveNewWishlistItem}
-        />
-      </List>
-    </Page>
-  );
+  return <Page>
+    <List>
+      <NewWishlistItem
+        onSave={handleSaveNewWishlistItem}
+      />
+    </List>
+  </Page>
 };

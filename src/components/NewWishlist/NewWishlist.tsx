@@ -2,7 +2,6 @@ import {useState} from 'react';
 import {
   Section,
   Cell,
-  List,
   Button,
   Switch,
   Input,
@@ -47,8 +46,7 @@ export const NewWishlist: FC<NewWishlistProps> = ({onSave}) => {
   };
 
   return (
-    <List>
-      {/* Title Section */}
+    <>
       <Section
         header="Title"
       >
@@ -110,6 +108,6 @@ export const NewWishlist: FC<NewWishlistProps> = ({onSave}) => {
           Create list
         </Button>
       </Section>
-    </List>
+    </>
   );
 };

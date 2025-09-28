@@ -1,5 +1,5 @@
 import {
-  List,
+  List, Section,
 } from '@telegram-apps/telegram-ui';
 import type {FC} from 'react';
 
@@ -21,14 +21,14 @@ export const FriendWishlistsPage: FC = () => {
 
   const navigate = useNavigate()
   const handleWishlistPress = (wishlistId: number) => {
-      navigate(`friend/${friendId}/wishlist/${wishlistId}`);
+    navigate(`/friend/${friendId}/wishlist/${wishlistId}/items`);
   };
 
-  return (
-    <Page>
-      <List>
+  return <Page>
+    <List>
+      <Section header={"Friend wishlists"}>
         <Wishlists wishlists={wishlists} isLoading={isLoading} onWishlistClick={handleWishlistPress}/>
-      </List>
-    </Page>
-  );
+      </Section>
+    </List>
+  </Page>
 };

@@ -25,11 +25,9 @@ export const NewFriendPage: FC = () => {
   };
 
 
-  return (
-    <Page>
-      <List>
-        <NewFriend onSend={handleSendFriendRequest}/>
-      </List>
-    </Page>
-  );
+  return <Page>
+    <List>
+      <NewFriend onSend={handleSendFriendRequest}/>
+    </List>
+  </Page>
 };

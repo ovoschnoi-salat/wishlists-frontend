@@ -7,7 +7,7 @@ import {loadWishlistItems} from "@/hooks/loadWishlistItems.ts";
 
 export const FriendWishlistItemsPage: FC = () => {
   // const navigate = useNavigate();
-  const {friendId, wishlistId} = useParams<{friendId: string, wishlistId: string }>();
+  const {friendId, wishlistId} = useParams<{ friendId: string, wishlistId: string }>();
 
   if (!friendId) {
     return <div>Friend ID not found</div>;
@@ -29,16 +29,14 @@ export const FriendWishlistItemsPage: FC = () => {
 
   const navigate = useNavigate()
   const handleItemPress = (itemId: number) => {
-    navigate(`/friend/${friendIdNumber}/wishlist/item/${itemId}`)
+    navigate(`/friend/${friendIdNumber}/wishlist/${wishlistIdNumber}/item/${itemId}`)
   };
 
   const {items, isLoading} = loadWishlistItems(wishlistIdNumber);
 
-  return (
-    <Page>
-      <List>
-        <WishlistItems items={items} isFriendList={true} isLoading={isLoading} onItemClick={handleItemPress}/>
-      </List>
-    </Page>
-  );
+  return <Page>
+    <List>
+      <WishlistItems items={items} isFriendList={true} isLoading={isLoading} onItemClick={handleItemPress}/>
+    </List>
+  </Page>
 };

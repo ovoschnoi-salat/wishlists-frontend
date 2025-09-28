@@ -16,7 +16,7 @@ interface WishlistItemsProps {
   onItemClick: (itemId: number) => void;
 }
 
-export const WishlistItems: FC<WishlistItemsProps> = ({items, isFriendList, isLoading, onItemClick,}) => {
+export const WishlistItems: FC<WishlistItemsProps> = ({items, isFriendList, isLoading, onItemClick}) => {
   if (isLoading) {
     return <Loading/>;
   }

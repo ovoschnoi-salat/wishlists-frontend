@@ -75,31 +75,27 @@ export const PageWithTabbar: FC = () => {
 
   const navigate = useNavigate();
 
-  const handleTabClick = (tab: Tab, link: string)=> {
+  const handleTabClick = (tab: Tab, link: string) => {
     setActiveTab(tab)
     navigate(link)
   }
 
-  return (
-    <Page back={false}>
-      <div style={{paddingBottom: "100px"}}>
+  return <Page back={false}>
+    <div style={{paddingBottom: "100px"}}>
+      <Outlet/>
+    </div>
 
-        <Outlet/>
-      </div>
-      {/* Tab Bar */}
-
-      <Tabbar>
-        {tabs.map((tab: tab) =>
-          <Tabbar.Item
-            key={tab.tabEnum}
-            text={tab.title}
-            selected={activeTab === tab.tabEnum}
-            onClick={() => handleTabClick(tab.tabEnum, tab.navLink)}
-          >
-            {tab.icon}
-          </Tabbar.Item>
-        )}
-      </Tabbar>
-    </Page>
-  );
+    <Tabbar>
+      {tabs.map((tab: tab) =>
+        <Tabbar.Item
+          key={tab.tabEnum}
+          text={tab.title}
+          selected={activeTab === tab.tabEnum}
+          onClick={() => handleTabClick(tab.tabEnum, tab.navLink)}
+        >
+          {tab.icon}
+        </Tabbar.Item>
+      )}
+    </Tabbar>
+  </Page>
 };

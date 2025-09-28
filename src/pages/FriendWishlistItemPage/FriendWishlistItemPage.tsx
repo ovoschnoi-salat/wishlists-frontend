@@ -2,10 +2,10 @@ import {WishlistItem} from '@/components/WishlistItem';
 import {useParams} from 'react-router-dom';
 import type {FC} from 'react';
 import {loadWishlistItem} from "@/hooks/loadWishlistItem.ts";
-import {Button, List, Section, Text} from "@telegram-apps/telegram-ui";
-import {Icon24Edit} from "@/icons/24/Edit.tsx";
+import {Page} from "@/components/Page.tsx";
+import {List} from "@telegram-apps/telegram-ui";
 
-export const WishlistItemPage: FC = () => {
+export const FriendWishlistItemPage: FC = () => {
   const {itemId} = useParams<{ itemId: string }>();
 
   if (!itemId) {
@@ -20,22 +20,9 @@ export const WishlistItemPage: FC = () => {
 
   const {item, isLoading} = loadWishlistItem(itemIdNumber);
 
-  const handleEdit = () => {
-    // TODO
-  }
-
-  return <List>
-    <WishlistItem item={item} isLoading={isLoading}/>
-
-    <Section>
-      <Button
-        mode="filled"
-        size="s"
-        onClick={handleEdit}
-        before={<Icon24Edit/>}
-      >
-        <Text>Edit</Text>
-      </Button>
-    </Section>
-  </List>
+  return <Page>
+    <List>
+      <WishlistItem item={item} isLoading={isLoading}/>
+    </List>
+  </Page>
 };

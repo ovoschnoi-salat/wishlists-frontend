@@ -6,6 +6,7 @@ export type ServiceCreateWishlistItemRequest = {
     price?: string;
     reservable?: boolean;
     title?: string;
+    wishlist_id?: number;
 };
 
 export type ServiceCreateWishlistRequest = {
@@ -215,12 +216,7 @@ export type PostApiUserWishlistItemData = {
      */
     body: ServiceCreateWishlistItemRequest;
     path?: never;
-    query: {
-        /**
-         * Wishlist ID
-         */
-        wishlist_id: number;
-    };
+    query?: never;
     url: '/api/user/wishlist/item';
 };
 

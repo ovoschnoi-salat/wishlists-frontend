@@ -2,7 +2,6 @@ import {useState, type FC} from "react";
 import {Icon28Plus} from "@/icons/28/Plus.tsx";
 import {
   Section,
-  List,
   Button,
   Input,
   Textarea, Cell, Switch,
@@ -101,7 +100,7 @@ export const NewWishlistItem: FC<NewWishlistItemProps> = ({onSave}) => {
   };
 
   return (
-    <List>
+    <>
       {/* Title Section */}
       <Section header="Title">
         <Input
@@ -196,6 +195,6 @@ export const NewWishlistItem: FC<NewWishlistItemProps> = ({onSave}) => {
           Create list
         </Button>
       </Section>
-    </List>
+    </>
   );
 };

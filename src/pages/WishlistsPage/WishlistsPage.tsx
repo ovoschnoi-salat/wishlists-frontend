@@ -27,20 +27,18 @@ export const WishlistsPage: FC = () => {
     return <Loading/>;
   }
 
-  return (
-    <Page>
-      <List>
-        <Section header='Wishlists'>
-          <Wishlists wishlists={wishlists} isLoading={isLoading} onWishlistClick={handleWishlistPress}/>
+  return <Page>
+    <List>
+      <Section header='Wishlists'>
+        <Wishlists wishlists={wishlists} isLoading={isLoading} onWishlistClick={handleWishlistPress}/>
 
-          <ButtonCell
-            before={<Icon28Plus/>}
-            onClick={handleNewWishlistPress}
-          >
-            Add wishlist
-          </ButtonCell>
-        </Section>
-      </List>
-    </Page>
-  );
+        <ButtonCell
+          before={<Icon28Plus/>}
+          onClick={handleNewWishlistPress}
+        >
+          Add wishlist
+        </ButtonCell>
+      </Section>
+    </List>
+  </Page>
 };

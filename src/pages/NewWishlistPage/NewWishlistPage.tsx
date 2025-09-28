@@ -22,11 +22,9 @@ export const NewWishlistPage: FC = () => {
   };
 
 
-  return (
-    <Page>
-      <List>
-        <NewWishlist onSave={handleSaveNewWishlist}/>
-      </List>
-    </Page>
-  );
+  return <Page>
+    <List>
+      <NewWishlist onSave={handleSaveNewWishlist}/>
+    </List>
+  </Page>
 };

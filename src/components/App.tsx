@@ -19,6 +19,7 @@ import {
 } from "@/pages";
 import {Button, Snackbar, Text} from "@telegram-apps/telegram-ui";
 import {useRouteError} from "react-router-dom";
+import {FriendWishlistItemPage} from "@/pages/FriendWishlistItemPage";
 
 function ErrorBoundaryError() {
   let error = useRouteError();
@@ -77,7 +78,8 @@ const router = createBrowserRouter([
         {path: '/friends', Component: FriendsPage},
         {path: '/friend/new', Component: NewFriendPage},
         {path: '/friend/:friendId/wishlists', Component: FriendWishlistsPage},
-        {path: '/friend/:friendId/wishlist/:wishlistId/items', Component: FriendWishlistItemsPage}
+        {path: '/friend/:friendId/wishlist/:wishlistId/items', Component: FriendWishlistItemsPage},
+        {path: '/friend/:friendId/wishlist/:wishlistId/item/:itemId', Component: FriendWishlistItemPage}
       ]
   },
 ]);

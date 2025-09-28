@@ -34,20 +34,18 @@ export const WishlistItemsPage: FC = () => {
     navigate(`/wishlist/${wishlistIdNumber}/items/new`)
   };
 
-  return (
-    <Page>
-      <List>
-        <Section header={"Wishlist items"}>
+  return <Page>
+    <List>
+      <Section header={"Wishlist items"}>
         <WishlistItems items={items} isFriendList={false} isLoading={isLoading} onItemClick={handleItemPress}/>
 
-          <ButtonCell
-            before={<Icon28Plus/>}
-            onClick={handleNewWishlistPress}
-          >
-            Add item
-          </ButtonCell>
-        </Section>
-      </List>
-    </Page>
-  );
+        <ButtonCell
+          before={<Icon28Plus/>}
+          onClick={handleNewWishlistPress}
+        >
+          Add item
+        </ButtonCell>
+      </Section>
+    </List>
+  </Page>
 };
