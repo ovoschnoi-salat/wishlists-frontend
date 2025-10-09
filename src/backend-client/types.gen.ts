@@ -27,6 +27,10 @@ export type ServiceFriendWishlist = {
     title?: string;
 };
 
+export type ServiceIncomingFriendsRequestsCountResponse = {
+    count?: number;
+};
+
 export type ServiceWishlist = {
     description?: string;
     id?: number;
@@ -40,7 +44,7 @@ export type ServiceWishlistItem = {
     links?: Array<ServiceWishlistItemLink>;
     price?: string;
     reservable?: boolean;
-    reserved_by?: number;
+    reserved?: boolean;
     title?: string;
     wishlist_id?: number;
 };
@@ -64,14 +68,29 @@ export type PostApiUserFriendRequestAcceptData = {
 
 export type PostApiUserFriendRequestAcceptResponses = {
     /**
-     * OK
+     * No Content
      */
-    200: {
-        [key: string]: string;
-    };
+    204: unknown;
 };
 
-export type PostApiUserFriendRequestAcceptResponse = PostApiUserFriendRequestAcceptResponses[keyof PostApiUserFriendRequestAcceptResponses];
+export type PostApiUserFriendRequestDenyData = {
+    body?: never;
+    path?: never;
+    query: {
+        /**
+         * Friend ID
+         */
+        friend_id: number;
+    };
+    url: '/api/user/friend/request/deny';
+};
+
+export type PostApiUserFriendRequestDenyResponses = {
+    /**
+     * No Content
+     */
+    204: unknown;
+};
 
 export type PostApiUserFriendRequestNewData = {
     body?: never;
@@ -169,6 +188,22 @@ export type GetApiUserFriendsRequestsIncomingResponses = {
 };
 
 export type GetApiUserFriendsRequestsIncomingResponse = GetApiUserFriendsRequestsIncomingResponses[keyof GetApiUserFriendsRequestsIncomingResponses];
+
+export type GetApiUserFriendsRequestsIncomingCountData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/api/user/friends/requests/incoming/count';
+};
+
+export type GetApiUserFriendsRequestsIncomingCountResponses = {
+    /**
+     * OK
+     */
+    200: ServiceIncomingFriendsRequestsCountResponse;
+};
+
+export type GetApiUserFriendsRequestsIncomingCountResponse = GetApiUserFriendsRequestsIncomingCountResponses[keyof GetApiUserFriendsRequestsIncomingCountResponses];
 
 export type PostApiUserWishlistData = {
     /**

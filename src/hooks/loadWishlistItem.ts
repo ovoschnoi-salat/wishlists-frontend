@@ -13,7 +13,7 @@ export const loadWishlistItem = (itemId: number | null): UseWishlistItemsResult 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchItem = async () => {
+  const fetch = async () => {
     if (!itemId) {
       return;
     }
@@ -46,13 +46,13 @@ export const loadWishlistItem = (itemId: number | null): UseWishlistItemsResult 
   };
 
   useEffect(() => {
-    fetchItem();
+    fetch();
   }, [itemId]);
 
   return {
     item,
     isLoading,
     error,
-    refetch: fetchItem,
+    refetch: fetch,
   };
 };

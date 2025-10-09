@@ -1,6 +1,6 @@
 import {
   List,
-  Section, ButtonCell,
+  Section, ButtonCell, Cell, Badge,
 } from '@telegram-apps/telegram-ui';
 import type {FC} from 'react';
 
@@ -10,10 +10,17 @@ import {Page} from "@/components/Page.tsx";
 import {Loading} from "@/components/Loading.tsx";
 import {Icon28Plus} from "@/icons/28/Plus.tsx";
 import {useNavigate} from "react-router-dom";
+import {loadIncomingFriendsRequestsCount} from "@/hooks/loadIncomingFriendsRequestsCount.ts";
 
 export const FriendsPage: FC = () => {
   const {friends, isLoading} = loadFriends();
   const navigate = useNavigate()
+
+  const {requestsCount} = loadIncomingFriendsRequestsCount()
+
+  const handleIncomingFriendsRequestsPress = () => {
+    navigate(`/friends/requests/incoming`);
+  };
 
   const handleAddFriend = () => {
     navigate(`/friend/new`);
@@ -31,6 +38,15 @@ export const FriendsPage: FC = () => {
   return <Page back={false}>
     <List>
       <Section header='My friends'>
+        {
+          requestsCount !== 0 &&
+         <Cell
+          after={<Badge type="number">{requestsCount}</Badge>}
+          onClick={handleIncomingFriendsRequestsPress}
+         >
+           Incoming friends requests
+         </Cell>
+        }
         <Friends friends={friends} onFriendClick={handleFriendPress}/>
 
         <ButtonCell

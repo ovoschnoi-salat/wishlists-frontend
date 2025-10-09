@@ -1,13 +1,14 @@
 import { useState, useEffect } from 'react';
-import { getApiUserFriends, ServiceFriend } from '@/backend-client';
+import {getApiUserFriendsRequestsIncoming, ServiceFriend} from '@/backend-client';
 
-interface LoadFriendsResult {
+export interface LoadIncomingFriendsRequestsResult {
   friends: ServiceFriend[];
+  setFriends: (friends: ServiceFriend[]) => void;
   isLoading: boolean;
   refetch: () => Promise<void>;
 }
 
-export const loadFriends = (): LoadFriendsResult => {
+export const loadIncomingFriendsRequests = (): LoadIncomingFriendsRequestsResult => {
   const [friends, setFriends] = useState<ServiceFriend[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -15,7 +16,7 @@ export const loadFriends = (): LoadFriendsResult => {
     try {
       setIsLoading(true);
 
-      const { data, error: apiError } = await getApiUserFriends({});
+      const { data, error: apiError } = await getApiUserFriendsRequestsIncoming({});
 
       if (apiError) {
         setFriends([])
@@ -36,6 +37,7 @@ export const loadFriends = (): LoadFriendsResult => {
 
   return {
     friends: friends,
+    setFriends: setFriends,
     isLoading,
     refetch: fetch,
   };

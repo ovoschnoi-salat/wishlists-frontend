@@ -1,1 +1,0 @@
-export { IncomingFriendsRequests } from './IncomingFriendsRequests';

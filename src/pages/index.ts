@@ -9,10 +9,10 @@ export {NewWishlistItemPage} from './NewWishlistItemPage';
 
 export {WishlistItemPage} from './WishlistItemPage';
 
-// Friends
+// IncomingFriendsRequestsPage
 export {FriendsPage} from './FriendsPage';
 export {NewFriendPage} from './NewFriendPage';
-export {IncomingFriendsRequests} from './IncomingFriendsRequests';
+export {IncomingFriendsRequestsPage} from './IncomingFriendsRequestsPage';
 
 export {FriendWishlistsPage} from './FriendWishlistsPage';
 
@@ -20,4 +20,5 @@ export {FriendWishlistItemsPage} from './FriendWishlistItemsPage';
 
 export {FriendWishlistItemPage} from './FriendWishlistItemPage';
 
+// Debug
 export {InitDataPage, LaunchParamsPage, ThemeParamsPage} from './DebugPages';

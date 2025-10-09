@@ -11,7 +11,7 @@ export const loadWishlists = (): LoadWishlistsResult => {
   const [wishlists, setWishlists] = useState<ServiceWishlist[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const fetchLists = async () => {
+  const fetch = async () => {
     try {
       setIsLoading(true);
 
@@ -31,12 +31,12 @@ export const loadWishlists = (): LoadWishlistsResult => {
   };
 
   useEffect(() => {
-    fetchLists();
+    fetch();
   }, []);
 
   return {
     wishlists: wishlists,
     isLoading,
-    refetch: fetchLists,
+    refetch: fetch,
   };
 };

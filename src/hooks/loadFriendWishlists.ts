@@ -11,7 +11,7 @@ export const loadFriendWishlists = (friendId: number | null): LoadFriendWishlist
   const [wishlists, setFriendWishlists] = useState<ServiceFriendWishlist[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const fetchLists = async () => {
+  const fetch = async () => {
     if (!friendId) {
       setFriendWishlists([]);
       return;
@@ -40,12 +40,12 @@ export const loadFriendWishlists = (friendId: number | null): LoadFriendWishlist
   };
 
   useEffect(() => {
-    fetchLists();
+    fetch();
   }, []);
 
   return {
     wishlists: wishlists,
     isLoading,
-    refetch: fetchLists,
+    refetch: fetch,
   };
 };
