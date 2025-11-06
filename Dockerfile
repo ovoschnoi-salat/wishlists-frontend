@@ -8,9 +8,6 @@ RUN npm install
 
 COPY . .
 
-#ARG REACT_APP_API_ADDR_ARG
-#ENV REACT_APP_API_ADDR=$REACT_APP_API_ADDR_ARG
-
 RUN npm run build
 
 FROM nginx:latest AS production

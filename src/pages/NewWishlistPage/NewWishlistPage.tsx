@@ -7,8 +7,11 @@ import {NewWishlist} from '@/components/NewWishlist/NewWishlist.tsx';
 import {postApiUserWishlist, ServiceCreateWishlistRequest} from '@/backend-client';
 import {Page} from "@/components/Page.tsx";
 import {useNavigate} from "react-router-dom";
+import {loadFriends} from "@/hooks/loadFriends.ts";
 
 export const NewWishlistPage: FC = () => {
+  const {friends, isLoading} = loadFriends();
+
   const navigate = useNavigate()
 
   const handleSaveNewWishlist = async (newWishlist: ServiceCreateWishlistRequest) => {
@@ -24,7 +27,7 @@ export const NewWishlistPage: FC = () => {
 
   return <Page>
     <List>
-      <NewWishlist onSave={handleSaveNewWishlist}/>
+      <NewWishlist onSave={handleSaveNewWishlist} friends={friends} isLoadingFriends={isLoading}/>
     </List>
   </Page>
 };

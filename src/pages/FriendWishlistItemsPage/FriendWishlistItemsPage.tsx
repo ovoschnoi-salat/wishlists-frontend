@@ -1,9 +1,9 @@
-import {WishlistItems} from '@/components/WishlistItems';
 import {useNavigate, useParams} from 'react-router-dom';
 import {FC} from 'react';
 import {List} from "@telegram-apps/telegram-ui";
 import {Page} from "@/components/Page.tsx";
 import {loadWishlistItems} from "@/hooks/loadWishlistItems.ts";
+import {FriendWishlistItems} from "@/components/FriendWishlistItems";
 
 export const FriendWishlistItemsPage: FC = () => {
   // const navigate = useNavigate();
@@ -36,7 +36,7 @@ export const FriendWishlistItemsPage: FC = () => {
 
   return <Page>
     <List>
-      <WishlistItems items={items} isFriendList={true} isLoading={isLoading} onItemClick={handleItemPress}/>
+      <FriendWishlistItems items={items} isLoading={isLoading} onItemClick={handleItemPress}/>
     </List>
   </Page>
 };

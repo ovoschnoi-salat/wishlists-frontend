@@ -13,6 +13,7 @@ export type ServiceCreateWishlistRequest = {
     description?: string;
     is_private?: boolean;
     title?: string;
+    users_with_access?: Array<number>;
 };
 
 export type ServiceFriend = {
@@ -25,6 +26,18 @@ export type ServiceFriend = {
 export type ServiceFriendWishlist = {
     id?: number;
     title?: string;
+};
+
+export type ServiceFriendWishlistItem = {
+    description?: string;
+    id?: number;
+    links?: Array<ServiceWishlistItemLink>;
+    price?: string;
+    reservable?: boolean;
+    reservation_can_be_canceled?: boolean;
+    reserved?: boolean;
+    title?: string;
+    wishlist_id?: number;
 };
 
 export type ServiceIncomingFriendsRequestsCountResponse = {
@@ -44,7 +57,6 @@ export type ServiceWishlistItem = {
     links?: Array<ServiceWishlistItemLink>;
     price?: string;
     reservable?: boolean;
-    reserved?: boolean;
     title?: string;
     wishlist_id?: number;
 };
@@ -53,6 +65,29 @@ export type ServiceWishlistItemLink = {
     title?: string;
     url?: string;
 };
+
+export type PostApiUserFriendRequestData = {
+    body?: never;
+    path?: never;
+    query: {
+        /**
+         * Friend username
+         */
+        username: string;
+    };
+    url: '/api/user/friend/request';
+};
+
+export type PostApiUserFriendRequestResponses = {
+    /**
+     * OK
+     */
+    200: {
+        [key: string]: string;
+    };
+};
+
+export type PostApiUserFriendRequestResponse = PostApiUserFriendRequestResponses[keyof PostApiUserFriendRequestResponses];
 
 export type PostApiUserFriendRequestAcceptData = {
     body?: never;
@@ -92,29 +127,6 @@ export type PostApiUserFriendRequestDenyResponses = {
     204: unknown;
 };
 
-export type PostApiUserFriendRequestNewData = {
-    body?: never;
-    path?: never;
-    query: {
-        /**
-         * Friend username
-         */
-        username: string;
-    };
-    url: '/api/user/friend/request/new';
-};
-
-export type PostApiUserFriendRequestNewResponses = {
-    /**
-     * OK
-     */
-    200: {
-        [key: string]: string;
-    };
-};
-
-export type PostApiUserFriendRequestNewResponse = PostApiUserFriendRequestNewResponses[keyof PostApiUserFriendRequestNewResponses];
-
 export type GetApiUserFriendWishlistItemsData = {
     body?: never;
     path?: never;
@@ -131,10 +143,50 @@ export type GetApiUserFriendWishlistItemsResponses = {
     /**
      * OK
      */
-    200: Array<ServiceWishlistItem>;
+    200: Array<ServiceFriendWishlistItem & {
+        links?: Array<ServiceWishlistItemLink>;
+    }>;
 };
 
 export type GetApiUserFriendWishlistItemsResponse = GetApiUserFriendWishlistItemsResponses[keyof GetApiUserFriendWishlistItemsResponses];
+
+export type PostApiUserFriendWishlistWishReservationCancelData = {
+    body?: never;
+    path?: never;
+    query: {
+        /**
+         * Wish ID
+         */
+        wish_id: number;
+    };
+    url: '/api/user/friend/wishlist/wish/reservation/cancel';
+};
+
+export type PostApiUserFriendWishlistWishReservationCancelResponses = {
+    /**
+     * No Content
+     */
+    204: unknown;
+};
+
+export type PostApiUserFriendWishlistWishReservationReserveData = {
+    body?: never;
+    path?: never;
+    query: {
+        /**
+         * Wish ID
+         */
+        wish_id: number;
+    };
+    url: '/api/user/friend/wishlist/wish/reservation/reserve';
+};
+
+export type PostApiUserFriendWishlistWishReservationReserveResponses = {
+    /**
+     * No Content
+     */
+    204: unknown;
+};
 
 export type GetApiUserFriendWishlistsData = {
     body?: never;
@@ -205,6 +257,44 @@ export type GetApiUserFriendsRequestsIncomingCountResponses = {
 
 export type GetApiUserFriendsRequestsIncomingCountResponse = GetApiUserFriendsRequestsIncomingCountResponses[keyof GetApiUserFriendsRequestsIncomingCountResponses];
 
+export type GetApiUserFriendsRequestsOutcomingData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/api/user/friends/requests/outcoming';
+};
+
+export type GetApiUserFriendsRequestsOutcomingResponses = {
+    /**
+     * OK
+     */
+    200: Array<ServiceFriend>;
+};
+
+export type GetApiUserFriendsRequestsOutcomingResponse = GetApiUserFriendsRequestsOutcomingResponses[keyof GetApiUserFriendsRequestsOutcomingResponses];
+
+export type PatchApiUserWishlistData = {
+    /**
+     * request body
+     */
+    body: ServiceCreateWishlistRequest;
+    path?: never;
+    query: {
+        /**
+         * Wishlist ID
+         */
+        wishlist_id: number;
+    };
+    url: '/api/user/wishlist';
+};
+
+export type PatchApiUserWishlistResponses = {
+    /**
+     * No Content
+     */
+    204: unknown;
+};
+
 export type PostApiUserWishlistData = {
     /**
      * request body
@@ -244,6 +334,28 @@ export type GetApiUserWishlistItemResponses = {
 };
 
 export type GetApiUserWishlistItemResponse = GetApiUserWishlistItemResponses[keyof GetApiUserWishlistItemResponses];
+
+export type PatchApiUserWishlistItemData = {
+    /**
+     * Item
+     */
+    body: ServiceCreateWishlistItemRequest;
+    path?: never;
+    query: {
+        /**
+         * Item ID
+         */
+        item_id: number;
+    };
+    url: '/api/user/wishlist/item';
+};
+
+export type PatchApiUserWishlistItemResponses = {
+    /**
+     * No Content
+     */
+    204: unknown;
+};
 
 export type PostApiUserWishlistItemData = {
     /**

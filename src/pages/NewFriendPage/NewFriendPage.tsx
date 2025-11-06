@@ -3,7 +3,7 @@ import {
 } from '@telegram-apps/telegram-ui';
 import type {FC} from 'react';
 
-import {postApiUserFriendRequestNew} from '@/backend-client';
+import {postApiUserFriendRequest} from '@/backend-client';
 import {Page} from "@/components/Page.tsx";
 // import {useNavigate} from "react-router-dom";
 import {NewFriend} from "@/components/NewFriend/NewFriend.tsx";
@@ -12,7 +12,7 @@ export const NewFriendPage: FC = () => {
   // const navigate = useNavigate()
 
   const handleSendFriendRequest = async (username: string) => {
-    const {error} = await postApiUserFriendRequestNew({
+    const {error} = await postApiUserFriendRequest({
       query: {username: username}
     });
 

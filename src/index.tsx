@@ -23,7 +23,7 @@ try {
     auth: () => {
       const initDataRaw  = retrieveRawInitData()
       return `tma ${initDataRaw || ''}`},
-    baseUrl: import.meta.env.VITE_API_ADDR,
+    baseUrl: import.meta.env.VITE_BACKEND_API_ADDR,
   });
 
   const launchParams = retrieveLaunchParams();

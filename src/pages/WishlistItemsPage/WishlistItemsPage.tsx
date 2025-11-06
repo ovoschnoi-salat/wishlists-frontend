@@ -37,7 +37,7 @@ export const WishlistItemsPage: FC = () => {
   return <Page>
     <List>
       <Section header={"Wishlist items"}>
-        <WishlistItems items={items} isFriendList={false} isLoading={isLoading} onItemClick={handleItemPress}/>
+        <WishlistItems items={items} isLoading={isLoading} onItemClick={handleItemPress}/>
 
         <ButtonCell
           before={<Icon28Plus/>}
