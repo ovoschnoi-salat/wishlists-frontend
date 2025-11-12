@@ -11,6 +11,7 @@ import {Page} from "@/components/Page.tsx";
 import {Loading} from "@/components/Loading.tsx";
 import {Icon28Plus} from "@/icons/28/Plus.tsx";
 import {useNavigate} from "react-router-dom";
+import {ServiceWishlist} from "@/backend-client";
 
 export const WishlistsPage: FC = () => {
   const {wishlists, isLoading} = loadWishlists();
@@ -19,8 +20,8 @@ export const WishlistsPage: FC = () => {
   const handleNewWishlistPress = async () => {
     navigate(`/wishlists/new`)
   };
-  const handleWishlistPress = (wishlistId: number) => {
-    navigate(`/wishlist/${wishlistId}/items`);
+  const handleWishlistPress = (wishlist: ServiceWishlist) => {
+    navigate(`/wishlist/${wishlist.id}/items`, {state: wishlist});
   };
 
   if (isLoading) {

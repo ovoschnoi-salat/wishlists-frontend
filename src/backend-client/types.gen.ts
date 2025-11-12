@@ -273,6 +273,25 @@ export type GetApiUserFriendsRequestsOutcomingResponses = {
 
 export type GetApiUserFriendsRequestsOutcomingResponse = GetApiUserFriendsRequestsOutcomingResponses[keyof GetApiUserFriendsRequestsOutcomingResponses];
 
+export type DeleteApiUserWishlistData = {
+    body?: never;
+    path?: never;
+    query: {
+        /**
+         * Wishlist ID
+         */
+        wishlist_id: number;
+    };
+    url: '/api/user/wishlist';
+};
+
+export type DeleteApiUserWishlistResponses = {
+    /**
+     * No Content
+     */
+    204: unknown;
+};
+
 export type PatchApiUserWishlistData = {
     /**
      * request body
@@ -290,10 +309,12 @@ export type PatchApiUserWishlistData = {
 
 export type PatchApiUserWishlistResponses = {
     /**
-     * No Content
+     * OK
      */
-    204: unknown;
+    200: ServiceWishlist;
 };
+
+export type PatchApiUserWishlistResponse = PatchApiUserWishlistResponses[keyof PatchApiUserWishlistResponses];
 
 export type PostApiUserWishlistData = {
     /**
@@ -313,6 +334,27 @@ export type PostApiUserWishlistResponses = {
 };
 
 export type PostApiUserWishlistResponse = PostApiUserWishlistResponses[keyof PostApiUserWishlistResponses];
+
+export type GetApiUserWishlistAccessData = {
+    body?: never;
+    path?: never;
+    query: {
+        /**
+         * Wishlist ID
+         */
+        wishlist_id: number;
+    };
+    url: '/api/user/wishlist/access';
+};
+
+export type GetApiUserWishlistAccessResponses = {
+    /**
+     * OK
+     */
+    200: Array<number>;
+};
+
+export type GetApiUserWishlistAccessResponse = GetApiUserWishlistAccessResponses[keyof GetApiUserWishlistAccessResponses];
 
 export type GetApiUserWishlistItemData = {
     body?: never;

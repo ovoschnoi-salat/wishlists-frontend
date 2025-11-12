@@ -11,7 +11,7 @@ export type Wishlist = ServiceWishlist;
 interface WishlistsProps {
   wishlists: Wishlist[];
   isLoading: boolean;
-  onWishlistClick: (wishlistId: number) => void;
+  onWishlistClick: (wishlist: Wishlist) => void;
 }
 
 export const Wishlists: FC<WishlistsProps> = ({wishlists, isLoading, onWishlistClick}) => {
@@ -24,7 +24,7 @@ export const Wishlists: FC<WishlistsProps> = ({wishlists, isLoading, onWishlistC
         key={wishlist.id}
         after={<Navigation/>}
         subtitle={wishlist.is_private ? `Private` : undefined}
-        onClick={() => onWishlistClick(wishlist.id!)}
+        onClick={() => onWishlistClick(wishlist)}
       >
         {wishlist.title}
       </Cell>

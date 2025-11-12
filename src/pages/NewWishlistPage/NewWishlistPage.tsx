@@ -21,7 +21,7 @@ export const NewWishlistPage: FC = () => {
       throw error
     }
 
-    navigate(`/wishlist/${data?.id!}/items`)
+    navigate(`/wishlist/${data?.id!}/items`, {state: data})
   };
 
 
