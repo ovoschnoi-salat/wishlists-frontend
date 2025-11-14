@@ -1,14 +1,15 @@
 import {WishlistItems} from '@/components/WishlistItems';
 import {useLocation, useNavigate, useParams} from 'react-router-dom';
 import {FC} from 'react';
-import {ButtonCell, List, Section} from "@telegram-apps/telegram-ui";
+import {ButtonCell, Cell, List, Section} from "@telegram-apps/telegram-ui";
 import {Page} from "@/components/Page.tsx";
 import {loadWishlistItems} from "@/hooks/loadWishlistItems.ts";
 import {Icon28Plus} from "@/icons/28/Plus.tsx";
-import {ServiceWishlist} from "@/backend-client";
+import {ServiceWishlist, ServiceWishlistItem} from "@/backend-client";
+import {Icon24Edit} from "@/icons/24";
 
 const loadState = () => {
-  let { state } = useLocation()
+  let {state} = useLocation()
   return state as ServiceWishlist
 }
 
@@ -29,8 +30,8 @@ export const WishlistItemsPage: FC = () => {
   }
 
   const navigate = useNavigate()
-  const handleItemPress = (itemId: number) => {
-    navigate(`/wishlist/${wishlistIdNumber}/item/${itemId}`)
+  const handleItemPress = (item: ServiceWishlistItem) => {
+    navigate(`/wishlist/${wishlistIdNumber}/item/${item.id}`, {state: item})
   };
 
   const {items, isLoading} = loadWishlistItems(wishlistIdNumber);
@@ -45,14 +46,23 @@ export const WishlistItemsPage: FC = () => {
 
   return <Page>
     <List>
-      <Section header={"Wishlist"}>
+      <Section>
+        <Cell subhead="Title" subtitle={wishlist.is_private ? "private" : undefined}>
+          {wishlist.title}
+        </Cell>
+
+        <Cell subhead="Description">
+          {wishlist.description}
+        </Cell>
+
         <ButtonCell
-          before={<Icon28Plus/>} // TODO
+          before={<Icon24Edit/>}
           onClick={handleEditwWishlistPress}
         >
           Edit wishlist
         </ButtonCell>
       </Section>
+
       <Section header={"Wishlist items"}>
         <WishlistItems items={items} isLoading={isLoading} onItemClick={handleItemPress}/>
 

@@ -2,7 +2,7 @@ import {useNavigate, useParams} from 'react-router-dom';
 import {FC} from 'react';
 import {List} from "@telegram-apps/telegram-ui";
 import {Page} from "@/components/Page.tsx";
-import {NewWishlistItem} from "@/components/NewWishlistItem/NewWishlistItem.tsx";
+import {EditWishlistItem} from "@/components/EditWishlistItem/EditWishlistItem.tsx";
 import {
   postApiUserWishlistItem,
   ServiceCreateWishlistItemRequest
@@ -33,14 +33,21 @@ export const NewWishlistItemPage: FC = () => {
       throw error
     }
 
-    navigate(`/wishlist/${wishlistId}/item/${data.id!}`)
+    navigate(`/wishlist/${wishlistId}/item/${data.id!}`, {state: data})
   };
 
   return <Page>
     <List>
-      <NewWishlistItem
-        onSave={handleSaveNewWishlistItem}
-      />
+      <EditWishlistItem
+        onSave={handleSaveNewWishlistItem} wishlist={{
+        description: "",
+        id: undefined,
+        links: [],
+        price: "",
+        reservable: true,
+        title: "",
+        wishlist_id: undefined
+      }}/>
     </List>
   </Page>
 };

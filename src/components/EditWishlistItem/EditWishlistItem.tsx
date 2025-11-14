@@ -7,7 +7,7 @@ import {
   Textarea, Cell, Switch,
 } from "@telegram-apps/telegram-ui";
 
-import {ServiceCreateWishlistItemRequest, ServiceWishlistItemLink} from "@/backend-client";
+import {ServiceCreateWishlistItemRequest, ServiceWishlistItem, ServiceWishlistItemLink} from "@/backend-client";
 
 export interface WishlistItemLink {
   fieldGroupId: number;
@@ -16,26 +16,23 @@ export interface WishlistItemLink {
 }
 
 export interface NewWishlistItemProps {
+  wishlist: ServiceWishlistItem;
   onSave: (wishlistItem: ServiceCreateWishlistItemRequest) => void;
 }
 
-export const NewWishlistItem: FC<NewWishlistItemProps> = ({onSave}) => {
-  // Всю логику можно вынести в отдельный хук, useWishlist, где будут метоты обновления, удаления и т.п.
-  // Представление оставить тут
+export const EditWishlistItem: FC<NewWishlistItemProps> = ({wishlist, onSave}) => {
   const [isSaving, setIsSaving] = useState(false);
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [price, setPrice] = useState("")
-  const [links, setLinks] = useState<WishlistItemLink[]>(
-    [
-      {
-        fieldGroupId: 1,
-        title: "",
-        url: "",
-      },
-    ]
-  );
-  const [isReservable, setIsReservable] = useState(false)
+  const [title, setTitle] = useState(wishlist.title!);
+  const [description, setDescription] = useState(wishlist.description!);
+  const [price, setPrice] = useState(wishlist.price!)
+  const [links, setLinks] = useState<WishlistItemLink[]>(wishlist.links!.map((value, index) => {
+    return {
+      fieldGroupId: index,
+      title: value.title,
+      url: value.url,
+    } as WishlistItemLink
+  }));
+  const [isReservable, setIsReservable] = useState(wishlist.reservable!)
 
   const handleAddLink = () => {
     setLinks((prevState) => [
@@ -52,11 +49,10 @@ export const NewWishlistItem: FC<NewWishlistItemProps> = ({onSave}) => {
   };
 
   const handleInputChange = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    value: string,
     targetFieldGroupId: number,
     field: "title" | "url"
   ) => {
-    const value = event.target.value;
 
     setLinks((prevState) =>
       prevState.map((link) =>
@@ -149,14 +145,14 @@ export const NewWishlistItem: FC<NewWishlistItemProps> = ({onSave}) => {
             header={"Title"}
             value={link.title}
             placeholder="Link title"
-            onChange={(e) => handleInputChange(e, link.fieldGroupId, "title")}
+            onChange={(e) => handleInputChange(e.target.value, link.fieldGroupId, "title")}
           />
           <Textarea
             name={"linkUrl" + link.fieldGroupId}
             header={"Url"}
             value={link.url}
             placeholder="https://example-link.com/"
-            onChange={(e) => handleInputChange(e, link.fieldGroupId, "url")}
+            onChange={(e) => handleInputChange(e.target.value, link.fieldGroupId, "url")}
           />
         </Section>
       ))}
@@ -181,7 +177,6 @@ export const NewWishlistItem: FC<NewWishlistItemProps> = ({onSave}) => {
         </Cell>
       </Section>
 
-      {/* Create List Button */}
       <Section>
         <Button
           mode="filled"
@@ -192,7 +187,7 @@ export const NewWishlistItem: FC<NewWishlistItemProps> = ({onSave}) => {
           loading={isSaving}
           before={<Icon28Plus/>}
         >
-          Create list
+          Save wish
         </Button>
       </Section>
     </>

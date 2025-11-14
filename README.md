@@ -1,6 +1,6 @@
-# Telegram Mini Apps React Template
+# Wishlists Telegram Mini App
 
-This template demonstrates how developers can implement a single-page
+This app demonstrates how developers can implement an
 application on the Telegram Mini Apps platform using the following technologies
 and libraries:
 
@@ -10,13 +10,9 @@ and libraries:
 - [Telegram UI](https://github.com/Telegram-Mini-Apps/TelegramUI)
 - [Vite](https://vitejs.dev/)
 
-> The template was created using [npm](https://www.npmjs.com/). Therefore, it is
-> required to use it for this project as well. Using other package managers, you
-> will receive a corresponding error.
-
 ## Install Dependencies
 
-If you have just cloned this template, you should install the project
+You can install project
 dependencies using the command:
 
 ```Bash
@@ -89,12 +85,6 @@ browser:
 It is important to note that some libraries in this template, such as
 `@telegram-apps/sdk`, are not intended for use outside of Telegram.
 
-Nevertheless, they appear to function properly. This is because the
-`src/mockEnv.ts` file, which is imported in the application's entry point (
-`src/index.ts`), employs the `mockTelegramEnv` function to simulate the Telegram
-environment. This trick convinces the application that it is running in a
-Telegram-based environment. Therefore, be cautious not to use this function in
-production mode unless you fully understand its implications.
 
 > [!WARNING]
 > Because we are using self-signed SSL certificates, the Android and iOS
@@ -185,15 +175,3 @@ URL: `https://github.com/{username}/{repository}/settings/environments`.
 
 In case, you don't want to do it automatically, or you don't use GitHub as the
 project codebase, remove the `.github` directory.
-
-### GitHub Web Interface
-
-Alternatively, developers can configure automatic deployment using the GitHub
-web interface. To do this, follow the link:
-`https://github.com/{username}/{repository}/settings/pages`.
-
-## Useful Links
-
-- [Platform documentation](https://docs.telegram-mini-apps.com/)
-- [@telegram-apps/sdk-react documentation](https://docs.telegram-mini-apps.com/packages/telegram-apps-sdk-react)
-- [Telegram developers community chat](https://t.me/devs)

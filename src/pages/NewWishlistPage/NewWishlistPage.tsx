@@ -3,11 +3,11 @@ import {
 } from '@telegram-apps/telegram-ui';
 import type {FC} from 'react';
 
-import {NewWishlist} from '@/components/NewWishlist/NewWishlist.tsx';
 import {postApiUserWishlist, ServiceCreateWishlistRequest} from '@/backend-client';
 import {Page} from "@/components/Page.tsx";
 import {useNavigate} from "react-router-dom";
 import {loadFriends} from "@/hooks/loadFriends.ts";
+import {EditWishlist} from "@/components/EditWishlist/EditWishlist.tsx";
 
 export const NewWishlistPage: FC = () => {
   const {friends, isLoading} = loadFriends();
@@ -27,7 +27,18 @@ export const NewWishlistPage: FC = () => {
 
   return <Page>
     <List>
-      <NewWishlist onSave={handleSaveNewWishlist} friends={friends} isLoadingFriends={isLoading}/>
+      <EditWishlist
+        onSave={handleSaveNewWishlist}
+        friends={friends}
+        isLoadingFriends={isLoading}
+        wishlist={{
+          description: "",
+          id: undefined,
+          is_private: false,
+          title: ""
+        }}
+        friendsWithAccess={[]}
+      />
     </List>
   </Page>
 };

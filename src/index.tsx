@@ -14,7 +14,9 @@ import './index.css';
 
 // Mock the environment in case, we are outside Telegram.
 import './mockEnv.ts';
+
 import {App} from "@/components/App.tsx";
+
 const root = ReactDOM.createRoot(document.getElementById('root')!);
 
 
@@ -22,14 +24,14 @@ try {
   client.setConfig({
     auth: () => {
       const initDataRaw  = retrieveRawInitData()
-      return `tma ${initDataRaw || ''}`},
+      return `tma ${initDataRaw ?? ''}`},
     baseUrl: import.meta.env.VITE_BACKEND_API_ADDR,
   });
 
   const launchParams = retrieveLaunchParams();
 
   const {tgWebAppPlatform: platform} = launchParams;
-  const debug = (launchParams.tgWebAppStartParam || '').includes('platformer_debug')
+  const debug = (launchParams.tgWebAppStartParam ?? '').includes('platformer_debug')
     || import.meta.env.DEV;
 
   // Configure all application dependencies.

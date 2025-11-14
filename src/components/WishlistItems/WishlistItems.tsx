@@ -12,7 +12,7 @@ export type WishlistItem = ServiceWishlistItem;
 interface WishlistItemsProps {
   items: WishlistItem[];
   isLoading: boolean;
-  onItemClick: (itemId: number) => void;
+  onItemClick: (item: WishlistItem) => void;
 }
 
 export const WishlistItems: FC<WishlistItemsProps> = ({items, isLoading, onItemClick}) => {
@@ -27,13 +27,10 @@ export const WishlistItems: FC<WishlistItemsProps> = ({items, isLoading, onItemC
   return items.map((item) => (
     <Cell
       key={item.id}
-      onClick={() => onItemClick(item.id!)}
+      onClick={() => onItemClick(item)}
       after={<Navigation/>}
     >
       {item.title}
     </Cell>
   ))
-
-
-  // </Section>;
 };

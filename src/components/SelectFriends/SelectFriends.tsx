@@ -1,6 +1,6 @@
 import {
   Cell,
-  Avatar, Section, Button, Selectable
+  Avatar, Section, Button, Multiselectable
 } from '@telegram-apps/telegram-ui';
 import {FC, useState} from 'react';
 import {ServiceFriend} from '@/backend-client';
@@ -39,7 +39,7 @@ export const SelectFriends: FC<FriendsProps> = ({friends, selectedFriendsIds, is
         subtitle={friend.name ? "@" + friend.username : undefined}
         before={<Avatar size={28} src={friend.photo_url}
                         acronym={usernameAndNameToAcronym(friend.name, friend.username!)}/>}
-        after={<Selectable checked={friendsIds.includes(friend.id!)} onClick={() => {onFriendClick(friend.id!)}}/>}
+        after={<Multiselectable checked={friendsIds.includes(friend.id!)}/>}
         onClick={() => onFriendClick(friend.id!)}
       >
         {friend.name ? friend.name : "@" + friend.username}

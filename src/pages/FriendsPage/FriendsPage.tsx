@@ -37,24 +37,27 @@ export const FriendsPage: FC = () => {
 
   return <Page back={false}>
     <List>
-      <Section header='My friends'>
+      <Section header='Friends requests'>
         {
           requestsCount !== 0 &&
-         <Cell
-          after={<Badge type="number">{requestsCount}</Badge>}
-          onClick={handleIncomingFriendsRequestsPress}
-         >
-           Incoming friends requests
-         </Cell>
+         <>
+           <Cell
+            after={<Badge type="number">{requestsCount}</Badge>}
+            onClick={handleIncomingFriendsRequestsPress}
+           >
+             Incoming friends requests
+           </Cell>
+         </>
         }
-        <Friends friends={friends} onFriendClick={handleFriendPress}/>
 
-        <ButtonCell
-          before={<Icon28Plus/>}
-          onClick={handleAddFriend}
-        >
+        <ButtonCell before={<Icon28Plus/>} onClick={handleAddFriend}>
           Add friend
         </ButtonCell>
+      </Section>
+
+
+      <Section header='My friends'>
+        <Friends friends={friends} onFriendClick={handleFriendPress}/>
       </Section>
     </List>
   </Page>

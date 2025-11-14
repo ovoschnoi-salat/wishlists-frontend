@@ -12,7 +12,7 @@ export type WishlistItem = ServiceFriendWishlistItem;
 interface FriendWishlistItemsProps {
   items: WishlistItem[];
   isLoading: boolean;
-  onItemClick: (itemId: number) => void;
+  onItemClick: (item: WishlistItem) => void;
 }
 
 export const FriendWishlistItems: FC<FriendWishlistItemsProps> = ({items, isLoading, onItemClick}) => {
@@ -27,7 +27,7 @@ export const FriendWishlistItems: FC<FriendWishlistItemsProps> = ({items, isLoad
   return items.map((item) => (
     <Cell
       key={item.id}
-      onClick={() => onItemClick(item.id!)}
+      onClick={() => onItemClick(item)}
       after={<Navigation/>}
       disabled={item.reserved === true && item.reservation_can_be_canceled === false}
     >

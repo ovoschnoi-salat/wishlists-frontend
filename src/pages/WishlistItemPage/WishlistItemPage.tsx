@@ -1,9 +1,9 @@
 import {WishlistItem} from '@/components/WishlistItem';
-import {useParams} from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 import type {FC} from 'react';
 import {loadWishlistItem} from "@/hooks/loadWishlistItem.ts";
-import {Button, List, Section, Text} from "@telegram-apps/telegram-ui";
-import {Icon24Edit} from "@/icons/24/Edit.tsx";
+import {List} from "@telegram-apps/telegram-ui";
+
 
 export const WishlistItemPage: FC = () => {
   const {itemId} = useParams<{ itemId: string }>();
@@ -20,22 +20,13 @@ export const WishlistItemPage: FC = () => {
 
   const {item, isLoading} = loadWishlistItem(itemIdNumber);
 
+  const navigate = useNavigate()
+
   const handleEdit = () => {
-    // TODO
+    navigate(`/wishlist/${item.wishlist_id!}/item/${item.id!}/edit`, {state: item})
   }
 
   return <List>
-    <WishlistItem item={item} isLoading={isLoading}/>
-
-    <Section>
-      <Button
-        mode="filled"
-        size="s"
-        onClick={handleEdit}
-        before={<Icon24Edit/>}
-      >
-        <Text>Edit</Text>
-      </Button>
-    </Section>
+    <WishlistItem item={item} isLoading={isLoading} onPressEdit={handleEdit}/>
   </List>
 };

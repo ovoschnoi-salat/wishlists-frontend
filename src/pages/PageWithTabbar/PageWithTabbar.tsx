@@ -1,6 +1,6 @@
 import {FC, useState} from 'react';
 import {Outlet} from "react-router";
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 
 import {Tabbar} from '@telegram-apps/telegram-ui';
 
@@ -14,7 +14,7 @@ import "./PageWithTabbar.css";
 enum Tab {
   MyLists = "MyLists",
   Friends = "Friends",
-  Profile = "Profile",
+  Settings = "Settings",
   InitData = "InitData",
   ThemeParams = "ThemeParams",
   LaunchParams = "LaunchParams",
@@ -24,8 +24,20 @@ enum Tab {
 //   paddingBottom: 'calc(var(--tg-viewport-content-safe-area-inset-bottom) + var(--tg-viewport-safe-area-inset-bottom))',
 // }
 
+function getCurrentTab(path: string): Tab {
+  if (path.startsWith("/friends")) {
+    return Tab.Friends
+  }
+  if (path.startsWith("/settings")) {
+    return Tab.Settings
+  }
+  return Tab.MyLists
+}
+
 export const PageWithTabbar: FC = () => {
-  const [activeTab, setActiveTab] = useState(Tab.MyLists);
+  const location = useLocation()
+
+  const [activeTab, setActiveTab] = useState(getCurrentTab(location.pathname));
 
   interface tab {
     tabEnum: Tab,
@@ -48,8 +60,8 @@ export const PageWithTabbar: FC = () => {
       navLink: "/friends",
     },
     {
-      tabEnum: Tab.Profile,
-      title: "Profile",
+      tabEnum: Tab.Settings,
+      title: "Settings",
       icon: <Icon28Person/>,
       navLink: "/",
     },

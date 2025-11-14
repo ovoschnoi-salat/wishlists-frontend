@@ -23,11 +23,6 @@ export type ServiceFriend = {
     username?: string;
 };
 
-export type ServiceFriendWishlist = {
-    id?: number;
-    title?: string;
-};
-
 export type ServiceFriendWishlistItem = {
     description?: string;
     id?: number;
@@ -204,7 +199,7 @@ export type GetApiUserFriendWishlistsResponses = {
     /**
      * OK
      */
-    200: Array<ServiceFriendWishlist>;
+    200: Array<ServiceWishlist>;
 };
 
 export type GetApiUserFriendWishlistsResponse = GetApiUserFriendWishlistsResponses[keyof GetApiUserFriendWishlistsResponses];
@@ -394,10 +389,12 @@ export type PatchApiUserWishlistItemData = {
 
 export type PatchApiUserWishlistItemResponses = {
     /**
-     * No Content
+     * OK
      */
-    204: unknown;
+    200: ServiceWishlistItem;
 };
+
+export type PatchApiUserWishlistItemResponse = PatchApiUserWishlistItemResponses[keyof PatchApiUserWishlistItemResponses];
 
 export type PostApiUserWishlistItemData = {
     /**

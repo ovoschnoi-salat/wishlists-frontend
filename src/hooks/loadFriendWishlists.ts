@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
-import {getApiUserFriendWishlists, ServiceFriend, ServiceFriendWishlist} from '@/backend-client';
+import {getApiUserFriendWishlists, ServiceWishlist} from '@/backend-client';
 
 interface LoadFriendWishlistsResult {
-  wishlists: ServiceFriend[];
+  wishlists: ServiceWishlist[];
   isLoading: boolean;
   refetch: () => Promise<void>;
 }
 
 export const loadFriendWishlists = (friendId: number | null): LoadFriendWishlistsResult => {
-  const [wishlists, setFriendWishlists] = useState<ServiceFriendWishlist[]>([]);
+  const [wishlists, setFriendWishlists] = useState<ServiceWishlist[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
   const fetch = async () => {
@@ -41,11 +41,11 @@ export const loadFriendWishlists = (friendId: number | null): LoadFriendWishlist
 
   useEffect(() => {
     fetch();
-  }, []);
+  }, [friendId]);
 
   return {
     wishlists: wishlists,
-    isLoading,
+    isLoading: isLoading,
     refetch: fetch,
   };
 };

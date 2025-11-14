@@ -2,58 +2,50 @@ import {
   Section,
   Cell,
   Button,
-  Text, Divider, Title, Placeholder,
+  Text, Divider, Title, ButtonCell,
 } from '@telegram-apps/telegram-ui';
 import type {FC} from 'react';
 import {ServiceWishlistItem, ServiceWishlistItemLink} from "@/backend-client";
-import {Icon24Link} from "@/icons/24";
+import {Icon24Edit, Icon24Link} from "@/icons/24";
+import {Loading} from "@/components/Loading.tsx";
 
 interface WishlistItemProps {
   item: ServiceWishlistItem;
   isLoading: boolean;
-  onEdit?: (item: ServiceWishlistItem) => void;
-  onOpenLink?: (url: string) => void;
+  onPressEdit?: () => void;
 }
 
-export const WishlistItem: FC<WishlistItemProps> = ({
-                                                      item,
-                                                      isLoading,
-                                                    }) => {
+export const WishlistItem: FC<WishlistItemProps> = ({item, isLoading, onPressEdit}) => {
   const handleOpenLink = (url: string) => {
-    // if (item.link) {
-    //   console.log("handleOpenLink")
-    //   // onOpenLink?.(item.link);
-    // }
     window.open(url, '_blank');
   };
 
   if (isLoading) {
-    return <Placeholder
-      description="Loading items..."
-    >
-      <img
-        alt="Telegram sticker"
-        className="blt0jZBzpxuR4oDhJc8s"
-        src="https://xelene.me/telegram.gif"
-      />
-    </Placeholder>
+    return <Loading/>
   }
 
   return (
     <>
       {/* Title Section */}
-      <Title weight="2">
-        {item.title}
-      </Title>
+      <Cell>
+        <Title level="2">
+          {item.title}
+        </Title>
+      </Cell>
+
 
       {/* Content Section */}
       <Section header="About">
 
         {/* Description */}
-        <Cell subhead="Description">
-          {item.description}
-        </Cell>
-        <Divider/>
+        {item.description &&
+         <>
+           <Cell subhead="Description">
+             {item.description}
+           </Cell>
+           <Divider/>
+         </>
+        }
 
         {/* Price */}
         {item.price && (
@@ -61,32 +53,50 @@ export const WishlistItem: FC<WishlistItemProps> = ({
             <Cell subhead="Price">
               {item.price}
             </Cell>
+            <Divider/>
           </>
         )}
-        <Divider/>
         {/* Link */}
         {item.links && (
           <>
             {item.links.map((link: ServiceWishlistItemLink) => (
-              <Cell
-                subhead="Link"
-                after={<Button mode="filled" size="s" onClick={() => handleOpenLink(link.url!)} before={<Icon24Link/>}>
-                  Open
-                </Button>
-                }>
-                {link.title}
-              </Cell>
+              <>
+                <Cell
+                  subhead="Link"
+                  after={
+                    <Button
+                      mode="filled"
+                      size="s"
+                      onClick={() => handleOpenLink(link.url!)}
+                      before={<Icon24Link/>}>
+                      Open
+                    </Button>
+                  }>
+                  {link.title}
+                </Cell>
+                <Divider/>
+              </>
             ))}
           </>
         )}
 
-        <Divider/>
-        {/* Reservation Status */}
         <Cell subhead="Reservation">
           <Text>
-            Reservable TODO
+            {item.reservable ? "This item is reservable" : "This item is free of reservation"}
           </Text>
         </Cell>
+
+        {onPressEdit && <>
+          <Divider/>
+
+          <ButtonCell
+            onClick={onPressEdit}
+            before={<Icon24Edit/>}
+          >
+            <Text>Edit wish</Text>
+          </ButtonCell>
+        </>
+        }
 
       </Section>
     </>

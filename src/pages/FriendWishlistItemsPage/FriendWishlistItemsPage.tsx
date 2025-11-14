@@ -2,8 +2,9 @@ import {useNavigate, useParams} from 'react-router-dom';
 import {FC} from 'react';
 import {List} from "@telegram-apps/telegram-ui";
 import {Page} from "@/components/Page.tsx";
-import {loadWishlistItems} from "@/hooks/loadWishlistItems.ts";
 import {FriendWishlistItems} from "@/components/FriendWishlistItems";
+import {ServiceWishlistItem} from "@/backend-client";
+import {loadFriendWishlistItems} from "@/hooks/loadFriendWishlistItems.ts";
 
 export const FriendWishlistItemsPage: FC = () => {
   // const navigate = useNavigate();
@@ -28,11 +29,12 @@ export const FriendWishlistItemsPage: FC = () => {
   }
 
   const navigate = useNavigate()
-  const handleItemPress = (itemId: number) => {
-    navigate(`/friend/${friendIdNumber}/wishlist/${wishlistIdNumber}/item/${itemId}`)
+
+  const handleItemPress = (item: ServiceWishlistItem) => {
+    navigate(`/friend/${friendIdNumber}/wishlist/${wishlistIdNumber}/item/${item.id}`, {state: item})
   };
 
-  const {items, isLoading} = loadWishlistItems(wishlistIdNumber);
+  const {items, isLoading} = loadFriendWishlistItems(wishlistIdNumber);
 
   return <Page>
     <List>
