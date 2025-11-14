@@ -1,4 +1,4 @@
-import {useNavigate, useParams} from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router';
 import {FC} from 'react';
 import {List} from "@telegram-apps/telegram-ui";
 import {Page} from "@/components/Page.tsx";

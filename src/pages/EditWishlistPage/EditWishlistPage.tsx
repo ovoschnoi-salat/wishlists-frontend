@@ -11,7 +11,7 @@ import {
   ServiceWishlist
 } from '@/backend-client';
 import {Page} from "@/components/Page.tsx";
-import {useLocation, useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router";
 import {loadFriends} from "@/hooks/loadFriends.ts";
 import {loadWishlistAccessList} from "@/hooks/loadWishlistAccessList.ts";
 import {EditWishlist} from "@/components/EditWishlist/EditWishlist.tsx";

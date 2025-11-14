@@ -1,5 +1,5 @@
 import {WishlistItem} from '@/components/WishlistItem';
-import {useNavigate, useParams} from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router';
 import type {FC} from 'react';
 import {loadWishlistItem} from "@/hooks/loadWishlistItem.ts";
 import {List} from "@telegram-apps/telegram-ui";

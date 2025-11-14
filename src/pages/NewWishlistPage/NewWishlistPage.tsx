@@ -5,7 +5,7 @@ import type {FC} from 'react';
 
 import {postApiUserWishlist, ServiceCreateWishlistRequest} from '@/backend-client';
 import {Page} from "@/components/Page.tsx";
-import {useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router";
 import {loadFriends} from "@/hooks/loadFriends.ts";
 import {EditWishlist} from "@/components/EditWishlist/EditWishlist.tsx";
 

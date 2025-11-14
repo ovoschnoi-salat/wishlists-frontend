@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react';
 import {getApiUserWishlistItem, ServiceWishlistItem} from '@/backend-client';
-import {useLocation} from "react-router-dom";
+import {useLocation} from "react-router";
 
 interface UseWishlistItemsResult {
   item: ServiceWishlistItem;

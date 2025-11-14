@@ -1,5 +1,5 @@
 import {WishlistItem} from '@/components/WishlistItem';
-import {useParams} from 'react-router-dom';
+import {useParams} from 'react-router';
 import type {FC} from 'react';
 import {loadWishlistItem} from "@/hooks/loadWishlistItem.ts";
 import {Page} from "@/components/Page.tsx";

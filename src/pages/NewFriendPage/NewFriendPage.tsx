@@ -5,7 +5,7 @@ import type {FC} from 'react';
 
 import {postApiUserFriendRequest} from '@/backend-client';
 import {Page} from "@/components/Page.tsx";
-// import {useNavigate} from "react-router-dom";
+// import {useNavigate} from "react-router";
 import {NewFriend} from "@/components/NewFriend/NewFriend.tsx";
 
 export const NewFriendPage: FC = () => {

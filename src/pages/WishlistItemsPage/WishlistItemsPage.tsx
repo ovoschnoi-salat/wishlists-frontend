@@ -1,5 +1,5 @@
 import {WishlistItems} from '@/components/WishlistItems';
-import {useLocation, useNavigate, useParams} from 'react-router-dom';
+import {useLocation, useNavigate, useParams} from 'react-router';
 import {FC} from 'react';
 import {ButtonCell, Cell, List, Section} from "@telegram-apps/telegram-ui";
 import {Page} from "@/components/Page.tsx";

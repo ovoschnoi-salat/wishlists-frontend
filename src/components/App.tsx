@@ -25,7 +25,7 @@ import {
   SettingsPage
 } from "@/pages";
 import {Button, Snackbar, Text} from "@telegram-apps/telegram-ui";
-import {useRouteError} from "react-router-dom";
+import {useRouteError} from "react-router";
 
 function ErrorBoundaryError() {
   let error = useRouteError();

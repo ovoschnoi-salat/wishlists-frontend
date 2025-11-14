@@ -9,7 +9,7 @@ import {Loading} from "@/components/Loading.tsx";
 import {IncomingFriendsRequests} from "@/components/IncomingFriendsRequests/IncomingFriendsRequests.tsx";
 import {postApiUserFriendRequestAccept, postApiUserFriendRequestDeny, ServiceFriend} from "@/backend-client";
 import {loadIncomingFriendsRequests} from "@/hooks/loadIncomingFriendsRequests.ts";
-import {useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router";
 
 export const IncomingFriendsRequestsPage: FC = () => {
   const navigate = useNavigate()

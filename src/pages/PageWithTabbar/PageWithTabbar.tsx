@@ -1,6 +1,6 @@
 import {FC, useState} from 'react';
 import {Outlet} from "react-router";
-import {useLocation, useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router";
 
 import {Tabbar} from '@telegram-apps/telegram-ui';
 

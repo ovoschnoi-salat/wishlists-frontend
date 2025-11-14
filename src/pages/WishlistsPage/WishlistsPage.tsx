@@ -10,7 +10,7 @@ import {Wishlists} from "@/components/Wishlists/Wishlists.tsx";
 import {Page} from "@/components/Page.tsx";
 import {Loading} from "@/components/Loading.tsx";
 import {Icon28Plus} from "@/icons/28/Plus.tsx";
-import {useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router";
 import {ServiceWishlist} from "@/backend-client";
 
 export const WishlistsPage: FC = () => {
