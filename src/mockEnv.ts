@@ -1,4 +1,4 @@
-import {emitEvent, isTMA, mockTelegramEnv, RGB} from '@telegram-apps/sdk-react';
+import {emitEvent, isTMA, mockTelegramEnv, RGB} from '@tma.js/sdk-react';
 
 interface TgTheme {
     [p: string]: `#${string}` | undefined
@@ -48,10 +48,10 @@ if (import.meta.env.DEV) {
             onEvent(e) {
                 // Here you can write your own handlers for all known Telegram Mini Apps methods:
                 // https://docs.telegram-mini-apps.com/platform/methods
-                if (e[0] === 'web_app_request_theme') {
+                if (e.name === 'web_app_request_theme') {
                     return emitEvent('theme_changed', {theme_params: themeParams});
                 }
-                if (e[0] === 'web_app_request_viewport') {
+                if (e.name === 'web_app_request_viewport') {
                     return emitEvent('viewport_changed', {
                         height: window.innerHeight,
                         width: window.innerWidth,
@@ -59,39 +59,55 @@ if (import.meta.env.DEV) {
                         is_state_stable: true,
                     });
                 }
-                if (e[0] === 'web_app_request_content_safe_area') {
+                if (e.name === 'web_app_request_content_safe_area') {
                     return emitEvent('content_safe_area_changed', noInsets);
                 }
-                if (e[0] === 'web_app_request_safe_area') {
+                if (e.name === 'web_app_request_safe_area') {
                     return emitEvent('safe_area_changed', noInsets);
                 }
             },
-            launchParams: new URLSearchParams([
-                // Discover more launch parameters:
-                // https://docs.telegram-mini-apps.com/platform/launch-parameters#parameters-list
-                ['tgWebAppThemeParams', JSON.stringify(themeParams)],
-                // Your init data goes here. Learn more about it here:
-                // https://docs.telegram-mini-apps.com/platform/init-data#parameters-list
-                //
-                // Note that to make sure, you are using a valid init data, you must pass it exactly as it
-                // is sent from the Telegram application. The reason is in case you will sort its keys
-                // (auth_date, hash, user, etc.) or values your own way, init data validation will more
-                // likely to fail on your server side. So, to make sure you are working with a valid init
-                // data, it is better to take a real one from your application and paste it here. It should
-                // look something like this (a correctly encoded URL search params):
-                // ```
-                // user=%7B%22id%22%3A279058397%2C%22first_name%22%3A%22Vladislav%22%2C%22last_name%22...
-                // ```
-                // But in case you don't really need a valid init data, use this one:
-                ['tgWebAppData', new URLSearchParams([
-                    ['auth_date', (new Date().getTime() / 1000 | 0).toString()],
-                    ['hash', 'some-hash'],
-                    ['signature', 'some-signature'],
-                    ['user', JSON.stringify({id: 2, first_name: 'Vladislav', username: 'username-test'})],
-                ]).toString()],
-                ['tgWebAppVersion', '8.4'],
-                ['tgWebAppPlatform', 'tdesktop'],
-            ]),
+            launchParams: {
+                tgWebAppBotInline: false,
+                tgWebAppDefaultColors: themeParams,
+                tgWebAppFullscreen: true,
+                tgWebAppPlatform: "tdesktop",
+                tgWebAppShowSettings: false,
+                // tgWebAppStartParam: string,
+                tgWebAppThemeParams: themeParams,
+                tgWebAppVersion: "8.5",
+                tgWebAppData: new URLSearchParams([
+                        ['auth_date', (new Date().getTime() / 1000 | 0).toString()],
+                        ['hash', 'some-hash'],
+                        ['signature', 'some-signature'],
+                        ['user', JSON.stringify({id: 1, first_name: 'Vladislav', username: 'username-test'})],
+                    ]).toString()
+            },
+            // launchParams: new URLSearchParams([
+            //     // Discover more launch parameters:
+            //     // https://docs.telegram-mini-apps.com/platform/launch-parameters#parameters-list
+            //     ['tgWebAppThemeParams', JSON.stringify(themeParams)],
+            //     // Your init data goes here. Learn more about it here:
+            //     // https://docs.telegram-mini-apps.com/platform/init-data#parameters-list
+            //     //
+            //     // Note that to make sure, you are using a valid init data, you must pass it exactly as it
+            //     // is sent from the Telegram application. The reason is in case you will sort its keys
+            //     // (auth_date, hash, user, etc.) or values your own way, init data validation will more
+            //     // likely to fail on your server side. So, to make sure you are working with a valid init
+            //     // data, it is better to take a real one from your application and paste it here. It should
+            //     // look something like this (a correctly encoded URL search params):
+            //     // ```
+            //     // user=%7B%22id%22%3A279058397%2C%22first_name%22%3A%22Vladislav%22%2C%22last_name%22...
+            //     // ```
+            //     // But in case you don't really need a valid init data, use this one:
+            //     ['tgWebAppData', new URLSearchParams([
+            //         ['auth_date', (new Date().getTime() / 1000 | 0).toString()],
+            //         ['hash', 'some-hash'],
+            //         ['signature', 'some-signature'],
+            //         ['user', JSON.stringify({id: 2, first_name: 'Vladislav', username: 'username-test'})],
+            //     ]).toString()],
+            //     ['tgWebAppVersion', '8.4'],
+            //     ['tgWebAppPlatform', 'tdesktop'],
+            // ]),
         });
 
         console.info(

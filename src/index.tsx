@@ -3,7 +3,7 @@ import '@telegram-apps/telegram-ui/dist/styles.css';
 
 import ReactDOM from 'react-dom/client';
 import {StrictMode} from 'react';
-import {retrieveRawInitData, retrieveLaunchParams} from '@telegram-apps/sdk-react';
+import {retrieveRawInitData, retrieveLaunchParams} from '@tma.js/sdk-react';
 
 import {EnvUnsupported} from '@/components/EnvUnsupported.tsx';
 import {init} from '@/init.ts';

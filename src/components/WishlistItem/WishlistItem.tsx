@@ -27,11 +27,13 @@ export const WishlistItem: FC<WishlistItemProps> = ({item, isLoading, onPressEdi
   return (
     <>
       {/* Title Section */}
-      <Cell>
-        <Title level="2">
-          {item.title}
-        </Title>
-      </Cell>
+      <Section header="Title">
+        <Cell>
+          <Title level="2">
+            {item.title}
+          </Title>
+        </Cell>
+      </Section>
 
 
       {/* Content Section */}
@@ -90,8 +92,8 @@ export const WishlistItem: FC<WishlistItemProps> = ({item, isLoading, onPressEdi
           <Divider/>
 
           <ButtonCell
-            onClick={onPressEdit}
-            before={<Icon24Edit/>}
+           onClick={onPressEdit}
+           before={<Icon24Edit/>}
           >
             <Text>Edit wish</Text>
           </ButtonCell>

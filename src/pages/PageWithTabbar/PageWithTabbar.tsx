@@ -63,7 +63,7 @@ export const PageWithTabbar: FC = () => {
       tabEnum: Tab.Settings,
       title: "Settings",
       icon: <Icon28Person/>,
-      navLink: "/",
+      navLink: "/settings",
     },
     {
       tabEnum: Tab.InitData,

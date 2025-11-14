@@ -1,19 +1,15 @@
 import {
   setDebug,
-  mountBackButton,
-  restoreInitData,
+  backButton,
+  initData,
   init as initSDK,
-  bindThemeParamsCssVars,
-  mountViewport,
-  bindViewportCssVars,
-  mockTelegramEnv,
-  type ThemeParams,
-  themeParamsState,
-  retrieveLaunchParams,
-  emitEvent,
   miniApp,
-  backButton
-} from '@telegram-apps/sdk-react';
+  emitEvent,
+  retrieveLaunchParams,
+  ThemeParams,
+  mockTelegramEnv,
+  themeParams
+} from '@tma.js/sdk-react';
 
 /**
  * Initializes the application and configures its dependencies.
@@ -23,7 +19,7 @@ export async function init(options: {
   eruda: boolean;
   mockForMacOS: boolean;
 }): Promise<void> {
-  // Set @telegram-apps/sdk-react debug mode and initialize it.
+  // Set @tma.js/sdk-react debug mode and initialize it.
   setDebug(options.debug);
   initSDK();
 
@@ -42,10 +38,10 @@ export async function init(options: {
     let firstThemeSent = false;
     mockTelegramEnv({
       onEvent(event, next) {
-        if (event[0] === 'web_app_request_theme') {
+        if (event.name === 'web_app_request_theme') {
           let tp: ThemeParams = {};
           if (firstThemeSent) {
-            tp = themeParamsState();
+            tp = themeParams.state();
           } else {
             firstThemeSent = true;
             tp ||= retrieveLaunchParams().tgWebAppThemeParams;
@@ -53,7 +49,7 @@ export async function init(options: {
           return emitEvent('theme_changed', { theme_params: tp });
         }
 
-        if (event[0] === 'web_app_request_safe_area') {
+        if (event.name === 'web_app_request_safe_area') {
           return emitEvent('safe_area_changed', { left: 0, top: 0, right: 0, bottom: 0 });
         }
 
@@ -63,15 +59,26 @@ export async function init(options: {
   }
 
   // Mount all components used in the project.
-  mountBackButton.ifAvailable();
-  restoreInitData();
+  backButton.mount.ifAvailable();
+  initData.restore();
   
-  if (miniApp.mountSync.isAvailable()) {
-    miniApp.mountSync();
-    bindThemeParamsCssVars();
+  if (miniApp.mount.ifAvailable().ok) {
+    console.log("miniApp mounted")
   }
 
-  mountViewport.isAvailable() && mountViewport().then(() => {
-    bindViewportCssVars();
-  });
+  // if (miniApp.bindCssVars.ifAvailable().ok) {
+  //   console.log("miniApp Css Vars bind")
+  // }
+
+  if (themeParams.mount.ifAvailable().ok) {
+    console.log("themeParams mounted")
+  }
+
+  if (themeParams.bindCssVars.ifAvailable().ok) {
+    console.log("themeParams Css Vars bind")
+  }
+
+  // mountViewport.isAvailable() && mountViewport().then(() => {
+  //   bindViewportCssVars();
+  // });
 }

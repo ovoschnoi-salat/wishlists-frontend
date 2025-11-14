@@ -1,5 +1,5 @@
 import {useMemo} from 'react';
-import {retrieveLaunchParams, useSignal, isMiniAppDark} from '@telegram-apps/sdk-react';
+import {retrieveLaunchParams, useSignal, miniApp} from '@tma.js/sdk-react';
 import {AppRoot} from '@telegram-apps/telegram-ui';
 
 import {createBrowserRouter} from "react-router";
@@ -21,7 +21,8 @@ import {
   WishlistItemsPage,
   FriendWishlistItemPage,
   EditWishlistPage,
-  EditWishlistItemPage
+  EditWishlistItemPage,
+  SettingsPage
 } from "@/pages";
 import {Button, Snackbar, Text} from "@telegram-apps/telegram-ui";
 import {useRouteError} from "react-router-dom";
@@ -51,7 +52,7 @@ function ErrorBoundaryError() {
 
 export function App() {
   const lp = useMemo(() => retrieveLaunchParams(), []);
-  const isDark = useSignal(isMiniAppDark);
+  const isDark = useSignal(miniApp.isDark);
 
   return (
     <AppRoot
@@ -88,7 +89,9 @@ const router = createBrowserRouter([
         {path: '/friends/requests/incoming', Component: IncomingFriendsRequestsPage},
         {path: '/friend/:friendId/wishlists', Component: FriendWishlistsPage},
         {path: '/friend/:friendId/wishlist/:wishlistId/items', Component: FriendWishlistItemsPage},
-        {path: '/friend/:friendId/wishlist/:wishlistId/item/:itemId', Component: FriendWishlistItemPage}
+        {path: '/friend/:friendId/wishlist/:wishlistId/item/:itemId', Component: FriendWishlistItemPage},
+
+        {path: '/settings', Component: SettingsPage}
       ]
   },
 ]);

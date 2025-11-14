@@ -1,4 +1,4 @@
-import { retrieveLaunchParams } from '@telegram-apps/sdk-react';
+import { retrieveLaunchParams } from '@tma.js/sdk-react';
 import { List } from '@telegram-apps/telegram-ui';
 import { type FC, useMemo } from 'react';
 
@@ -18,6 +18,7 @@ export const LaunchParamsPage: FC = () => {
             { title: 'tgWebAppVersion', value: lp.tgWebAppVersion },
             { title: 'tgWebAppBotInline', value: lp.tgWebAppBotInline },
             { title: 'tgWebAppStartParam', value: lp.tgWebAppStartParam },
+            { title: 'tgWebAppFullscreen', value: lp.tgWebAppFullscreen },
             { title: 'tgWebAppData', type: 'link', value: '/init-data' },
             { title: 'tgWebAppThemeParams', type: 'link', value: '/theme-params' },
           ]}
