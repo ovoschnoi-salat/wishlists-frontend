@@ -14,7 +14,6 @@ import {SelectFriends} from "@/components/SelectFriends/SelectFriends.tsx";
 import {Friend} from "@/components/Friends/Friends.tsx";
 import {ServiceCreateWishlistRequest, ServiceWishlist} from "@/backend-client";
 
-
 interface editWishlistProps {
   wishlist: ServiceWishlist;
   friendsWithAccess: number[];
@@ -40,16 +39,13 @@ export const EditWishlist: FC<editWishlistProps> = ({
   const handleSave = async () => {
     if (title.trim()) {
       setIsSaving(true)
-
       try {
         await onSave({
           title: title.trim(),
           description: description.trim(),
           is_private: isPrivate,
-          users_with_access: usersWithAccess,
+          users_with_access: isPrivate ? usersWithAccess : [],
         });
-      } catch (e) {
-
       } finally {
         setIsSaving(false)
       }
@@ -64,13 +60,6 @@ export const EditWishlist: FC<editWishlistProps> = ({
     setShowSelectFriends(false)
     setUsersWithAccess(friendsIds)
   };
-
-  const handleSetIsPrivate = (isPrivate: boolean) => {
-    setIsPrivate(isPrivate)
-    if (!isPrivate) {
-      setUsersWithAccess([])
-    }
-  }
 
   return (
     <>
@@ -107,7 +96,7 @@ export const EditWishlist: FC<editWishlistProps> = ({
               after={
                 <Switch
                   checked={isPrivate}
-                  onChange={(event) => handleSetIsPrivate(event.target.checked)}
+                  onChange={(event) => setIsPrivate(event.target.checked)}
                 />
               }
             >
@@ -138,8 +127,12 @@ export const EditWishlist: FC<editWishlistProps> = ({
             </Button>
           </Section>
         </> :
-        <SelectFriends friends={friends} selectedFriendsIds={usersWithAccess} isLoading={isLoadingFriends}
-                       saveFriendsList={handleSaveUsersWithAccess}/>
+        <SelectFriends
+          friends={friends}
+          selectedFriendsIds={usersWithAccess}
+          isLoading={isLoadingFriends}
+          saveFriendsList={handleSaveUsersWithAccess}
+        />
       }
     </>
   );

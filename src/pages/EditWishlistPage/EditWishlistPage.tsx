@@ -23,17 +23,17 @@ const loadState = () => {
 }
 
 export const EditWishlistPage: FC = () => {
+  const navigate = useNavigate()
   const [isDeleting, setIsDeleting] = useState(false)
   const [deleteError, setDeleteError] = useState<SubcodeErrorsResponse | undefined>(undefined)
   const [saveError, setSaveError] = useState<SubcodeErrorsResponse | undefined>(undefined)
 
   const wishlist = loadState()
 
-  const {friends, isLoading} = loadFriends();
+  const {friends, isLoading, error, resetError} = loadFriends();
 
   const WishlistAccessList = loadWishlistAccessList(wishlist.id!)
 
-  const navigate = useNavigate()
 
   const handleDeleteWishlist = async () => {
     setIsDeleting(true)
@@ -61,14 +61,15 @@ export const EditWishlistPage: FC = () => {
       return
     }
 
-    navigate(`/wishlist/${wishlist.id!}/items`, {replace: true, state: data})
+    navigate(`../items`, {replace: true, relative: "path", state: data})
   };
 
   return <Page
     pageTitle={"Wishlist edit"}
     backNavFn={() => {
-    navigate(`/wishlist/${wishlist.id!}/items`, {replace: true, state: wishlist})
+    navigate(`../items`, {replace: true, relative: "path", state: wishlist})
   }}>
+    <BackendErrorHandler error={error} resetError={resetError}/>
     <BackendErrorHandler error={deleteError} resetError={setDeleteError}/>
     <BackendErrorHandler error={saveError} resetError={setSaveError}/>
     <List>

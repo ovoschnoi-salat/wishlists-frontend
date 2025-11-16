@@ -1,44 +1,42 @@
-import {useNavigate, useParams} from 'react-router';
+import {useLocation, useNavigate, useParams} from 'react-router';
 import {FC} from 'react';
 import {List} from "@telegram-apps/telegram-ui";
 import {Page} from "@/components/Page.tsx";
 import {FriendWishlistItems} from "@/components/FriendWishlistItems";
-import {ServiceWishlistItem} from "@/backend-client";
+import {ServiceWishlist, ServiceWishlistItem} from "@/backend-client";
 import {loadFriendWishlistItems} from "@/hooks/loadFriendWishlistItems.ts";
-// import {ErrorSnackbarProps} from "@/components/ErrorSnackbar/ErrorSnackbar.tsx";
+import {BackendErrorHandler} from "@/components/BackendErrorHandler/BackendErrorHandler.tsx";
+
+const loadState = () => {
+  let {state} = useLocation()
+  return state as ServiceWishlist
+}
 
 export const FriendWishlistItemsPage: FC = () => {
-  // const [errorSnackbarProps, setErrorSnackbarProps] = useState<ErrorSnackbarProps | undefined>(undefined)
+  const navigate = useNavigate()
 
-  const {friendId, wishlistId} = useParams<{ friendId: string, wishlistId: string }>();
+  const wishlist = loadState()
 
-  if (!friendId) {
-    return <div>Friend ID not found</div>;
-  }
+  const {wishlistId} = useParams<{ wishlistId: string }>();
+
   if (!wishlistId) {
     return <div>Wishlist ID not found</div>;
   }
 
-  const friendIdNumber = parseInt(friendId, 10);
-
   const wishlistIdNumber = parseInt(wishlistId, 10);
 
-  if (isNaN(friendIdNumber)) {
-    return <div>Invalid friend ID</div>;
-  }
   if (isNaN(wishlistIdNumber)) {
     return <div>Invalid wishlist ID</div>;
   }
 
-  const navigate = useNavigate()
-
   const handleItemPress = (item: ServiceWishlistItem) => {
-    navigate(`/friend/${friendIdNumber}/wishlist/${wishlistIdNumber}/item/${item.id}`, {state: item})
+    navigate(`../item/${item.id}`, {state: item, relative: "path"})
   };
 
-  const {items, isLoading} = loadFriendWishlistItems(wishlistIdNumber);
+  const {items, isLoading, error, resetError} = loadFriendWishlistItems(wishlistIdNumber);
 
-  return <Page>
+  return <Page pageTitle={wishlist.title}>
+    <BackendErrorHandler error={error} resetError={resetError}/>
     <List>
       <FriendWishlistItems items={items} isLoading={isLoading} onItemClick={handleItemPress}/>
     </List>

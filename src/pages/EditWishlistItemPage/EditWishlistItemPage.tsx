@@ -15,11 +15,10 @@ const loadState = () => {
 }
 
 export const EditWishlistItemPage: FC = () => {
+  const navigate = useNavigate()
   const [updateWishlistItemError, setUpdateWishlistItemError] = useState<SubcodeErrorsResponse | undefined>()
 
   const item = loadState()
-
-  const navigate = useNavigate()
 
   const handleSaveWishlistItem = async (newItem: ServiceCreateWishlistItemRequest) => {
     newItem.wishlist_id = item.wishlist_id
@@ -36,13 +35,13 @@ export const EditWishlistItemPage: FC = () => {
       return
     }
 
-    navigate(`/wishlist/${item.wishlist_id}/item/${item.id!}`, {replace: true, state: data})
+    navigate(`..`, {replace: true, relative: "path", state: data})
   };
 
   return <Page
     pageTitle={"Wishlist item edit"}
     backNavFn={() => {
-      navigate(`/wishlist/${item.wishlist_id!}/item/${item.id!}`, {replace: true, state: item})
+      navigate(`..`, {replace: true, relative: "path", state: item})
     }}>
     <BackendErrorHandler error={updateWishlistItemError} resetError={setUpdateWishlistItemError}/>
     <List>

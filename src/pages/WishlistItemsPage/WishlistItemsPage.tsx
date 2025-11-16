@@ -7,6 +7,7 @@ import {loadWishlistItems} from "@/hooks/loadWishlistItems.ts";
 import {Icon28Plus} from "@/icons/28/Plus.tsx";
 import {ServiceWishlist, ServiceWishlistItem} from "@/backend-client";
 import {Icon24Edit} from "@/icons/24";
+import {BackendErrorHandler} from "@/components/BackendErrorHandler/BackendErrorHandler.tsx";
 
 const loadState = () => {
   let {state} = useLocation()
@@ -14,9 +15,10 @@ const loadState = () => {
 }
 
 export const WishlistItemsPage: FC = () => {
+  const navigate = useNavigate();
+
   let wishlist = loadState()
 
-  // const navigate = useNavigate();
   const {wishlistId} = useParams<{ wishlistId: string }>();
 
   if (!wishlistId) {
@@ -29,22 +31,23 @@ export const WishlistItemsPage: FC = () => {
     return <div>Invalid wishlist ID</div>;
   }
 
-  const navigate = useNavigate()
+  const {items, isLoading, error, resetError} = loadWishlistItems(wishlistIdNumber);
+
   const handleItemPress = (item: ServiceWishlistItem) => {
-    navigate(`/wishlist/${wishlistIdNumber}/item/${item.id}`, {state: item})
+    navigate(`../item/${item.id}`, {relative: "path", state: item})
+
   };
 
-  const {items, isLoading} = loadWishlistItems(wishlistIdNumber);
-
   const handleEditwWishlistPress = () => {
-    navigate(`/wishlist/${wishlistIdNumber}/edit`, {replace: true, state: wishlist})
+    navigate(`../edit`, {replace: true, relative: "path", state: wishlist})
   };
 
   const handleNewWishlistPress = () => {
-    navigate(`/wishlist/${wishlistIdNumber}/items/new`)
+    navigate(`new`)
   };
 
   return <Page pageTitle={wishlist.title}>
+    <BackendErrorHandler error={error} resetError={resetError}/>
     <List>
       <Section>
         <Cell subhead="Title" subtitle={wishlist.is_private ? "private" : undefined}>

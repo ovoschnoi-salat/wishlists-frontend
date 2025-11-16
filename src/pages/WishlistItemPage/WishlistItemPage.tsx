@@ -4,9 +4,12 @@ import {List} from "@telegram-apps/telegram-ui";
 import {loadWishlistItem} from "@/hooks/loadWishlistItem.ts";
 import {Page} from "@/components/Page.tsx";
 import {WishlistItem} from '@/components/WishlistItem';
+import {BackendErrorHandler} from "@/components/BackendErrorHandler/BackendErrorHandler.tsx";
 
 
 export const WishlistItemPage: FC = () => {
+  const navigate = useNavigate()
+
   const {itemId} = useParams<{ itemId: string }>();
 
   if (!itemId) {
@@ -19,15 +22,14 @@ export const WishlistItemPage: FC = () => {
     return <div>Invalid item ID</div>;
   }
 
-  const {item, isLoading} = loadWishlistItem(itemIdNumber);
-
-  const navigate = useNavigate()
+  const {item, isLoading, error, resetError} = loadWishlistItem(itemIdNumber);
 
   const handleEdit = () => {
-    navigate(`/wishlist/${item.wishlist_id!}/item/${item.id!}/edit`, {replace: true, state: item})
+    navigate(`edit`, {replace: true, state: item})
   }
 
   return <Page>
+    <BackendErrorHandler error={error} resetError={resetError}/>
     <List>
       <WishlistItem item={item} isLoading={isLoading} onPressEdit={handleEdit}/>
     </List>

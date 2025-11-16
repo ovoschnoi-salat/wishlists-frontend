@@ -14,19 +14,19 @@ import {loadIncomingFriendsRequestsCount} from "@/hooks/loadIncomingFriendsReque
 import {BackendErrorHandler} from "@/components/BackendErrorHandler/BackendErrorHandler.tsx";
 
 export const FriendsPage: FC = () => {
-  const {friends, isLoading, error, resetError} = loadFriends();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  const {requestsCount} = loadIncomingFriendsRequestsCount()
+  const {friends, isLoading, error, resetError} = loadFriends();
+
+  const {requestsCount, error: requestsError, resetError: resetRequestsError} = loadIncomingFriendsRequestsCount();
 
   const handleIncomingFriendsRequestsPress = () => {
-    navigate(`/friends/requests/incoming`);
+    navigate(`requests/incoming`);
   };
 
   const handleAddFriend = () => {
     navigate(`/friend/new`);
-  }
-
+  };
 
   const handleFriendPress = (friendId: number) => {
     navigate(`/friend/${friendId}/wishlists`);
@@ -34,29 +34,26 @@ export const FriendsPage: FC = () => {
 
   if (isLoading) {
     return <Loading/>;
-  }
+  };
 
   return <Page pageTitle={"Friends"} back={false}>
     <BackendErrorHandler error={error} resetError={resetError}/>
+    <BackendErrorHandler error={requestsError} resetError={resetRequestsError}/>
     <List>
       <Section header='Friends requests'>
-        {
-          requestsCount !== 0 &&
-         <>
-           <Cell
-            after={<Badge type="number">{requestsCount}</Badge>}
-            onClick={handleIncomingFriendsRequestsPress}
-           >
-             Incoming friends requests
-           </Cell>
-         </>
+        {requestsCount !== 0 &&
+         <Cell
+          after={<Badge type="number">{requestsCount}</Badge>}
+          onClick={handleIncomingFriendsRequestsPress}
+         >
+           Incoming friends requests
+         </Cell>
         }
 
         <ButtonCell before={<Icon28Plus/>} onClick={handleAddFriend}>
           Add friend
         </ButtonCell>
       </Section>
-
 
       <Section header='My friends'>
         <Friends friends={friends} onFriendClick={handleFriendPress}/>

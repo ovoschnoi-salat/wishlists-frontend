@@ -4,11 +4,9 @@ import {FC} from 'react';
 import {loadWishlistItem} from "@/hooks/loadWishlistItem.ts";
 import {Page} from "@/components/Page.tsx";
 import {List} from "@telegram-apps/telegram-ui";
-// import {ErrorSnackbarProps} from "@/components/ErrorSnackbar/ErrorSnackbar.tsx";
+import {BackendErrorHandler} from "@/components/BackendErrorHandler/BackendErrorHandler.tsx";
 
 export const FriendWishlistItemPage: FC = () => {
-  // const [errorSnackbarProps, setErrorSnackbarProps] = useState<ErrorSnackbarProps | undefined>(undefined)
-
   const {itemId} = useParams<{ itemId: string }>();
 
   if (!itemId) {
@@ -21,9 +19,10 @@ export const FriendWishlistItemPage: FC = () => {
     return <div>Invalid item ID</div>;
   }
 
-  const {item, isLoading} = loadWishlistItem(itemIdNumber);
+  const {item, isLoading, error, resetError} = loadWishlistItem(itemIdNumber);
 
   return <Page>
+    <BackendErrorHandler error={error} resetError={resetError}/>
     <List>
       <WishlistItem item={item} isLoading={isLoading}/>
     </List>

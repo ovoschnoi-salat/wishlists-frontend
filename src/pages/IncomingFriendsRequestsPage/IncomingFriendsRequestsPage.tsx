@@ -7,56 +7,49 @@ import {FC, useState} from 'react';
 import {Page} from "@/components/Page.tsx";
 import {Loading} from "@/components/Loading.tsx";
 import {IncomingFriendsRequests} from "@/components/IncomingFriendsRequests/IncomingFriendsRequests.tsx";
-import {postApiUserFriendRequestAccept, postApiUserFriendRequestDeny, ServiceFriend} from "@/backend-client";
+import {
+  postApiUserFriendRequestAccept,
+  postApiUserFriendRequestDeny,
+  ServiceFriend,
+  SubcodeErrorsResponse
+} from "@/backend-client";
 import {loadIncomingFriendsRequests} from "@/hooks/loadIncomingFriendsRequests.ts";
 import {useNavigate} from "react-router";
-import {ErrorSnackbarProps} from "@/components/ErrorSnackbar/ErrorSnackbar.tsx";
+import {BackendErrorHandler} from "@/components/BackendErrorHandler/BackendErrorHandler.tsx";
 
 export const IncomingFriendsRequestsPage: FC = () => {
-  const [errorSnackbarProps, setErrorSnackbarProps] = useState<ErrorSnackbarProps | undefined>(undefined)
-
   const navigate = useNavigate()
+  const [acceptError, setAcceptError] = useState<SubcodeErrorsResponse | undefined>()
+  const [rejectError, setRejectError] = useState<SubcodeErrorsResponse | undefined>()
 
-  const {friends, setFriends, isLoading} = loadIncomingFriendsRequests()
+  const {friends, setFriends, isLoading, error, resetError} = loadIncomingFriendsRequests()
 
   const handleAcceptPress = async (friendId: number) => {
     const {error} = await postApiUserFriendRequestAccept({query: {friend_id: friendId}})
 
     if (error) {
-      setErrorSnackbarProps({
-        title: "error deleting wishlist",
-        error: error,
-        onClose: () => {
-          setErrorSnackbarProps(undefined)
-        }
-      })
+      setAcceptError(error)
       return
     }
 
-    await removeRequestFromList(friendId)
+    removeRequestFromList(friendId)
   };
 
   const handleDenyPress = async (friendId: number) => {
     const {error} = await postApiUserFriendRequestDeny({query: {friend_id: friendId}})
 
     if (error) {
-      setErrorSnackbarProps({
-        title: "error deleting wishlist",
-        error: error,
-        onClose: () => {
-          setErrorSnackbarProps(undefined)
-        }
-      })
+      setRejectError(error)
       return
     }
 
-    await removeRequestFromList(friendId)
+    removeRequestFromList(friendId)
   };
 
-  const removeRequestFromList = async (id: number) => {
+  const removeRequestFromList = (id: number) => {
     const newList = friends.filter((value: ServiceFriend) => value.id != id)
     if (newList.length === 0) {
-      navigate(`/friends`);
+      navigate(-1);
     }
     setFriends(newList)
   }
@@ -65,7 +58,10 @@ export const IncomingFriendsRequestsPage: FC = () => {
     return <Loading/>;
   }
 
-  return <Page>
+  return <Page pageTitle={"Incoming friends requests"} backNavFn={() => {navigate("../..", {replace: true, relative: "path"})}}>
+    <BackendErrorHandler error={acceptError} resetError={setAcceptError}/>
+    <BackendErrorHandler error={rejectError} resetError={setRejectError}/>
+    <BackendErrorHandler error={error} resetError={resetError}/>
     <List>
       <Section header='Incoming friends requests'>
         <IncomingFriendsRequests friends={friends} onDenyClick={handleDenyPress} onAcceptClick={handleAcceptPress}/>

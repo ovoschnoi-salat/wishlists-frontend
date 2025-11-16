@@ -4,15 +4,14 @@ import {
 import {FC, useState} from 'react';
 import {useNavigate} from "react-router";
 
-import {postApiUserFriendRequest} from '@/backend-client';
+import {postApiUserFriendRequest, SubcodeErrorsResponse} from '@/backend-client';
 import {Page} from "@/components/Page.tsx";
 import {NewFriend} from "@/components/NewFriend/NewFriend.tsx";
-import {ErrorSnackbarProps} from "@/components/ErrorSnackbar/ErrorSnackbar.tsx";
+import {BackendErrorHandler} from "@/components/BackendErrorHandler/BackendErrorHandler.tsx";
 
 export const NewFriendPage: FC = () => {
-  const [errorSnackbarProps, setErrorSnackbarProps] = useState<ErrorSnackbarProps | undefined>(undefined)
-
   const navigate = useNavigate()
+  const [sendError, setSendError] = useState<SubcodeErrorsResponse | undefined>()
 
   const handleSendFriendRequest = async (username: string) => {
     const {error} = await postApiUserFriendRequest({
@@ -20,21 +19,15 @@ export const NewFriendPage: FC = () => {
     });
 
     if (error) {
-      setErrorSnackbarProps({
-        title: "error sending friends request",
-        error: error,
-        onClose: () => {
-          setErrorSnackbarProps(undefined)
-        }
-      })
+      setSendError(error)
       return
     }
 
-    navigate(`/friends`)
+    navigate(-1)
   };
 
-
   return <Page>
+     <BackendErrorHandler error={sendError} resetError={setSendError}/>
     <List>
       <NewFriend onSend={handleSendFriendRequest}/>
     </List>

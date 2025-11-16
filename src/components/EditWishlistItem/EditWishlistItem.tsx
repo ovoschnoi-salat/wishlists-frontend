@@ -17,7 +17,7 @@ export interface WishlistItemLink {
 
 export interface NewWishlistItemProps {
   wishlist: ServiceWishlistItem;
-  onSave: (wishlistItem: ServiceCreateWishlistItemRequest) => void;
+  onSave: (wishlistItem: ServiceCreateWishlistItemRequest) => Promise<void>;
 }
 
 export const EditWishlistItem: FC<NewWishlistItemProps> = ({wishlist, onSave}) => {
@@ -71,14 +71,14 @@ export const EditWishlistItem: FC<NewWishlistItemProps> = ({wishlist, onSave}) =
 
   const isFormValid = () => {
     return (
-      title.trim() && links.some((link) => link.title.trim() || link.url.trim())
+      title.trim().length > 0 && links.some((link) => link.url.trim())
     );
   };
 
-  const handleSubmit = () => {
-    if (links.length || title.trim()) {
+  const handleSubmit = async () => {
+    if (isFormValid()) {
       setIsSaving(true);
-      onSave({
+      await onSave({
         title: title,
         description: description,
         price: price,
@@ -183,7 +183,7 @@ export const EditWishlistItem: FC<NewWishlistItemProps> = ({wishlist, onSave}) =
           size="m"
           stretched
           onClick={handleSubmit}
-          disabled={!isFormValid || isSaving}
+          disabled={!isFormValid() || isSaving}
           loading={isSaving}
           before={<Icon28Plus/>}
         >

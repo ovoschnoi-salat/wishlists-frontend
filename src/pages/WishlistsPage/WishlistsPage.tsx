@@ -15,9 +15,10 @@ import {ServiceWishlist} from "@/backend-client";
 import {BackendErrorHandler} from "@/components/BackendErrorHandler/BackendErrorHandler.tsx";
 
 export const WishlistsPage: FC = () => {
+  const navigate = useNavigate()
+
   const {wishlists, isLoading, error, resetError} = loadWishlists();
 
-  const navigate = useNavigate()
   const handleNewWishlistPress = async () => {
     navigate(`/wishlists/new`)
   };

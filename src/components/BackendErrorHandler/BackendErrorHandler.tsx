@@ -12,8 +12,8 @@ export const BackendErrorHandler: FC<BackendErrorHandlerProps> = ({error, resetE
       {error &&
        <ErrorSnackbar
         title={"Backend error"}
-        description={"Subcode: " + error.subcode + " uuid: " + error.request_uuid}
-        copyMsg={"Subcode: " + error.subcode + " uuid: " + error.request_uuid}
+        description={"subcode: " + error.subcode + " uuid: " + error.request_uuid}
+        copyMsg={"subcode: " + error.subcode + " uuid: " + error.request_uuid}
         onClose={
           () => {
             console.log(error)

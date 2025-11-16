@@ -10,6 +10,7 @@ import {
 import {BackendErrorHandler} from "@/components/BackendErrorHandler/BackendErrorHandler.tsx";
 
 export const NewWishlistItemPage: FC = () => {
+  const navigate = useNavigate()
   const [createWishlistItemError, setCreateWishlistItemError] = useState<SubcodeErrorsResponse | undefined>()
 
   const {wishlistId} = useParams<{ wishlistId: string }>();
@@ -23,8 +24,6 @@ export const NewWishlistItemPage: FC = () => {
   if (isNaN(wishlistIdNumber)) {
     return <div>Invalid wishlist ID</div>;
   }
-
-  const navigate = useNavigate()
 
   const handleSaveNewWishlistItem = async (item: ServiceCreateWishlistItemRequest) => {
     item.wishlist_id = wishlistIdNumber
@@ -44,15 +43,16 @@ export const NewWishlistItemPage: FC = () => {
     <BackendErrorHandler error={createWishlistItemError} resetError={setCreateWishlistItemError}/>
     <List>
       <EditWishlistItem
-        onSave={handleSaveNewWishlistItem} wishlist={{
-        description: "",
-        id: undefined,
-        links: [],
-        price: "",
-        reservable: true,
-        title: "",
-        wishlist_id: undefined
-      }}/>
+        onSave={handleSaveNewWishlistItem}
+        wishlist={{
+          description: "",
+          id: undefined,
+          links: [],
+          price: "",
+          reservable: true,
+          title: "",
+          wishlist_id: undefined
+        }}/>
     </List>
   </Page>
 };

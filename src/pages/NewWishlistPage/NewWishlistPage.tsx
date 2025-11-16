@@ -9,11 +9,10 @@ import {EditWishlist} from "@/components/EditWishlist/EditWishlist.tsx";
 import {BackendErrorHandler} from "@/components/BackendErrorHandler/BackendErrorHandler.tsx";
 
 export const NewWishlistPage: FC = () => {
+  const navigate = useNavigate()
   const [createWishlistError, setCreateWishlistError] = useState<SubcodeErrorsResponse | undefined>()
 
-  const {friends, isLoading} = loadFriends();
-
-  const navigate = useNavigate()
+  const {friends, isLoading, error, resetError} = loadFriends();
 
   const handleSaveNewWishlist = async (newWishlist: ServiceCreateWishlistRequest) => {
     const {data, error} = await postApiUserWishlist({body: newWishlist});
@@ -23,11 +22,11 @@ export const NewWishlistPage: FC = () => {
       return
     }
 
-    navigate(`/wishlist/${data!.id!}/items`, {state: data})
+    navigate(`/wishlist/${data!.id!}/items`, {replace: true, state: data})
   };
 
-
   return <Page pageTitle={"New wishlist"}>
+    <BackendErrorHandler error={error} resetError={resetError}/>
     <BackendErrorHandler error={createWishlistError} resetError={setCreateWishlistError}/>
     <List>
       <EditWishlist

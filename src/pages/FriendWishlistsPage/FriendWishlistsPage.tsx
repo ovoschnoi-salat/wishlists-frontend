@@ -8,10 +8,12 @@ import {Page} from "@/components/Page.tsx";
 import {useNavigate, useParams} from "react-router";
 import {loadFriendWishlists} from "@/hooks/loadFriendWishlists.ts";
 import {ServiceWishlist} from "@/backend-client";
-// import {ErrorSnackbarProps} from "@/components/ErrorSnackbar/ErrorSnackbar.tsx";
+import {BackendErrorHandler} from "@/components/BackendErrorHandler/BackendErrorHandler.tsx";
 
 export const FriendWishlistsPage: FC = () => {
-  // const [errorSnackbarProps, setErrorSnackbarProps] = useState<ErrorSnackbarProps | undefined>(undefined)
+  const navigate = useNavigate()
+
+  // TODO load state
 
   const {friendId} = useParams<{ friendId: string }>();
 
@@ -21,14 +23,14 @@ export const FriendWishlistsPage: FC = () => {
 
   const friendIdNumber = parseInt(friendId, 10);
 
-  const {wishlists, isLoading} = loadFriendWishlists(friendIdNumber);
+  const {wishlists, isLoading, error, resetError} = loadFriendWishlists(friendIdNumber);
 
-  const navigate = useNavigate()
   const handleWishlistPress = (wishlist: ServiceWishlist) => {
-    navigate(`/friend/${friendId}/wishlist/${wishlist.id}/items`, {state: wishlist});
+    navigate(`../wishlist/${wishlist.id}/items`, {state: wishlist, relative: "path"});
   };
 
   return <Page>
+    <BackendErrorHandler error={error} resetError={resetError}/>
     <List>
       <Section header={"Friend wishlists"}>
         <Wishlists wishlists={wishlists} isLoading={isLoading} onWishlistClick={handleWishlistPress}/>
