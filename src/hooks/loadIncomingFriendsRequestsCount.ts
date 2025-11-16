@@ -1,31 +1,28 @@
 import { useState, useEffect } from 'react';
 import {
-  getApiUserFriendsRequestsIncomingCount
+  getApiUserFriendsRequestsIncomingCount, SubcodeErrorsResponse
 } from '@/backend-client';
+import {loadResult} from "@/hooks/loaderProps.ts";
 
-export interface LoadIncomingFriendsRequestsCountResult {
-  requestsCount: number ;
-  isLoading: boolean;
-}
 
-export const loadIncomingFriendsRequestsCount = (): LoadIncomingFriendsRequestsCountResult => {
-  const [requestsCount, setRequestsCount] = useState<number>(0);
+export const loadIncomingFriendsRequestsCount = (): loadResult & {requestsCount: number} => {
+  const [data, setData] = useState<number>(0);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<SubcodeErrorsResponse | undefined>();
 
   const fetch = async () => {
     try {
       setIsLoading(true);
 
-      const { data, error: apiError } = await getApiUserFriendsRequestsIncomingCount({});
+      const { data, error } = await getApiUserFriendsRequestsIncomingCount({});
 
-      if (apiError) {
-        setRequestsCount(0)
+      setError(error);
+      if (error) {
+        setData(0);
         return
       }
 
-      setRequestsCount(data?.count || 0);
-    } catch (err) {
-      throw err;
+      setData(data!.count!);
     } finally {
       setIsLoading(false);
     }
@@ -36,7 +33,10 @@ export const loadIncomingFriendsRequestsCount = (): LoadIncomingFriendsRequestsC
   }, []);
 
   return {
-    requestsCount: requestsCount,
-    isLoading,
+    requestsCount: data,
+    isLoading: isLoading,
+    error: error,
+    resetError: setError,
+    refetch: fetch,
   };
 };

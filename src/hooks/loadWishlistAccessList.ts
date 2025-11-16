@@ -1,32 +1,29 @@
-import { useState, useEffect } from 'react';
-import { getApiUserWishlistAccess } from '@/backend-client';
+import {useState, useEffect} from 'react';
+import {getApiUserWishlistAccess, SubcodeErrorsResponse} from '@/backend-client';
+import {loadResult} from "@/hooks/loaderProps.ts";
 
-interface LoadWishlistAccessListResult {
-  accessList: number[];
-  isLoading: boolean;
-  refetch: () => Promise<void>;
-}
-
-export const loadWishlistAccessList = (wishlistId: number): LoadWishlistAccessListResult => {
-  const [accessList, setAccessList] = useState<number[]>([]);
+export const loadWishlistAccessList = (wishlistId: number): loadResult & { accessList: number[] } => {
+  const [data, setData] = useState<number[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<SubcodeErrorsResponse | undefined>();
 
   const fetch = async () => {
     try {
       setIsLoading(true);
 
-      const { data, error: apiError } = await getApiUserWishlistAccess({query: {
-        wishlist_id: wishlistId!
-        }});
+      const {data, error} = await getApiUserWishlistAccess({
+        query: {
+          wishlist_id: wishlistId!
+        }
+      });
 
-      if (apiError) {
-        setAccessList([])
+      setError(error);
+      if (error) {
+        setData([]);
         return
       }
 
-      setAccessList(data || []);
-    } catch (err) {
-      throw err;
+      setData(data);
     } finally {
       setIsLoading(false);
     }
@@ -34,11 +31,13 @@ export const loadWishlistAccessList = (wishlistId: number): LoadWishlistAccessLi
 
   useEffect(() => {
     fetch();
-  }, []);
+  }, [wishlistId]);
 
   return {
-    accessList: accessList,
-    isLoading,
+    accessList: data,
+    isLoading: isLoading,
+    error: error,
+    resetError: setError,
     refetch: fetch,
   };
 };

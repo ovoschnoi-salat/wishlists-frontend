@@ -2,20 +2,20 @@ import {
   ButtonCell,
   List, Section,
 } from '@telegram-apps/telegram-ui';
-import type {FC} from 'react';
+import {FC, useState} from 'react';
 
 import {
   deleteApiUserWishlist,
   patchApiUserWishlist,
   ServiceCreateWishlistRequest,
-  ServiceWishlist
+  ServiceWishlist, SubcodeErrorsResponse
 } from '@/backend-client';
 import {Page} from "@/components/Page.tsx";
 import {useLocation, useNavigate} from "react-router";
 import {loadFriends} from "@/hooks/loadFriends.ts";
 import {loadWishlistAccessList} from "@/hooks/loadWishlistAccessList.ts";
 import {EditWishlist} from "@/components/EditWishlist/EditWishlist.tsx";
-import {Loading} from "@/components/Loading.tsx";
+import {BackendErrorHandler} from "@/components/BackendErrorHandler/BackendErrorHandler.tsx";
 
 const loadState = () => {
   let {state} = useLocation()
@@ -23,6 +23,10 @@ const loadState = () => {
 }
 
 export const EditWishlistPage: FC = () => {
+  const [isDeleting, setIsDeleting] = useState(false)
+  const [deleteError, setDeleteError] = useState<SubcodeErrorsResponse | undefined>(undefined)
+  const [saveError, setSaveError] = useState<SubcodeErrorsResponse | undefined>(undefined)
+
   const wishlist = loadState()
 
   const {friends, isLoading} = loadFriends();
@@ -32,12 +36,15 @@ export const EditWishlistPage: FC = () => {
   const navigate = useNavigate()
 
   const handleDeleteWishlist = async () => {
+    setIsDeleting(true)
     const {error} = await deleteApiUserWishlist({
       query: {wishlist_id: wishlist.id!}
     });
 
+    setIsDeleting(false)
     if (error) {
-      throw error
+      setDeleteError(error)
+      return
     }
 
     navigate(`/`)
@@ -50,23 +57,31 @@ export const EditWishlistPage: FC = () => {
     });
 
     if (error) {
-      throw error
+      setSaveError(error)
+      return
     }
 
-    navigate(`/wishlist/${wishlist.id!}/items`, {state: data})
+    navigate(`/wishlist/${wishlist.id!}/items`, {replace: true, state: data})
   };
 
-
-  if (isLoading || WishlistAccessList.isLoading) {
-    return <Loading/>;
-  }
-
-  return <Page>
+  return <Page
+    pageTitle={"Wishlist edit"}
+    backNavFn={() => {
+    navigate(`/wishlist/${wishlist.id!}/items`, {replace: true, state: wishlist})
+  }}>
+    <BackendErrorHandler error={deleteError} resetError={setDeleteError}/>
+    <BackendErrorHandler error={saveError} resetError={setSaveError}/>
     <List>
-      <EditWishlist wishlist={wishlist} friendsWithAccess={WishlistAccessList.accessList} onSave={handleSaveWishlist} friends={friends}
-                    isLoadingFriends={isLoading}/>
+      <EditWishlist
+        wishlist={wishlist}
+        friendsWithAccess={WishlistAccessList.accessList}
+        onSave={handleSaveWishlist}
+        friends={friends}
+        isLoadingFriends={isLoading || WishlistAccessList.isLoading}
+      />
       <Section>
         <ButtonCell
+          disabled={isDeleting}
           mode={"destructive"}
           onClick={handleDeleteWishlist}
         >

@@ -1,22 +1,13 @@
 import { useState, useEffect } from 'react';
-import {getApiUserFriendWishlists, ServiceWishlist} from '@/backend-client';
+import {getApiUserFriendWishlists, ServiceWishlist, SubcodeErrorsResponse} from '@/backend-client';
+import {loadResult} from "@/hooks/loaderProps.ts";
 
-interface LoadFriendWishlistsResult {
-  wishlists: ServiceWishlist[];
-  isLoading: boolean;
-  refetch: () => Promise<void>;
-}
-
-export const loadFriendWishlists = (friendId: number | null): LoadFriendWishlistsResult => {
-  const [wishlists, setFriendWishlists] = useState<ServiceWishlist[]>([]);
+export const loadFriendWishlists = (friendId: number): loadResult & {wishlists: ServiceWishlist[]} => {
+  const [data, setData] = useState<ServiceWishlist[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<SubcodeErrorsResponse | undefined>();
 
   const fetch = async () => {
-    if (!friendId) {
-      setFriendWishlists([]);
-      return;
-    }
-
     try {
       setIsLoading(true);
 
@@ -26,14 +17,13 @@ export const loadFriendWishlists = (friendId: number | null): LoadFriendWishlist
         }
       });
 
+      setError(error);
       if (error) {
-        setFriendWishlists([])
+        setData([]);
         return
       }
 
-      setFriendWishlists(data || []);
-    } catch (err) {
-      throw err;
+      setData(data);
     } finally {
       setIsLoading(false);
     }
@@ -44,8 +34,10 @@ export const loadFriendWishlists = (friendId: number | null): LoadFriendWishlist
   }, [friendId]);
 
   return {
-    wishlists: wishlists,
+    wishlists: data,
     isLoading: isLoading,
+    error: error,
+    resetError: setError,
     refetch: fetch,
   };
 };

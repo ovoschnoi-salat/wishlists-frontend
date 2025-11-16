@@ -6,7 +6,6 @@ import { DisplayData } from '@/components/DisplayData/DisplayData.tsx';
 import { Page } from '@/components/Page.tsx';
 
 export const ThemeParamsPage: FC = () => {
-  themeParams.mount.ifAvailable()
   const tp = useSignal(themeParams.state);
 
   return (

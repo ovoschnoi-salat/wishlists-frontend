@@ -8,7 +8,7 @@ import {
   retrieveLaunchParams,
   ThemeParams,
   mockTelegramEnv,
-  themeParams
+  themeParams, viewport
 } from '@tma.js/sdk-react';
 
 /**
@@ -58,27 +58,20 @@ export async function init(options: {
     });
   }
 
+
   // Mount all components used in the project.
   backButton.mount.ifAvailable();
   initData.restore();
-  
-  if (miniApp.mount.ifAvailable().ok) {
-    console.log("miniApp mounted")
+
+  if (miniApp.mount.isAvailable()) {
+    miniApp.mount();
+    themeParams.mount();
+    themeParams.bindCssVars();
   }
 
-  // if (miniApp.bindCssVars.ifAvailable().ok) {
-  //   console.log("miniApp Css Vars bind")
-  // }
-
-  if (themeParams.mount.ifAvailable().ok) {
-    console.log("themeParams mounted")
+  if (viewport.mount.isAvailable()) {
+    viewport.mount().then(() => {
+      viewport.bindCssVars();
+    });
   }
-
-  if (themeParams.bindCssVars.ifAvailable().ok) {
-    console.log("themeParams Css Vars bind")
-  }
-
-  // mountViewport.isAvailable() && mountViewport().then(() => {
-  //   bindViewportCssVars();
-  // });
 }

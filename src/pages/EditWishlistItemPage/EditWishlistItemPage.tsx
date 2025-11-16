@@ -1,12 +1,13 @@
 import {useLocation, useNavigate} from 'react-router';
-import {FC} from 'react';
+import {FC, useState} from 'react';
 import {List} from "@telegram-apps/telegram-ui";
 import {Page} from "@/components/Page.tsx";
 import {EditWishlistItem} from "@/components/EditWishlistItem/EditWishlistItem.tsx";
 import {
   patchApiUserWishlistItem,
-  ServiceCreateWishlistItemRequest, ServiceWishlistItem
+  ServiceCreateWishlistItemRequest, ServiceWishlistItem, SubcodeErrorsResponse
 } from "@/backend-client";
+import {BackendErrorHandler} from "@/components/BackendErrorHandler/BackendErrorHandler.tsx";
 
 const loadState = () => {
   let {state} = useLocation()
@@ -14,31 +15,39 @@ const loadState = () => {
 }
 
 export const EditWishlistItemPage: FC = () => {
-  const wishlistItem = loadState()
-  console.log(wishlistItem)
+  const [updateWishlistItemError, setUpdateWishlistItemError] = useState<SubcodeErrorsResponse | undefined>()
+
+  const item = loadState()
 
   const navigate = useNavigate()
 
-  const handleSaveWishlistItem = async (item: ServiceCreateWishlistItemRequest) => {
-    item.wishlist_id = wishlistItem.wishlist_id
+  const handleSaveWishlistItem = async (newItem: ServiceCreateWishlistItemRequest) => {
+    newItem.wishlist_id = item.wishlist_id
+
     const {data, error} = await patchApiUserWishlistItem({
-      body: item,
+      body: newItem,
       query: {
-        item_id: wishlistItem.id!,
+        item_id: item.id!,
       }
     })
 
-    if (error !== undefined || data === undefined) {
-      throw error
+    if (error) {
+      setUpdateWishlistItemError(error)
+      return
     }
 
-    navigate(`/wishlist/${wishlistItem.wishlist_id}/item/${data.id!}`, {state: data})
+    navigate(`/wishlist/${item.wishlist_id}/item/${item.id!}`, {replace: true, state: data})
   };
 
-  return <Page>
+  return <Page
+    pageTitle={"Wishlist item edit"}
+    backNavFn={() => {
+      navigate(`/wishlist/${item.wishlist_id!}/item/${item.id!}`, {replace: true, state: item})
+    }}>
+    <BackendErrorHandler error={updateWishlistItemError} resetError={setUpdateWishlistItemError}/>
     <List>
       <EditWishlistItem
-        onSave={handleSaveWishlistItem} wishlist={wishlistItem}/>
+        onSave={handleSaveWishlistItem} wishlist={item}/>
     </List>
   </Page>
 };

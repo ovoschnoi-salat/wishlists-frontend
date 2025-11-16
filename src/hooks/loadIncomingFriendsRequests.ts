@@ -1,31 +1,28 @@
-import { useState, useEffect } from 'react';
-import {getApiUserFriendsRequestsIncoming, ServiceFriend} from '@/backend-client';
+import {useState, useEffect} from 'react';
+import {getApiUserFriendsRequestsIncoming, ServiceFriend, SubcodeErrorsResponse} from '@/backend-client';
+import {loadResult} from "@/hooks/loaderProps.ts";
 
-export interface LoadIncomingFriendsRequestsResult {
+export const loadIncomingFriendsRequests = (): loadResult & {
   friends: ServiceFriend[];
   setFriends: (friends: ServiceFriend[]) => void;
-  isLoading: boolean;
-  refetch: () => Promise<void>;
-}
-
-export const loadIncomingFriendsRequests = (): LoadIncomingFriendsRequestsResult => {
-  const [friends, setFriends] = useState<ServiceFriend[]>([]);
+} => {
+  const [data, setData] = useState<ServiceFriend[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<SubcodeErrorsResponse | undefined>();
 
   const fetch = async () => {
     try {
       setIsLoading(true);
 
-      const { data, error: apiError } = await getApiUserFriendsRequestsIncoming({});
+      const {data, error} = await getApiUserFriendsRequestsIncoming({});
 
-      if (apiError) {
-        setFriends([])
+      setError(error);
+      if (error) {
+        setData([]);
         return
       }
 
-      setFriends(data || []);
-    } catch (err) {
-      throw err;
+      setData(data);
     } finally {
       setIsLoading(false);
     }
@@ -36,9 +33,11 @@ export const loadIncomingFriendsRequests = (): LoadIncomingFriendsRequestsResult
   }, []);
 
   return {
-    friends: friends,
-    setFriends: setFriends,
-    isLoading,
+    friends: data,
+    setFriends: setData,
+    isLoading: isLoading,
+    error: error,
+    resetError: setError,
     refetch: fetch,
   };
 };

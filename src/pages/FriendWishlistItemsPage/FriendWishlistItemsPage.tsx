@@ -5,9 +5,11 @@ import {Page} from "@/components/Page.tsx";
 import {FriendWishlistItems} from "@/components/FriendWishlistItems";
 import {ServiceWishlistItem} from "@/backend-client";
 import {loadFriendWishlistItems} from "@/hooks/loadFriendWishlistItems.ts";
+// import {ErrorSnackbarProps} from "@/components/ErrorSnackbar/ErrorSnackbar.tsx";
 
 export const FriendWishlistItemsPage: FC = () => {
-  // const navigate = useNavigate();
+  // const [errorSnackbarProps, setErrorSnackbarProps] = useState<ErrorSnackbarProps | undefined>(undefined)
+
   const {friendId, wishlistId} = useParams<{ friendId: string, wishlistId: string }>();
 
   if (!friendId) {

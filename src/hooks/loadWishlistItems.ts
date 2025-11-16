@@ -1,46 +1,27 @@
-import { useState, useEffect } from 'react';
-import { getApiUserWishlistItems, ServiceWishlistItem } from '@/backend-client';
+import {useState, useEffect} from 'react';
+import {getApiUserWishlistItems, ServiceWishlistItem, SubcodeErrorsResponse} from '@/backend-client';
+import {loadResult} from "@/hooks/loaderProps.ts";
 
-interface LoadWishlistItemsResult {
-  items: ServiceWishlistItem[];
-  isLoading: boolean;
-  error: string | null;
-  refetch: () => Promise<void>;
-}
-
-export const loadWishlistItems = (wishlistId: number | null): LoadWishlistItemsResult => {
-  const [items, setItems] = useState<ServiceWishlistItem[]>([]);
+export const loadWishlistItems = (wishlistId: number): loadResult & { items: ServiceWishlistItem[] } => {
+  const [data, setData] = useState<ServiceWishlistItem[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<SubcodeErrorsResponse | undefined>();
 
   const fetch = async () => {
-    if (!wishlistId) {
-      setItems([]);
-      return;
-    }
-
     try {
       setIsLoading(true);
-      setError(null);
-      
-      const { data, error: apiError } = await getApiUserWishlistItems({
-        query: { wishlist_id: wishlistId }
+
+      const {data, error} = await getApiUserWishlistItems({
+        query: {wishlist_id: wishlistId}
       });
 
-      if (apiError) {
-        console.error('Failed to load wishlist items', apiError);
-        setError(
-          typeof apiError === 'string'
-            ? apiError
-            : (apiError as any)?.message ?? 'Failed to load items'
-        );
-        return;
+      setError(error);
+      if (error) {
+        setData([]);
+        return
       }
 
-      setItems(data || []);
-    } catch (err) {
-      console.error('Failed to load wishlist items', err);
-      setError((err as Error)?.message ?? 'Failed to load items');
+      setData(data);
     } finally {
       setIsLoading(false);
     }
@@ -51,9 +32,10 @@ export const loadWishlistItems = (wishlistId: number | null): LoadWishlistItemsR
   }, [wishlistId]);
 
   return {
-    items,
-    isLoading,
-    error,
+    items: data,
+    isLoading: isLoading,
+    error: error,
+    resetError: setError,
     refetch: fetch,
   };
 };

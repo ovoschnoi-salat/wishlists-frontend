@@ -4,10 +4,7 @@ import {useLocation, useNavigate} from "react-router";
 
 import {Tabbar} from '@telegram-apps/telegram-ui';
 
-import {Page} from '@/components/Page.tsx';
-import {Icon28Actions} from "@/icons/28/Actions.tsx";
-import {Icon28Group} from "@/icons/28/Group.tsx";
-import {Icon28Person} from "@/icons/28/Person.tsx";
+import {Icon28Actions,Icon28Group, Icon28Person, Icon28Settings} from "@/icons/28";
 
 import "./PageWithTabbar.css";
 
@@ -62,7 +59,7 @@ export const PageWithTabbar: FC = () => {
     {
       tabEnum: Tab.Settings,
       title: "Settings",
-      icon: <Icon28Person/>,
+      icon: <Icon28Settings/>,
       navLink: "/settings",
     },
     {
@@ -92,7 +89,7 @@ export const PageWithTabbar: FC = () => {
     navigate(link)
   }
 
-  return <Page back={false}>
+  return <>
     <div style={{paddingBottom: "100px"}}>
       <Outlet/>
     </div>
@@ -109,5 +106,5 @@ export const PageWithTabbar: FC = () => {
         </Tabbar.Item>
       )}
     </Tabbar>
-  </Page>
+  </>
 };

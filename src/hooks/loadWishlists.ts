@@ -1,42 +1,40 @@
-import { useState, useEffect } from 'react';
-import { getApiUserWishlists, ServiceWishlist } from '@/backend-client';
+import {useState, useEffect} from 'react';
+import {getApiUserWishlists, ServiceWishlist, SubcodeErrorsResponse} from '@/backend-client';
+import {loadResult} from "@/hooks/loaderProps.ts";
 
-interface LoadWishlistsResult {
-  wishlists: ServiceWishlist[];
-  isLoading: boolean;
-  refetch: () => Promise<void>;
-}
-
-export const loadWishlists = (): LoadWishlistsResult => {
-  const [wishlists, setWishlists] = useState<ServiceWishlist[]>([]);
+export const loadWishlists = (): loadResult & { wishlists: ServiceWishlist[] } => {
+  const [data, setData] = useState<ServiceWishlist[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<SubcodeErrorsResponse | undefined>();
 
   const fetch = async () => {
     try {
       setIsLoading(true);
 
-      const { data, error: apiError } = await getApiUserWishlists({});
+      const {data, error} = await getApiUserWishlists({});
 
-      if (apiError) {
-        setWishlists([])
+      setError(error);
+      if (error) {
+        setData([]);
         return
       }
 
-      setWishlists(data || []);
-    } catch (err) {
-      throw err;
+      setData(data);
     } finally {
       setIsLoading(false);
     }
   };
+
 
   useEffect(() => {
     fetch();
   }, []);
 
   return {
-    wishlists: wishlists,
-    isLoading,
+    wishlists: data,
+    isLoading: isLoading,
+    error: error,
+    resetError: setError,
     refetch: fetch,
   };
 };

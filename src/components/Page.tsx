@@ -1,23 +1,35 @@
-import { useNavigate } from 'react-router';
-import { backButton } from '@tma.js/sdk-react';
-import { type PropsWithChildren, useEffect } from 'react';
+import {useNavigate} from 'react-router';
+import {backButton} from '@tma.js/sdk-react';
+import {type PropsWithChildren, useEffect} from 'react';
 
-export function Page({ children, back = true }: PropsWithChildren<{
-  /**
-   * True if it is allowed to go back from this page.
-   */
-  back?: boolean
+export function Page({children, pageTitle, back = true, backNavFn}: PropsWithChildren<{
+  pageTitle?: string,
+  back?: boolean,
+  backNavFn?: () => void
 }>) {
   const navigate = useNavigate();
 
+  if (pageTitle) {
+    useEffect(() => {
+      document.title = pageTitle;
+    }, [pageTitle]); // Re-run effect when pageTitle changes
+  }
+
   useEffect(() => {
     if (back && backButton.show.ifAvailable().ok) {
-      return backButton.onClick(() => {
-        navigate(-1);
+      backButton.onClick(() => {
+        if (backNavFn) {
+          backNavFn();
+        } else {
+          navigate(-1);
+        }
       });
+    } else {
+      backButton.hide();
     }
-    backButton.hide();
   }, [back]);
 
-  return <>{children}</>;
+  return <>
+    {children}
+  </>;
 }

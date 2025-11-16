@@ -1,14 +1,17 @@
 import {useNavigate, useParams} from 'react-router';
-import {FC} from 'react';
+import {FC, useState} from 'react';
 import {List} from "@telegram-apps/telegram-ui";
 import {Page} from "@/components/Page.tsx";
 import {EditWishlistItem} from "@/components/EditWishlistItem/EditWishlistItem.tsx";
 import {
   postApiUserWishlistItem,
-  ServiceCreateWishlistItemRequest
+  ServiceCreateWishlistItemRequest, SubcodeErrorsResponse
 } from "@/backend-client";
+import {BackendErrorHandler} from "@/components/BackendErrorHandler/BackendErrorHandler.tsx";
 
 export const NewWishlistItemPage: FC = () => {
+  const [createWishlistItemError, setCreateWishlistItemError] = useState<SubcodeErrorsResponse | undefined>()
+
   const {wishlistId} = useParams<{ wishlistId: string }>();
 
   if (!wishlistId) {
@@ -29,14 +32,16 @@ export const NewWishlistItemPage: FC = () => {
       body: item,
     })
 
-    if (error !== undefined || data === undefined) {
-      throw error
+    if (error) {
+      setCreateWishlistItemError(error)
+      return
     }
 
-    navigate(`/wishlist/${wishlistId}/item/${data.id!}`, {state: data})
+    navigate(`/wishlist/${wishlistId}/item/${data!.id!}`, {replace: true, state: data})
   };
 
-  return <Page>
+  return <Page pageTitle={"New wishlist item"}>
+    <BackendErrorHandler error={createWishlistItemError} resetError={setCreateWishlistItemError}/>
     <List>
       <EditWishlistItem
         onSave={handleSaveNewWishlistItem} wishlist={{

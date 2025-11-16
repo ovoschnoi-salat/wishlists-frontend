@@ -37,14 +37,14 @@ export const WishlistItemsPage: FC = () => {
   const {items, isLoading} = loadWishlistItems(wishlistIdNumber);
 
   const handleEditwWishlistPress = () => {
-    navigate(`/wishlist/${wishlistIdNumber}/edit`, {state: wishlist})
+    navigate(`/wishlist/${wishlistIdNumber}/edit`, {replace: true, state: wishlist})
   };
 
   const handleNewWishlistPress = () => {
     navigate(`/wishlist/${wishlistIdNumber}/items/new`)
   };
 
-  return <Page>
+  return <Page pageTitle={wishlist.title}>
     <List>
       <Section>
         <Cell subhead="Title" subtitle={wishlist.is_private ? "private" : undefined}>

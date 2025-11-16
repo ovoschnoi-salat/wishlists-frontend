@@ -20,28 +20,39 @@ interface editWishlistProps {
   friendsWithAccess: number[];
   friends: Friend[];
   isLoadingFriends: boolean;
-  onSave?: (wishlist: ServiceCreateWishlistRequest) => void;
+  onSave: (wishlist: ServiceCreateWishlistRequest) => Promise<void>;
 }
 
-export const EditWishlist: FC<editWishlistProps> = ({wishlist, friendsWithAccess, friends, isLoadingFriends, onSave}) => {
+export const EditWishlist: FC<editWishlistProps> = ({
+                                                      wishlist,
+                                                      friendsWithAccess,
+                                                      friends,
+                                                      isLoadingFriends,
+                                                      onSave
+                                                    }) => {
   const [title, setTitle] = useState(wishlist.title!);
   const [description, setDescription] = useState(wishlist.description!);
-  const [isPrivate, setIsPrivate] = useState(wishlist.is_private);
+  const [isPrivate, setIsPrivate] = useState(wishlist.is_private!);
   const [usersWithAccess, setUsersWithAccess] = useState(friendsWithAccess);
   const [isSaving, setIsSaving] = useState(false);
   const [showSelectFriends, setShowSelectFriends] = useState(false);
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (title.trim()) {
       setIsSaving(true)
 
-      onSave?.({
-        title: title.trim(),
-        description: description.trim(),
-        is_private: isPrivate,
-        users_with_access: usersWithAccess,
-      });
-      setIsSaving(false)
+      try {
+        await onSave({
+          title: title.trim(),
+          description: description.trim(),
+          is_private: isPrivate,
+          users_with_access: usersWithAccess,
+        });
+      } catch (e) {
+
+      } finally {
+        setIsSaving(false)
+      }
     }
   };
 
@@ -62,71 +73,74 @@ export const EditWishlist: FC<editWishlistProps> = ({wishlist, friendsWithAccess
   }
 
   return (
-    !showSelectFriends ?
-      <>
-        <Section
-          header="Title"
-        >
-          <Input
-            placeholder="Title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
-        </Section>
-
-        {/* Description Section */}
-        <Section
-          header="Description"
-        >
-          <Textarea
-            placeholder="Description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            rows={3}
-          />
-        </Section>
-
-        {/* Privacy Settings Section */}
-        <Section
-          header="Privacy settings"
-        >
-          {/* Private List Toggle */}
-          <Cell
-            after={
-              <Switch
-                checked={isPrivate}
-                onChange={(event) => handleSetIsPrivate(event.target.checked)}
-              />
-            }
+    <>
+      {!showSelectFriends ?
+        <>
+          <Section
+            header="Title"
           >
-            Private list
-          </Cell>
+            <Input
+              placeholder="Title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
+          </Section>
 
-          {/* Users with Access */}
-          {isPrivate && <Cell
-           after={<Badge type="number">{usersWithAccess.length}</Badge>}
-           onClick={handleUsersWithAccessPress}
+          {/* Description Section */}
+          <Section
+            header="Description"
           >
-            Users with access
-          </Cell>}
-        </Section>
+            <Textarea
+              placeholder="Description"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              rows={3}
+            />
+          </Section>
 
-        {/* Create List Button */}
-        <Section>
-          <Button
-            mode="filled"
-            size="m"
-            stretched
-            onClick={handleSave}
-            disabled={!title.trim() || isSaving}
-            loading={isSaving}
-            before={<Icon28Plus/>}
+          {/* Privacy Settings Section */}
+          <Section
+            header="Privacy settings"
           >
-            Save wishlist
-          </Button>
-        </Section>
-      </> :
-      <SelectFriends friends={friends} selectedFriendsIds={usersWithAccess} isLoading={isLoadingFriends} saveFriendsList={handleSaveUsersWithAccess}/>
+            {/* Private List Toggle */}
+            <Cell
+              after={
+                <Switch
+                  checked={isPrivate}
+                  onChange={(event) => handleSetIsPrivate(event.target.checked)}
+                />
+              }
+            >
+              Private list
+            </Cell>
 
+            {/* Users with Access */}
+            {isPrivate && <Cell
+             after={<Badge type="number">{usersWithAccess.length}</Badge>}
+             onClick={handleUsersWithAccessPress}
+            >
+              Users with access
+            </Cell>}
+          </Section>
+
+          {/* Create List Button */}
+          <Section>
+            <Button
+              mode="filled"
+              size="m"
+              stretched
+              onClick={handleSave}
+              disabled={!title.trim() || isSaving}
+              loading={isSaving}
+              before={<Icon28Plus/>}
+            >
+              Save wishlist
+            </Button>
+          </Section>
+        </> :
+        <SelectFriends friends={friends} selectedFriendsIds={usersWithAccess} isLoading={isLoadingFriends}
+                       saveFriendsList={handleSaveUsersWithAccess}/>
+      }
+    </>
   );
 };

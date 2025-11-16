@@ -1,8 +1,9 @@
-import {WishlistItem} from '@/components/WishlistItem';
 import {useNavigate, useParams} from 'react-router';
-import type {FC} from 'react';
-import {loadWishlistItem} from "@/hooks/loadWishlistItem.ts";
+import {FC} from 'react';
 import {List} from "@telegram-apps/telegram-ui";
+import {loadWishlistItem} from "@/hooks/loadWishlistItem.ts";
+import {Page} from "@/components/Page.tsx";
+import {WishlistItem} from '@/components/WishlistItem';
 
 
 export const WishlistItemPage: FC = () => {
@@ -23,10 +24,12 @@ export const WishlistItemPage: FC = () => {
   const navigate = useNavigate()
 
   const handleEdit = () => {
-    navigate(`/wishlist/${item.wishlist_id!}/item/${item.id!}/edit`, {state: item})
+    navigate(`/wishlist/${item.wishlist_id!}/item/${item.id!}/edit`, {replace: true, state: item})
   }
 
-  return <List>
-    <WishlistItem item={item} isLoading={isLoading} onPressEdit={handleEdit}/>
-  </List>
+  return <Page>
+    <List>
+      <WishlistItem item={item} isLoading={isLoading} onPressEdit={handleEdit}/>
+    </List>
+  </Page>
 };

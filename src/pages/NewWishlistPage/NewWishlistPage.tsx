@@ -1,15 +1,16 @@
-import {
-  List,
-} from '@telegram-apps/telegram-ui';
-import type {FC} from 'react';
-
-import {postApiUserWishlist, ServiceCreateWishlistRequest} from '@/backend-client';
-import {Page} from "@/components/Page.tsx";
+import {List} from '@telegram-apps/telegram-ui';
+import {postApiUserWishlist, ServiceCreateWishlistRequest, SubcodeErrorsResponse} from '@/backend-client';
+import {FC, useState} from 'react';
 import {useNavigate} from "react-router";
+
+import {Page} from "@/components/Page.tsx";
 import {loadFriends} from "@/hooks/loadFriends.ts";
 import {EditWishlist} from "@/components/EditWishlist/EditWishlist.tsx";
+import {BackendErrorHandler} from "@/components/BackendErrorHandler/BackendErrorHandler.tsx";
 
 export const NewWishlistPage: FC = () => {
+  const [createWishlistError, setCreateWishlistError] = useState<SubcodeErrorsResponse | undefined>()
+
   const {friends, isLoading} = loadFriends();
 
   const navigate = useNavigate()
@@ -18,14 +19,16 @@ export const NewWishlistPage: FC = () => {
     const {data, error} = await postApiUserWishlist({body: newWishlist});
 
     if (error) {
-      throw error
+      setCreateWishlistError(error)
+      return
     }
 
-    navigate(`/wishlist/${data?.id!}/items`, {state: data})
+    navigate(`/wishlist/${data!.id!}/items`, {state: data})
   };
 
 
-  return <Page>
+  return <Page pageTitle={"New wishlist"}>
+    <BackendErrorHandler error={createWishlistError} resetError={setCreateWishlistError}/>
     <List>
       <EditWishlist
         onSave={handleSaveNewWishlist}

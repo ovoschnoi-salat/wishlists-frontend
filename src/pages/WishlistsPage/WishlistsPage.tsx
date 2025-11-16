@@ -3,18 +3,19 @@ import {
   Section,
   ButtonCell,
 } from '@telegram-apps/telegram-ui';
-import type {FC} from 'react';
+import {FC} from 'react';
+import {useNavigate} from "react-router";
 
 import {loadWishlists} from "@/hooks/loadWishlists.ts";
 import {Wishlists} from "@/components/Wishlists/Wishlists.tsx";
 import {Page} from "@/components/Page.tsx";
 import {Loading} from "@/components/Loading.tsx";
 import {Icon28Plus} from "@/icons/28/Plus.tsx";
-import {useNavigate} from "react-router";
 import {ServiceWishlist} from "@/backend-client";
+import {BackendErrorHandler} from "@/components/BackendErrorHandler/BackendErrorHandler.tsx";
 
 export const WishlistsPage: FC = () => {
-  const {wishlists, isLoading} = loadWishlists();
+  const {wishlists, isLoading, error, resetError} = loadWishlists();
 
   const navigate = useNavigate()
   const handleNewWishlistPress = async () => {
@@ -28,7 +29,8 @@ export const WishlistsPage: FC = () => {
     return <Loading/>;
   }
 
-  return <Page>
+  return <Page pageTitle={"Your wishlists"}>
+    <BackendErrorHandler error={error} resetError={resetError}/>
     <List>
       <Section header='Wishlists'>
         <Wishlists wishlists={wishlists} isLoading={isLoading} onWishlistClick={handleWishlistPress}/>

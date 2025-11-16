@@ -1,15 +1,18 @@
 import {
   List,
 } from '@telegram-apps/telegram-ui';
-import type {FC} from 'react';
+import {FC, useState} from 'react';
+import {useNavigate} from "react-router";
 
 import {postApiUserFriendRequest} from '@/backend-client';
 import {Page} from "@/components/Page.tsx";
-// import {useNavigate} from "react-router";
 import {NewFriend} from "@/components/NewFriend/NewFriend.tsx";
+import {ErrorSnackbarProps} from "@/components/ErrorSnackbar/ErrorSnackbar.tsx";
 
 export const NewFriendPage: FC = () => {
-  // const navigate = useNavigate()
+  const [errorSnackbarProps, setErrorSnackbarProps] = useState<ErrorSnackbarProps | undefined>(undefined)
+
+  const navigate = useNavigate()
 
   const handleSendFriendRequest = async (username: string) => {
     const {error} = await postApiUserFriendRequest({
@@ -17,11 +20,17 @@ export const NewFriendPage: FC = () => {
     });
 
     if (error) {
-      throw error
+      setErrorSnackbarProps({
+        title: "error sending friends request",
+        error: error,
+        onClose: () => {
+          setErrorSnackbarProps(undefined)
+        }
+      })
+      return
     }
 
-    // TODO
-    // navigate(`/wishlist/${data?.id!}/items`)
+    navigate(`/friends`)
   };
 
 

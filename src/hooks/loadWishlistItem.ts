@@ -1,47 +1,33 @@
 import {useEffect, useState} from 'react';
-import {getApiUserWishlistItem, ServiceWishlistItem} from '@/backend-client';
+import {getApiUserWishlistItem, ServiceWishlistItem, SubcodeErrorsResponse} from '@/backend-client';
 import {useLocation} from "react-router";
+import {loadResult} from "@/hooks/loaderProps.ts";
 
-interface UseWishlistItemsResult {
-  item: ServiceWishlistItem;
-  isLoading: boolean;
-  error: string | null;
-  refetch: () => Promise<void>;
-}
-
-export const loadWishlistItem = (itemId: number): UseWishlistItemsResult => {
+export const loadWishlistItem = (itemId: number): loadResult & {item: ServiceWishlistItem} => {
   const {state} = useLocation()
   const itemFromState = state as ServiceWishlistItem | undefined
 
-  const [item, setItem] = useState<ServiceWishlistItem>(itemFromState ?? {});
+  const [data, setData] = useState<ServiceWishlistItem>(itemFromState ?? {});
   const [shouldBeLoaded, setShouldBeLoaded] = useState(itemFromState === undefined || itemFromState?.id !== itemId);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<SubcodeErrorsResponse | undefined>();
 
   const fetch = async () => {
     setShouldBeLoaded(true);
     try {
       setIsLoading(true);
-      setError(null);
 
-      const {data, error: apiError} = await getApiUserWishlistItem({
+      const {data, error} = await getApiUserWishlistItem({
         query: {item_id: itemId}
       });
 
-      if (apiError) {
-        console.error('Failed to load wishlist items', apiError);
-        setError(
-          typeof apiError === 'string'
-            ? apiError
-            : (apiError as any)?.message ?? 'Failed to load items'
-        );
-        return;
+      setError(error);
+      if (error) {
+        setData({});
+        return
       }
 
-      setItem(data || {});
-    } catch (err) {
-      console.error('Failed to load wishlist items', err);
-      setError((err as Error)?.message ?? 'Failed to load items');
+      setData(data);
     } finally {
       setIsLoading(false);
     }
@@ -54,9 +40,10 @@ export const loadWishlistItem = (itemId: number): UseWishlistItemsResult => {
   }, [itemId]);
 
   return {
-    item,
-    isLoading,
+    item: data,
+    isLoading: isLoading,
     error,
+    resetError: setError,
     refetch: fetch,
   };
 };

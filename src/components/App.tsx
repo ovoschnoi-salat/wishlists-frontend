@@ -1,5 +1,4 @@
-import {useMemo} from 'react';
-import {retrieveLaunchParams, useSignal, miniApp} from '@tma.js/sdk-react';
+import {useSignal, miniApp, useLaunchParams} from '@tma.js/sdk-react';
 import {AppRoot} from '@telegram-apps/telegram-ui';
 
 import {createBrowserRouter} from "react-router";
@@ -24,34 +23,19 @@ import {
   EditWishlistItemPage,
   SettingsPage
 } from "@/pages";
-import {Button, Snackbar, Text} from "@telegram-apps/telegram-ui";
 import {useRouteError} from "react-router";
+import {ErrorSnackbar} from "@/components/ErrorSnackbar/ErrorSnackbar.tsx";
+import {errorToString} from "@/helpers/error.ts";
 
-function ErrorBoundaryError() {
+export function ErrorBoundary() {
   let error = useRouteError();
   return (
-    <Snackbar description={"Unexpected Error"} duration={10_000} onClose={() => {
-    }} after={
-      <Button onClick={() => {
-        const text = error instanceof Error ? `${error.message}\n\n${error.stack ?? ''}`
-          : typeof error === 'string' ? error : JSON.stringify(error);
-        navigator.clipboard?.writeText(text).catch(() => {
-        });
-      }}>
-        Copy
-      </Button>
-    }>
-      <Text>
-        {error instanceof Error ? error.message
-          : typeof error === 'string' ? error : JSON.stringify(error)
-        }
-      </Text>
-    </Snackbar>
+    <ErrorSnackbar title={"Unexpected error"} description={"please copy error and send report"} copyMsg={errorToString(error)} />
   );
 }
 
 export function App() {
-  const lp = useMemo(() => retrieveLaunchParams(), []);
+  const lp = useLaunchParams();
   const isDark = useSignal(miniApp.isDark);
 
   return (
@@ -68,7 +52,7 @@ const router = createBrowserRouter([
   {
     path: '/',
     Component: PageWithTabbar,
-    errorElement: <ErrorBoundaryError/>,
+    errorElement: <ErrorBoundary/>,
     children:
       [
         {path: '/init-data', Component: InitDataPage},

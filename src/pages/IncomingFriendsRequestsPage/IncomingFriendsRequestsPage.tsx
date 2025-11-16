@@ -2,7 +2,7 @@ import {
   List,
   Section,
 } from '@telegram-apps/telegram-ui';
-import {FC} from 'react';
+import {FC, useState} from 'react';
 
 import {Page} from "@/components/Page.tsx";
 import {Loading} from "@/components/Loading.tsx";
@@ -10,25 +10,46 @@ import {IncomingFriendsRequests} from "@/components/IncomingFriendsRequests/Inco
 import {postApiUserFriendRequestAccept, postApiUserFriendRequestDeny, ServiceFriend} from "@/backend-client";
 import {loadIncomingFriendsRequests} from "@/hooks/loadIncomingFriendsRequests.ts";
 import {useNavigate} from "react-router";
+import {ErrorSnackbarProps} from "@/components/ErrorSnackbar/ErrorSnackbar.tsx";
 
 export const IncomingFriendsRequestsPage: FC = () => {
+  const [errorSnackbarProps, setErrorSnackbarProps] = useState<ErrorSnackbarProps | undefined>(undefined)
+
   const navigate = useNavigate()
 
   const {friends, setFriends, isLoading} = loadIncomingFriendsRequests()
 
   const handleAcceptPress = async (friendId: number) => {
     const {error} = await postApiUserFriendRequestAccept({query: {friend_id: friendId}})
+
     if (error) {
-      throw error
+      setErrorSnackbarProps({
+        title: "error deleting wishlist",
+        error: error,
+        onClose: () => {
+          setErrorSnackbarProps(undefined)
+        }
+      })
+      return
     }
+
     await removeRequestFromList(friendId)
   };
 
   const handleDenyPress = async (friendId: number) => {
     const {error} = await postApiUserFriendRequestDeny({query: {friend_id: friendId}})
+
     if (error) {
-      throw error
+      setErrorSnackbarProps({
+        title: "error deleting wishlist",
+        error: error,
+        onClose: () => {
+          setErrorSnackbarProps(undefined)
+        }
+      })
+      return
     }
+
     await removeRequestFromList(friendId)
   };
 

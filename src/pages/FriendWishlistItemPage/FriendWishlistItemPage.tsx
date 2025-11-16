@@ -1,11 +1,14 @@
 import {WishlistItem} from '@/components/WishlistItem';
 import {useParams} from 'react-router';
-import type {FC} from 'react';
+import {FC} from 'react';
 import {loadWishlistItem} from "@/hooks/loadWishlistItem.ts";
 import {Page} from "@/components/Page.tsx";
 import {List} from "@telegram-apps/telegram-ui";
+// import {ErrorSnackbarProps} from "@/components/ErrorSnackbar/ErrorSnackbar.tsx";
 
 export const FriendWishlistItemPage: FC = () => {
+  // const [errorSnackbarProps, setErrorSnackbarProps] = useState<ErrorSnackbarProps | undefined>(undefined)
+
   const {itemId} = useParams<{ itemId: string }>();
 
   if (!itemId) {

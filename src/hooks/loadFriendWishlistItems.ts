@@ -1,44 +1,30 @@
-import { useState, useEffect } from 'react';
+import {useState, useEffect} from 'react';
 import {
   getApiUserFriendWishlistItems,
-  ServiceFriendWishlistItem
+  ServiceFriendWishlistItem, SubcodeErrorsResponse
 } from '@/backend-client';
+import {loadResult} from "@/hooks/loaderProps.ts";
 
-interface LoadWishlistItemsResult {
-  items: ServiceFriendWishlistItem[];
-  isLoading: boolean;
-  error: string | null;
-  refetch: () => Promise<void>;
-}
-
-export const loadFriendWishlistItems = (wishlistId: number): LoadWishlistItemsResult => {
-  const [items, setItems] = useState<ServiceFriendWishlistItem[]>([]);
+export const loadFriendWishlistItems = (wishlistId: number): loadResult & { items: ServiceFriendWishlistItem[] } => {
+  const [data, setData] = useState<ServiceFriendWishlistItem[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<SubcodeErrorsResponse | undefined>();
 
   const fetch = async () => {
     try {
       setIsLoading(true);
-      setError(null);
-      
-      const { data, error: apiError } = await getApiUserFriendWishlistItems({
-        query: { wishlist_id: wishlistId }
+
+      const {data, error} = await getApiUserFriendWishlistItems({
+        query: {wishlist_id: wishlistId}
       });
 
-      if (apiError) {
-        console.error('Failed to load wishlist items', apiError);
-        setError(
-          typeof apiError === 'string'
-            ? apiError
-            : (apiError as any)?.message ?? 'Failed to load items'
-        );
+      setError(error);
+      if (error) {
+        setData([]);
         return;
       }
 
-      setItems(data || []);
-    } catch (err) {
-      console.error('Failed to load wishlist items', err);
-      setError((err as Error)?.message ?? 'Failed to load items');
+      setData(data);
     } finally {
       setIsLoading(false);
     }
@@ -49,9 +35,10 @@ export const loadFriendWishlistItems = (wishlistId: number): LoadWishlistItemsRe
   }, [wishlistId]);
 
   return {
-    items,
-    isLoading,
-    error,
+    items: data,
+    isLoading: isLoading,
+    error: error,
+    resetError: setError,
     refetch: fetch,
   };
 };
