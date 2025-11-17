@@ -1,15 +1,5 @@
 # Wishlists Telegram Mini App
 
-This app demonstrates how developers can implement an
-application on the Telegram Mini Apps platform using the following technologies
-and libraries:
-
-- [React](https://react.dev/)
-- [TypeScript](https://www.typescriptlang.org/)
-- [@telegram-apps SDK](https://docs.telegram-mini-apps.com/packages/telegram-apps-sdk/2-x)
-- [Telegram UI](https://github.com/Telegram-Mini-Apps/TelegramUI)
-- [Vite](https://vitejs.dev/)
-
 ## Install Dependencies
 
 You can install project
