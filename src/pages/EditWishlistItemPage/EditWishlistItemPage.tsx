@@ -10,7 +10,7 @@ import {
 import {BackendErrorHandler} from "@/components/BackendErrorHandler/BackendErrorHandler.tsx";
 
 const loadState = () => {
-  let {state} = useLocation()
+  const {state} = useLocation()
   return state as ServiceWishlistItem
 }
 

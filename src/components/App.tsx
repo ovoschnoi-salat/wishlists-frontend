@@ -28,7 +28,7 @@ import {ErrorSnackbar} from "@/components/ErrorSnackbar/ErrorSnackbar.tsx";
 import {errorToString} from "@/helpers/error.ts";
 
 export function ErrorBoundary() {
-  let error = useRouteError();
+  const error = useRouteError();
   return (
     <ErrorSnackbar title={"Unexpected error"} description={"please copy error and send report"} copyMsg={errorToString(error)} />
   );

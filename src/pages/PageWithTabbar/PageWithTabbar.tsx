@@ -46,7 +46,7 @@ export const PageWithTabbar: FC = () => {
   interface tab {
     tabEnum: Tab,
     title: string,
-    icon: any,
+    icon: JSX.Element,
     navLink: string,
   }
 

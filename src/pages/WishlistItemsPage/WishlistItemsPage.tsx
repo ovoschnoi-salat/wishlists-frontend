@@ -10,14 +10,14 @@ import {Icon24Edit} from "@/icons/24";
 import {BackendErrorHandler} from "@/components/BackendErrorHandler/BackendErrorHandler.tsx";
 
 const loadState = () => {
-  let {state} = useLocation()
+  const {state} = useLocation()
   return (state as ServiceWishlist)
 }
 
 export const WishlistItemsPage: FC = () => {
   const navigate = useNavigate();
 
-  let wishlist = loadState()
+  const wishlist = loadState()
 
   const {wishlistId} = useParams<{ wishlistId: string }>();
 
