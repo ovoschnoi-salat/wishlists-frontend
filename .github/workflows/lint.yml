@@ -10,14 +10,8 @@ jobs:
   eslint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-      - run: npm ci # or yarn install
-      - uses: sibiraj-s/action-eslint@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }} # optional
-          eslint-args: '--ignore-path=.gitignore --quiet'
-          extensions: 'js,jsx,ts,tsx'
-          annotations: true
+      - uses: actions/checkout@v4 # Checkout the repository
+      - name: Install dependencies
+        run: npm install # Or yarn install, pnpm install, etc.
+      - name: Run ESLint
+        run: npx run lint # Adjust extensions as needed
