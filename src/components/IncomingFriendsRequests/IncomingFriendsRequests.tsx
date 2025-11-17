@@ -5,7 +5,6 @@ import {
 import type {FC} from 'react';
 import {ServiceFriend} from '@/backend-client';
 
-// Use the ServiceFriendItem type from backend-client
 export type Friend = ServiceFriend;
 
 interface IncomingFriendsRequestsProps {

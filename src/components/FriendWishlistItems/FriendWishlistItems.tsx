@@ -6,7 +6,6 @@ import type {FC} from 'react';
 import {ServiceFriendWishlistItem} from '@/backend-client';
 import {Loading} from "@/components/Loading.tsx";
 
-// Use the ServiceWishlistItem type from backend-client
 export type WishlistItem = ServiceFriendWishlistItem;
 
 interface FriendWishlistItemsProps {
@@ -34,7 +33,4 @@ export const FriendWishlistItems: FC<FriendWishlistItemsProps> = ({items, isLoad
       {item.title}
     </Cell>
   ))
-
-
-  // </Section>;
 };

@@ -7,7 +7,6 @@ import {ServiceFriend} from '@/backend-client';
 import {usernameAndNameToAcronym} from "@/helpers/acronym.ts";
 import {Loading} from "@/components/Loading.tsx";
 
-// Use the ServiceFriendItem type from backend-client
 export type Friend = ServiceFriend;
 
 interface FriendsProps {
@@ -39,7 +38,7 @@ export const SelectFriends: FC<FriendsProps> = ({friends, selectedFriendsIds, is
         subtitle={friend.name ? "@" + friend.username : undefined}
         before={<Avatar size={28} src={friend.photo_url}
                         acronym={usernameAndNameToAcronym(friend.name, friend.username!)}/>}
-        after={<Multiselectable checked={friendsIds.includes(friend.id!)}/>}
+        after={<Multiselectable checked={friendsIds.includes(friend.id!)} readOnly={true} onInput={() => onFriendClick(friend.id!)}/>}
         onClick={() => onFriendClick(friend.id!)}
       >
         {friend.name ? friend.name : "@" + friend.username}

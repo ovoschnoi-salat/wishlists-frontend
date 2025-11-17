@@ -8,20 +8,21 @@ import type {FC} from 'react';
 import {Icon28Plus} from '@/icons/28/Plus.tsx';
 
 interface NewFriendProps {
-  onSend: (username: string) => void;
+  onSend: (username: string) => Promise<void>;
 }
 
 export const NewFriend: FC<NewFriendProps> = ({onSend}) => {
   const [username, setUsername] = useState('');
   const [isSaving, setIsSaving] = useState(false);
 
-  const handleSend = () => {
+  const handleSend = async () => {
     if (username.trim()) {
       setIsSaving(true)
-
-      onSend(username.trim())
-
-      setIsSaving(false)
+      try {
+        await onSend(username.trim())
+      } finally {
+        setIsSaving(false)
+      }
     }
   };
 

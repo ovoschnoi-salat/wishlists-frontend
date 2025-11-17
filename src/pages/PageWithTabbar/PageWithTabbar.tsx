@@ -1,4 +1,4 @@
-import {FC, useState} from 'react';
+import {FC, useEffect, useState} from 'react';
 import {Outlet} from "react-router";
 import {useLocation, useNavigate} from "react-router";
 
@@ -33,8 +33,15 @@ function getCurrentTab(path: string): Tab {
 
 export const PageWithTabbar: FC = () => {
   const location = useLocation()
-
   const [activeTab, setActiveTab] = useState(getCurrentTab(location.pathname));
+  const [tabbarHeight, setTabbarHeight] = useState(200);
+
+  useEffect(() => {
+    const tabbar = document.getElementById("tabbar")
+    if (tabbar) {
+      setTabbarHeight(tabbar.clientHeight);
+    }
+  })
 
   interface tab {
     tabEnum: Tab,
@@ -90,11 +97,11 @@ export const PageWithTabbar: FC = () => {
   }
 
   return <>
-    <div style={{paddingBottom: "100px"}}>
+    <div style={{paddingBottom: tabbarHeight + "px"}}>
       <Outlet/>
     </div>
 
-    <Tabbar>
+    <Tabbar id={"tabbar"}>
       {tabs.map((tab: tab) =>
         <Tabbar.Item
           key={tab.tabEnum}

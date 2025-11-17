@@ -11,7 +11,7 @@ import {BackendErrorHandler} from "@/components/BackendErrorHandler/BackendError
 
 const loadState = () => {
   let {state} = useLocation()
-  return state as ServiceWishlist
+  return (state as ServiceWishlist)
 }
 
 export const WishlistItemsPage: FC = () => {
