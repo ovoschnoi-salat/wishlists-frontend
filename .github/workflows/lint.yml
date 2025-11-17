@@ -11,7 +11,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4 # Checkout the repository
+      - uses: actions/setup-node@v4 # Setup Node.js 22
+        with:
+          node-version: 22
       - name: Install dependencies
-        run: npm install # Or yarn install, pnpm install, etc.
+        run: npm install
       - name: Run ESLint
-        run: npx run lint # Adjust extensions as needed
+        run: npm run lint
