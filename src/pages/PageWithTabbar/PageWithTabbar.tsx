@@ -1,10 +1,10 @@
-import {FC, useEffect, useState} from 'react';
+import {FC, ReactElement, useEffect, useState, memo} from 'react';
 import {Outlet} from "react-router";
 import {useLocation, useNavigate} from "react-router";
 
 import {Tabbar} from '@telegram-apps/telegram-ui';
 
-import {Icon28Actions,Icon28Group, Icon28Person, Icon28Settings} from "@/icons/28";
+import {Icon28Actions, Icon28Group, Icon28Person, Icon28Settings} from "@/icons/28";
 
 import "./PageWithTabbar.css";
 
@@ -31,7 +31,7 @@ function getCurrentTab(path: string): Tab {
   return Tab.MyLists
 }
 
-export const PageWithTabbar: FC = () => {
+export const PageWithTabbar: FC = memo(function PageWithTabbar() {
   const location = useLocation()
   const [activeTab, setActiveTab] = useState(getCurrentTab(location.pathname));
   const [tabbarHeight, setTabbarHeight] = useState(200);
@@ -41,12 +41,12 @@ export const PageWithTabbar: FC = () => {
     if (tabbar) {
       setTabbarHeight(tabbar.clientHeight);
     }
-  })
+  }, [setTabbarHeight])
 
   interface tab {
     tabEnum: Tab,
     title: string,
-    icon: JSX.Element,
+    icon: ReactElement,
     navLink: string,
   }
 
@@ -92,8 +92,10 @@ export const PageWithTabbar: FC = () => {
   const navigate = useNavigate();
 
   const handleTabClick = (tab: Tab, link: string) => {
-    setActiveTab(tab)
-    navigate(link)
+    if (tab !== activeTab) {
+      setActiveTab(tab)
+      navigate(link)
+    }
   }
 
   return <>
@@ -114,4 +116,4 @@ export const PageWithTabbar: FC = () => {
       )}
     </Tabbar>
   </>
-};
+});

@@ -1,5 +1,5 @@
 import {useNavigate, useParams} from 'react-router';
-import {FC, useState} from 'react';
+import {FC, memo, useState} from 'react';
 import {List} from "@telegram-apps/telegram-ui";
 import {Page} from "@/components/Page.tsx";
 import {EditWishlistItem} from "@/components/EditWishlistItem/EditWishlistItem.tsx";
@@ -9,7 +9,7 @@ import {
 } from "@/backend-client";
 import {BackendErrorHandler} from "@/components/BackendErrorHandler/BackendErrorHandler.tsx";
 
-export const NewWishlistItemPage: FC = () => {
+export const NewWishlistItemPage: FC = memo(function NewWishlistItemPage() {
   const navigate = useNavigate()
   const [createWishlistItemError, setCreateWishlistItemError] = useState<SubcodeErrorsResponse | undefined>()
 
@@ -55,4 +55,4 @@ export const NewWishlistItemPage: FC = () => {
         }}/>
     </List>
   </Page>
-};
+});

@@ -1,21 +1,21 @@
 import {useLocation, useNavigate, useParams} from 'react-router';
-import {FC} from 'react';
+import {FC, memo} from 'react';
 import {List} from "@telegram-apps/telegram-ui";
 import {Page} from "@/components/Page.tsx";
 import {FriendWishlistItems} from "@/components/FriendWishlistItems";
 import {ServiceWishlist, ServiceWishlistItem} from "@/backend-client";
-import {loadFriendWishlistItems} from "@/hooks/loadFriendWishlistItems.ts";
+import {useBackendFriendWishlistItems} from "@/hooks/useBackendFriendWishlistItems.ts";
 import {BackendErrorHandler} from "@/components/BackendErrorHandler/BackendErrorHandler.tsx";
 
-const loadState = () => {
+const useLocationState = () => {
   const {state} = useLocation()
   return state as ServiceWishlist
 }
 
-export const FriendWishlistItemsPage: FC = () => {
+export const FriendWishlistItemsPage: FC = memo(function FriendWishlistItemsPage() {
   const navigate = useNavigate()
 
-  const wishlist = loadState()
+  const wishlist = useLocationState()
 
   const {wishlistId} = useParams<{ wishlistId: string }>();
 
@@ -33,12 +33,12 @@ export const FriendWishlistItemsPage: FC = () => {
     navigate(`../item/${item.id}`, {state: item, relative: "path"})
   };
 
-  const {items, isLoading, error, resetError} = loadFriendWishlistItems(wishlistIdNumber);
+  const {items, isLoading, error, resetError} = useBackendFriendWishlistItems(wishlistIdNumber);
 
   return <Page pageTitle={wishlist.title}>
     <BackendErrorHandler error={error} resetError={resetError}/>
-    <List>
+    <List title={"Friend wishlists"}>
       <FriendWishlistItems items={items} isLoading={isLoading} onItemClick={handleItemPress}/>
     </List>
   </Page>
-};
+});

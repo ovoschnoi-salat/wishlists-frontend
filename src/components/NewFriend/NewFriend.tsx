@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {ChangeEvent, memo, useCallback, useState} from 'react';
 import {
   Section,
   Button,
@@ -11,11 +11,15 @@ interface NewFriendProps {
   onSend: (username: string) => Promise<void>;
 }
 
-export const NewFriend: FC<NewFriendProps> = ({onSend}) => {
+export const NewFriend: FC<NewFriendProps> = memo(function NewFriend({onSend}) {
   const [username, setUsername] = useState('');
   const [isSaving, setIsSaving] = useState(false);
 
-  const handleSend = async () => {
+  const handleChangeUsername = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    setUsername(e.target.value)
+  }, [])
+
+  const handleSend = useCallback(async () => {
     if (username.trim()) {
       setIsSaving(true)
       try {
@@ -24,7 +28,7 @@ export const NewFriend: FC<NewFriendProps> = ({onSend}) => {
         setIsSaving(false)
       }
     }
-  };
+  }, [onSend, username]);
 
   return (
     <>
@@ -33,7 +37,7 @@ export const NewFriend: FC<NewFriendProps> = ({onSend}) => {
           placeholder="@Username"
           value={username}
           header={"Your friend username from telegram"}
-          onChange={(e) => setUsername(e.target.value)}
+          onChange={handleChangeUsername}
         />
       </Section>
 
@@ -53,4 +57,4 @@ export const NewFriend: FC<NewFriendProps> = ({onSend}) => {
       </Section>
     </>
   );
-};
+});

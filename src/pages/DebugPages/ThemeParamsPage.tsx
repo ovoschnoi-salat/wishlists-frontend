@@ -1,11 +1,11 @@
 import { themeParams, useSignal } from '@tma.js/sdk-react';
-import type { FC } from 'react';
+import {FC, memo} from 'react';
 import { List } from '@telegram-apps/telegram-ui';
 
 import { DisplayData } from '@/components/DisplayData/DisplayData.tsx';
 import { Page } from '@/components/Page.tsx';
 
-export const ThemeParamsPage: FC = () => {
+export const ThemeParamsPage: FC = memo(function ThemeParamsPage() {
   const tp = useSignal(themeParams.state);
 
   return (
@@ -26,4 +26,4 @@ export const ThemeParamsPage: FC = () => {
       </List>
     </Page>
   );
-};
+});

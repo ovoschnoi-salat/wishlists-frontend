@@ -1,12 +1,13 @@
+import {FC, memo, useCallback} from 'react';
+import {useNavigate} from "react-router";
+
 import {
   List,
   Section,
   ButtonCell,
 } from '@telegram-apps/telegram-ui';
-import {FC} from 'react';
-import {useNavigate} from "react-router";
 
-import {loadWishlists} from "@/hooks/loadWishlists.ts";
+import {useBackendWishlists} from "@/hooks/useBackendWishlists.ts";
 import {Wishlists} from "@/components/Wishlists/Wishlists.tsx";
 import {Page} from "@/components/Page.tsx";
 import {Loading} from "@/components/Loading.tsx";
@@ -14,17 +15,18 @@ import {Icon28Plus} from "@/icons/28/Plus.tsx";
 import {ServiceWishlist} from "@/backend-client";
 import {BackendErrorHandler} from "@/components/BackendErrorHandler/BackendErrorHandler.tsx";
 
-export const WishlistsPage: FC = () => {
+export const WishlistsPage: FC = memo(function WishlistsPage() {
   const navigate = useNavigate()
 
-  const {wishlists, isLoading, error, resetError} = loadWishlists();
+  const {wishlists, isLoading, error, resetError} = useBackendWishlists();
 
-  const handleNewWishlistPress = async () => {
+  const handleNewWishlistPress = useCallback(() => {
     navigate(`/wishlists/new`)
-  };
-  const handleWishlistPress = (wishlist: ServiceWishlist) => {
+  }, [navigate]);
+
+  const handleWishlistPress = useCallback((wishlist: ServiceWishlist) => {
     navigate(`/wishlist/${wishlist.id}/items`, {state: wishlist});
-  };
+  }, [navigate]);
 
   if (isLoading) {
     return <Loading/>;
@@ -45,4 +47,4 @@ export const WishlistsPage: FC = () => {
       </Section>
     </List>
   </Page>
-};
+});

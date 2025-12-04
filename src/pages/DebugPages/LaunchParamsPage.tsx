@@ -1,11 +1,11 @@
 import {useLaunchParams} from '@tma.js/sdk-react';
 import { List } from '@telegram-apps/telegram-ui';
-import { type FC } from 'react';
+import {type FC, memo} from 'react';
 
 import { DisplayData } from '@/components/DisplayData/DisplayData.tsx';
 import { Page } from '@/components/Page.tsx';
 
-export const LaunchParamsPage: FC = () => {
+export const LaunchParamsPage: FC = memo(function LaunchParamsPage() {
   const lp = useLaunchParams()
 
   return (
@@ -26,4 +26,4 @@ export const LaunchParamsPage: FC = () => {
       </List>
     </Page>
   );
-};
+});

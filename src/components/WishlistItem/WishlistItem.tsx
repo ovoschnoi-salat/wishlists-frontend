@@ -4,21 +4,22 @@ import {
   Button,
   Text, Divider, Title, ButtonCell,
 } from '@telegram-apps/telegram-ui';
-import type {FC} from 'react';
+import {FC, memo, useCallback} from 'react';
 import {ServiceWishlistItem, ServiceWishlistItemLink} from "@/backend-client";
 import {Icon24Edit, Icon24Link} from "@/icons/24";
 import {Loading} from "@/components/Loading.tsx";
+import {openLink} from "@tma.js/sdk-react";
 
 interface WishlistItemProps {
   item: ServiceWishlistItem;
   isLoading: boolean;
-  onPressEdit?: () => void;
+  onPressEdit: () => void;
 }
 
-export const WishlistItem: FC<WishlistItemProps> = ({item, isLoading, onPressEdit}) => {
-  const handleOpenLink = (url: string) => {
-    window.open(url, '_blank');
-  };
+export const WishlistItem: FC<WishlistItemProps> = memo(function WishlistItem({item, isLoading, onPressEdit}) {
+  const handleOpenLink = useCallback((url: string) => {
+    openLink(url)
+  }, []);
 
   if (isLoading) {
     return <Loading/>
@@ -103,5 +104,5 @@ export const WishlistItem: FC<WishlistItemProps> = ({item, isLoading, onPressEdi
       </Section>
     </>
   );
-};
+});
 

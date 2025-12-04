@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {ChangeEvent, memo, useCallback, useState} from 'react';
 import {
   Section,
   Cell,
@@ -22,13 +22,13 @@ interface editWishlistProps {
   onSave: (wishlist: ServiceCreateWishlistRequest) => Promise<void>;
 }
 
-export const EditWishlist: FC<editWishlistProps> = ({
-                                                      wishlist,
-                                                      friendsWithAccess,
-                                                      friends,
-                                                      isLoadingFriends,
-                                                      onSave
-                                                    }) => {
+export const EditWishlist: FC<editWishlistProps> = memo(function EditWishlist({
+                                                                                wishlist,
+                                                                                friendsWithAccess,
+                                                                                friends,
+                                                                                isLoadingFriends,
+                                                                                onSave
+                                                                              }) {
   const [title, setTitle] = useState(wishlist.title!);
   const [description, setDescription] = useState(wishlist.description!);
   const [isPrivate, setIsPrivate] = useState(wishlist.is_private!);
@@ -36,7 +36,11 @@ export const EditWishlist: FC<editWishlistProps> = ({
   const [isSaving, setIsSaving] = useState(false);
   const [showSelectFriends, setShowSelectFriends] = useState(false);
 
-  const handleSave = async () => {
+  const handlePressIsPrivate = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    setIsPrivate(e.target.checked)
+  }, []);
+
+  const handleSave = useCallback(async () => {
     if (title.trim()) {
       setIsSaving(true)
       try {
@@ -50,16 +54,16 @@ export const EditWishlist: FC<editWishlistProps> = ({
         setIsSaving(false)
       }
     }
-  };
+  }, [description, isPrivate, onSave, title, usersWithAccess]);
 
-  const handleUsersWithAccessPress = () => {
+  const handleUsersWithAccessPress = useCallback(() => {
     setShowSelectFriends(true)
-  };
+  }, []);
 
-  const handleSaveUsersWithAccess = (friendsIds: number[]) => {
+  const handleSaveUsersWithAccess = useCallback((friendsIds: number[]) => {
     setShowSelectFriends(false)
     setUsersWithAccess(friendsIds)
-  };
+  }, []);
 
   return (
     <>
@@ -96,7 +100,7 @@ export const EditWishlist: FC<editWishlistProps> = ({
               after={
                 <Switch
                   checked={isPrivate}
-                  onChange={(event) => setIsPrivate(event.target.checked)}
+                  onChange={handlePressIsPrivate}
                 />
               }
             >
@@ -136,4 +140,4 @@ export const EditWishlist: FC<editWishlistProps> = ({
       }
     </>
   );
-};
+});

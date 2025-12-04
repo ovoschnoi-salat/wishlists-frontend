@@ -1,15 +1,15 @@
+import {FC, memo} from 'react';
 import {
   List,
 } from '@telegram-apps/telegram-ui';
-import {FC} from 'react';
 
 import {Page} from "@/components/Page.tsx";
 import {Settings} from "@/components/Settings/Settings.tsx";
 
-export const SettingsPage: FC = () => {
+export const SettingsPage: FC = memo(function SettingsPage() {
   return <Page pageTitle={"Settings"}>
     <List>
       <Settings isLoading={false}/>
     </List>
   </Page>
-};
+});

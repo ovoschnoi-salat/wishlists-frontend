@@ -2,7 +2,7 @@ import {
   Cell,
   Navigation
 } from '@telegram-apps/telegram-ui';
-import type {FC} from 'react';
+import {FC, memo} from 'react';
 import {ServiceWishlistItem} from '@/backend-client';
 import {Loading} from "@/components/Loading.tsx";
 
@@ -15,7 +15,7 @@ interface WishlistItemsProps {
   onItemClick: (item: WishlistItem) => void;
 }
 
-export const WishlistItems: FC<WishlistItemsProps> = ({items, isLoading, onItemClick}) => {
+export const WishlistItems: FC<WishlistItemsProps> = memo(function WishlistItems({items, isLoading, onItemClick}) {
   if (isLoading) {
     return <Loading/>;
   }
@@ -33,4 +33,4 @@ export const WishlistItems: FC<WishlistItemsProps> = ({items, isLoading, onItemC
       {item.title}
     </Cell>
   ))
-};
+});

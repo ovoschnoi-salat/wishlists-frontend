@@ -1,9 +1,9 @@
-import {useEffect, useState} from 'react';
-import {getApiUserFriends, ServiceFriend, SubcodeErrorsResponse} from '@/backend-client';
+import {useState, useEffect} from 'react';
+import {getApiUserWishlists, ServiceWishlist, SubcodeErrorsResponse} from '@/backend-client';
 import {loadResult} from "@/hooks/loaderProps.ts";
 
-export const loadFriends = (): loadResult & { friends: ServiceFriend[] } => {
-  const [data, setData] = useState<ServiceFriend[]>([]);
+export const useBackendWishlists = (): loadResult & { wishlists: ServiceWishlist[] } => {
+  const [data, setData] = useState<ServiceWishlist[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<SubcodeErrorsResponse | undefined>();
 
@@ -11,9 +11,9 @@ export const loadFriends = (): loadResult & { friends: ServiceFriend[] } => {
     try {
       setIsLoading(true);
 
-      const {data, error} = await getApiUserFriends({});
+      const {data, error} = await getApiUserWishlists({});
 
-      setError(error)
+      setError(error);
       if (error) {
         setData([]);
         return
@@ -25,12 +25,13 @@ export const loadFriends = (): loadResult & { friends: ServiceFriend[] } => {
     }
   };
 
+
   useEffect(() => {
     fetch();
   }, []);
 
   return {
-    friends: data,
+    wishlists: data,
     isLoading: isLoading,
     error: error,
     resetError: setError,

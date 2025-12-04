@@ -1,13 +1,13 @@
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useCallback} from 'react';
 import {getApiUserWishlistItems, ServiceWishlistItem, SubcodeErrorsResponse} from '@/backend-client';
 import {loadResult} from "@/hooks/loaderProps.ts";
 
-export const loadWishlistItems = (wishlistId: number): loadResult & { items: ServiceWishlistItem[] } => {
+export const useBackendWishlistItems = (wishlistId: number): loadResult & { items: ServiceWishlistItem[] } => {
   const [data, setData] = useState<ServiceWishlistItem[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<SubcodeErrorsResponse | undefined>();
 
-  const fetch = async () => {
+  const fetch = useCallback(async () => {
     try {
       setIsLoading(true);
 
@@ -25,11 +25,11 @@ export const loadWishlistItems = (wishlistId: number): loadResult & { items: Ser
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [wishlistId]);
 
   useEffect(() => {
     fetch();
-  }, [wishlistId]);
+  }, [wishlistId, fetch]);
 
   return {
     items: data,

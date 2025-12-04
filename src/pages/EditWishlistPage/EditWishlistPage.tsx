@@ -2,7 +2,7 @@ import {
   ButtonCell,
   List, Section,
 } from '@telegram-apps/telegram-ui';
-import {FC, useState} from 'react';
+import {FC, memo, useState} from 'react';
 
 import {
   deleteApiUserWishlist,
@@ -12,27 +12,27 @@ import {
 } from '@/backend-client';
 import {Page} from "@/components/Page.tsx";
 import {useLocation, useNavigate} from "react-router";
-import {loadFriends} from "@/hooks/loadFriends.ts";
-import {loadWishlistAccessList} from "@/hooks/loadWishlistAccessList.ts";
+import {useBackendFriends} from "@/hooks/useBackendFriends.ts";
+import {useBackendWishlistAccessList} from "@/hooks/useBackendWishlistAccessList.ts";
 import {EditWishlist} from "@/components/EditWishlist/EditWishlist.tsx";
 import {BackendErrorHandler} from "@/components/BackendErrorHandler/BackendErrorHandler.tsx";
 
-const loadState = () => {
+const useLocationState = () => {
   const {state} = useLocation()
   return state as ServiceWishlist
 }
 
-export const EditWishlistPage: FC = () => {
+export const EditWishlistPage: FC = memo(function EditWishlistPage() {
   const navigate = useNavigate()
   const [isDeleting, setIsDeleting] = useState(false)
   const [deleteError, setDeleteError] = useState<SubcodeErrorsResponse | undefined>(undefined)
   const [saveError, setSaveError] = useState<SubcodeErrorsResponse | undefined>(undefined)
 
-  const wishlist = loadState()
+  const wishlist = useLocationState()
 
-  const {friends, isLoading, error, resetError} = loadFriends();
+  const {friends, isLoading, error, resetError} = useBackendFriends();
 
-  const WishlistAccessList = loadWishlistAccessList(wishlist.id!)
+  const WishlistAccessList = useBackendWishlistAccessList(wishlist.id!)
 
 
   const handleDeleteWishlist = async () => {
@@ -91,4 +91,4 @@ export const EditWishlistPage: FC = () => {
       </Section>
     </List>
   </Page>
-};
+});

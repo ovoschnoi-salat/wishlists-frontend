@@ -1,5 +1,5 @@
 import {useLocation, useNavigate} from 'react-router';
-import {FC, useState} from 'react';
+import {FC, memo, useState} from 'react';
 import {List} from "@telegram-apps/telegram-ui";
 import {Page} from "@/components/Page.tsx";
 import {EditWishlistItem} from "@/components/EditWishlistItem/EditWishlistItem.tsx";
@@ -9,16 +9,16 @@ import {
 } from "@/backend-client";
 import {BackendErrorHandler} from "@/components/BackendErrorHandler/BackendErrorHandler.tsx";
 
-const loadState = () => {
+const useLocationState = () => {
   const {state} = useLocation()
   return state as ServiceWishlistItem
 }
 
-export const EditWishlistItemPage: FC = () => {
+export const EditWishlistItemPage: FC = memo(function EditWishlistItemPage() {
   const navigate = useNavigate()
   const [updateWishlistItemError, setUpdateWishlistItemError] = useState<SubcodeErrorsResponse | undefined>()
 
-  const item = loadState()
+  const item = useLocationState()
 
   const handleSaveWishlistItem = async (newItem: ServiceCreateWishlistItemRequest) => {
     newItem.wishlist_id = item.wishlist_id
@@ -49,4 +49,4 @@ export const EditWishlistItemPage: FC = () => {
         onSave={handleSaveWishlistItem} wishlist={item}/>
     </List>
   </Page>
-};
+});

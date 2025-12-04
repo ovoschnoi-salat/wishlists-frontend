@@ -2,23 +2,23 @@ import {
   List,
   Section, ButtonCell, Cell, Badge,
 } from '@telegram-apps/telegram-ui';
-import {FC} from 'react';
+import {FC, memo} from 'react';
 
-import {loadFriends} from "@/hooks/loadFriends.ts";
+import {useBackendFriends} from "@/hooks/useBackendFriends.ts";
 import {Friends} from "@/components/Friends/Friends.tsx";
 import {Page} from "@/components/Page.tsx";
 import {Loading} from "@/components/Loading.tsx";
 import {Icon28Plus} from "@/icons/28/Plus.tsx";
 import {useNavigate} from "react-router";
-import {loadIncomingFriendsRequestsCount} from "@/hooks/loadIncomingFriendsRequestsCount.ts";
+import {useBackendIncomingFriendsRequestsCount} from "@/hooks/useBackendIncomingFriendsRequestsCount.ts";
 import {BackendErrorHandler} from "@/components/BackendErrorHandler/BackendErrorHandler.tsx";
 
-export const FriendsPage: FC = () => {
+export const FriendsPage: FC = memo(function FriendsPage() {
   const navigate = useNavigate();
 
-  const {friends, isLoading, error, resetError} = loadFriends();
+  const {friends, isLoading, error, resetError} = useBackendFriends();
 
-  const {requestsCount, error: requestsError, resetError: resetRequestsError} = loadIncomingFriendsRequestsCount();
+  const {requestsCount, error: requestsError, resetError: resetRequestsError} = useBackendIncomingFriendsRequestsCount();
 
   const handleIncomingFriendsRequestsPress = () => {
     navigate(`requests/incoming`);
@@ -60,4 +60,4 @@ export const FriendsPage: FC = () => {
       </Section>
     </List>
   </Page>
-};
+});

@@ -1,4 +1,4 @@
-import {FC, SetStateAction} from "react";
+import {FC, memo, SetStateAction} from "react";
 import {SubcodeErrorsResponse} from "@/backend-client";
 import {ErrorSnackbar} from "@/components/ErrorSnackbar/ErrorSnackbar.tsx";
 
@@ -7,7 +7,7 @@ export interface BackendErrorHandlerProps {
   resetError: (value: SetStateAction<SubcodeErrorsResponse | undefined>) => void
 }
 
-export const BackendErrorHandler: FC<BackendErrorHandlerProps> = ({error, resetError}) => {
+export const BackendErrorHandler: FC<BackendErrorHandlerProps> = memo(function BackendErrorHandler({error, resetError}) {
   return (<>
       {error &&
        <ErrorSnackbar
@@ -24,4 +24,4 @@ export const BackendErrorHandler: FC<BackendErrorHandlerProps> = ({error, resetE
       }
     </>
   );
-}
+});

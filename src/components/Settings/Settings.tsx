@@ -1,19 +1,19 @@
 import {
   Cell, Section, Switch
 } from '@telegram-apps/telegram-ui';
-import {FC, useState} from 'react';
-import {ServiceWishlist} from '@/backend-client';
+import {ChangeEvent, FC, useCallback, useState} from 'react';
 import {Loading} from "@/components/Loading.tsx";
 
-// Use the ServiceWishlistItem type from backend-client
-export type Wishlist = ServiceWishlist;
-
-interface WishlistsProps {
+interface SettingsProps {
   isLoading: boolean;
 }
 
-export const Settings: FC<WishlistsProps> = ({isLoading}) => {
+export const Settings: FC<SettingsProps> = ({isLoading}) => {
   const [openToFriendsRequests, setOpenToFriendsRequests] = useState(false)
+
+  const handlePressOpenToFriendsRequests = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    setOpenToFriendsRequests(e.target.checked)
+  }, []);
 
   if (isLoading) {
     return <Loading/>;
@@ -25,7 +25,7 @@ export const Settings: FC<WishlistsProps> = ({isLoading}) => {
       after={
         <Switch
           checked={openToFriendsRequests}
-          onChange={(event) => setOpenToFriendsRequests(event.target.checked)}
+          onChange={handlePressOpenToFriendsRequests}
         />
       }
     >

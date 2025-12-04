@@ -3,7 +3,7 @@ import {getApiUserWishlistItem, ServiceWishlistItem, SubcodeErrorsResponse} from
 import {useLocation} from "react-router";
 import {loadResult} from "@/hooks/loaderProps.ts";
 
-export const loadWishlistItem = (itemId: number): loadResult & {item: ServiceWishlistItem} => {
+export const useBackendWishlistItem = (itemId: number): loadResult & {item: ServiceWishlistItem} => {
   const {state} = useLocation()
   const itemFromState = state as ServiceWishlistItem | undefined
 

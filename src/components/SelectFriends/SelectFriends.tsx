@@ -2,7 +2,7 @@ import {
   Cell,
   Avatar, Section, Button, Multiselectable
 } from '@telegram-apps/telegram-ui';
-import {FC, useState} from 'react';
+import {FC, memo, useState} from 'react';
 import {ServiceFriend} from '@/backend-client';
 import {usernameAndNameToAcronym} from "@/helpers/acronym.ts";
 import {Loading} from "@/components/Loading.tsx";
@@ -16,7 +16,7 @@ interface FriendsProps {
   saveFriendsList: (friendsIds: number[]) => void;
 }
 
-export const SelectFriends: FC<FriendsProps> = ({friends, selectedFriendsIds, isLoading, saveFriendsList}) => {
+export const SelectFriends: FC<FriendsProps> = memo(function SelectFriends({friends, selectedFriendsIds, isLoading, saveFriendsList}) {
   const [friendsIds, setFriendsIds] = useState(selectedFriendsIds)
 
   const onFriendClick = (friendId: number) => {
@@ -48,4 +48,4 @@ export const SelectFriends: FC<FriendsProps> = ({friends, selectedFriendsIds, is
       Save
     </Button>
   </Section>
-};
+});

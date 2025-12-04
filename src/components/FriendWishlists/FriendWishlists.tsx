@@ -2,18 +2,18 @@ import {
   Cell, Navigation
 } from '@telegram-apps/telegram-ui';
 import {FC, memo} from 'react';
-import {ServiceWishlist} from '@/backend-client';
+import {ServiceFriendWishlist} from '@/backend-client';
 import {Loading} from "@/components/Loading.tsx";
 
-export type Wishlist = ServiceWishlist;
+export type Wishlist = ServiceFriendWishlist;
 
-interface WishlistsProps {
+interface FriendWishlistsProps {
   wishlists: Wishlist[];
   isLoading: boolean;
   onWishlistClick: (wishlist: Wishlist) => void;
 }
 
-export const Wishlists: FC<WishlistsProps> = memo(function Wishlists({wishlists, isLoading, onWishlistClick}) {
+export const FriendWishlists: FC<FriendWishlistsProps> = memo(function FriendWishlists({wishlists, isLoading, onWishlistClick}) {
   if (isLoading) {
     return <Loading/>;
   }
@@ -22,7 +22,6 @@ export const Wishlists: FC<WishlistsProps> = memo(function Wishlists({wishlists,
       <Cell
         key={wishlist.id}
         after={<Navigation/>}
-        subtitle={wishlist.is_private ? `Private` : undefined}
         onClick={() => onWishlistClick(wishlist)}
       >
         {wishlist.title}

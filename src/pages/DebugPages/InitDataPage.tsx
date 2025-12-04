@@ -1,4 +1,4 @@
-import { type FC, useMemo } from 'react';
+import {type FC, memo, useMemo} from 'react';
 import {
   initData,
   type User,
@@ -13,7 +13,7 @@ function getUserRows(user: User): DisplayDataRow[] {
   return Object.entries(user).map(([title, value]) => ({ title, value }));
 }
 
-export const InitDataPage: FC = () => {
+export const InitDataPage: FC = memo(function InitDataPage() {
   const initDataRaw = useSignal(initData.raw);
   const initDataState = useSignal(initData.state);
 
@@ -78,4 +78,4 @@ export const InitDataPage: FC = () => {
       </List>
     </Page>
   );
-};
+});

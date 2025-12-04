@@ -9,11 +9,11 @@ export function Page({children, pageTitle, back = true, backNavFn}: PropsWithChi
 }>) {
   const navigate = useNavigate();
 
-  if (pageTitle) {
-    useEffect(() => {
+  useEffect(() => {
+    if (pageTitle) {
       document.title = pageTitle;
-    }, [pageTitle]); // Re-run effect when pageTitle changes
-  }
+    }
+  }, [pageTitle]); // Re-run effect when pageTitle changes
 
   useEffect(() => {
     if (back && backButton.show.ifAvailable().ok) {
@@ -27,7 +27,7 @@ export function Page({children, pageTitle, back = true, backNavFn}: PropsWithChi
     } else {
       backButton.hide();
     }
-  }, [back]);
+  }, [back, backNavFn, navigate]);
 
   return <>
     {children}

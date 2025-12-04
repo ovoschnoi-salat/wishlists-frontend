@@ -2,7 +2,7 @@ import {
   List,
   Section,
 } from '@telegram-apps/telegram-ui';
-import {FC, useState} from 'react';
+import {FC, memo, useState} from 'react';
 
 import {Page} from "@/components/Page.tsx";
 import {Loading} from "@/components/Loading.tsx";
@@ -13,16 +13,16 @@ import {
   ServiceFriend,
   SubcodeErrorsResponse
 } from "@/backend-client";
-import {loadIncomingFriendsRequests} from "@/hooks/loadIncomingFriendsRequests.ts";
+import {useBackendIncomingFriendsRequests} from "@/hooks/useBackendIncomingFriendsRequests.ts";
 import {useNavigate} from "react-router";
 import {BackendErrorHandler} from "@/components/BackendErrorHandler/BackendErrorHandler.tsx";
 
-export const IncomingFriendsRequestsPage: FC = () => {
+export const IncomingFriendsRequestsPage: FC = memo(function IncomingFriendsRequestsPage() {
   const navigate = useNavigate()
   const [acceptError, setAcceptError] = useState<SubcodeErrorsResponse | undefined>()
   const [rejectError, setRejectError] = useState<SubcodeErrorsResponse | undefined>()
 
-  const {friends, setFriends, isLoading, error, resetError} = loadIncomingFriendsRequests()
+  const {friends, setFriends, isLoading, error, resetError} = useBackendIncomingFriendsRequests()
 
   const handleAcceptPress = async (friendId: number) => {
     const {error} = await postApiUserFriendRequestAccept({query: {friend_id: friendId}})
@@ -68,4 +68,4 @@ export const IncomingFriendsRequestsPage: FC = () => {
       </Section>
     </List>
   </Page>
-};
+});

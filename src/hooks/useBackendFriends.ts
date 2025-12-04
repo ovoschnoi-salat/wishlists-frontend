@@ -1,9 +1,9 @@
-import {useState, useEffect} from 'react';
-import {getApiUserWishlistAccess, SubcodeErrorsResponse} from '@/backend-client';
+import {useEffect, useState} from 'react';
+import {getApiUserFriends, ServiceFriend, SubcodeErrorsResponse} from '@/backend-client';
 import {loadResult} from "@/hooks/loaderProps.ts";
 
-export const loadWishlistAccessList = (wishlistId: number): loadResult & { accessList: number[] } => {
-  const [data, setData] = useState<number[]>([]);
+export const useBackendFriends = (): loadResult & { friends: ServiceFriend[] } => {
+  const [data, setData] = useState<ServiceFriend[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<SubcodeErrorsResponse | undefined>();
 
@@ -11,13 +11,9 @@ export const loadWishlistAccessList = (wishlistId: number): loadResult & { acces
     try {
       setIsLoading(true);
 
-      const {data, error} = await getApiUserWishlistAccess({
-        query: {
-          wishlist_id: wishlistId!
-        }
-      });
+      const {data, error} = await getApiUserFriends({});
 
-      setError(error);
+      setError(error)
       if (error) {
         setData([]);
         return
@@ -31,10 +27,10 @@ export const loadWishlistAccessList = (wishlistId: number): loadResult & { acces
 
   useEffect(() => {
     fetch();
-  }, [wishlistId]);
+  }, []);
 
   return {
-    accessList: data,
+    friends: data,
     isLoading: isLoading,
     error: error,
     resetError: setError,

@@ -25,6 +25,12 @@ export type ServiceFriend = {
     username?: string;
 };
 
+export type ServiceFriendWishlist = {
+    description?: string;
+    id?: number;
+    title?: string;
+};
+
 export type ServiceFriendWishlistItem = {
     description?: string;
     id?: number;
@@ -57,6 +63,7 @@ export type ServiceWishlist = {
     description?: string;
     id?: number;
     is_private?: boolean;
+    share_uuid?: string;
     title?: string;
 };
 
@@ -224,6 +231,44 @@ export type PostApiUserFriendRequestDenyResponses = {
     204: unknown;
 };
 
+export type GetApiUserFriendWishlistItemData = {
+    body?: never;
+    path?: never;
+    query: {
+        /**
+         * Wish ID
+         */
+        wish_id: number;
+    };
+    url: '/api/user/friend/wishlist/item';
+};
+
+export type GetApiUserFriendWishlistItemErrors = {
+    /**
+     * Bad Request
+     */
+    400: SubcodeErrorsResponse;
+    /**
+     * Unauthorized
+     */
+    401: SubcodeErrorsResponse;
+    /**
+     * Internal Server Error
+     */
+    500: SubcodeErrorsResponse;
+};
+
+export type GetApiUserFriendWishlistItemError = GetApiUserFriendWishlistItemErrors[keyof GetApiUserFriendWishlistItemErrors];
+
+export type GetApiUserFriendWishlistItemResponses = {
+    /**
+     * OK
+     */
+    200: ServiceFriendWishlistItem;
+};
+
+export type GetApiUserFriendWishlistItemResponse = GetApiUserFriendWishlistItemResponses[keyof GetApiUserFriendWishlistItemResponses];
+
 export type GetApiUserFriendWishlistItemsData = {
     body?: never;
     path?: never;
@@ -257,9 +302,7 @@ export type GetApiUserFriendWishlistItemsResponses = {
     /**
      * OK
      */
-    200: Array<ServiceFriendWishlistItem & {
-        links?: Array<ServiceWishlistItemLink>;
-    }>;
+    200: Array<ServiceFriendWishlistItem>;
 };
 
 export type GetApiUserFriendWishlistItemsResponse = GetApiUserFriendWishlistItemsResponses[keyof GetApiUserFriendWishlistItemsResponses];
@@ -369,7 +412,7 @@ export type GetApiUserFriendWishlistsResponses = {
     /**
      * OK
      */
-    200: Array<ServiceWishlist>;
+    200: Array<ServiceFriendWishlist>;
 };
 
 export type GetApiUserFriendWishlistsResponse = GetApiUserFriendWishlistsResponses[keyof GetApiUserFriendWishlistsResponses];

@@ -1,9 +1,11 @@
-import {useState, useEffect} from 'react';
-import {getApiUserWishlists, ServiceWishlist, SubcodeErrorsResponse} from '@/backend-client';
+import { useState, useEffect } from 'react';
+import {
+  getApiUserFriendsRequestsIncomingCount, SubcodeErrorsResponse
+} from '@/backend-client';
 import {loadResult} from "@/hooks/loaderProps.ts";
 
-export const loadWishlists = (): loadResult & { wishlists: ServiceWishlist[] } => {
-  const [data, setData] = useState<ServiceWishlist[]>([]);
+export const useBackendIncomingFriendsRequestsCount = (): loadResult & {requestsCount: number} => {
+  const [data, setData] = useState<number>(0);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<SubcodeErrorsResponse | undefined>();
 
@@ -11,27 +13,26 @@ export const loadWishlists = (): loadResult & { wishlists: ServiceWishlist[] } =
     try {
       setIsLoading(true);
 
-      const {data, error} = await getApiUserWishlists({});
+      const { data, error } = await getApiUserFriendsRequestsIncomingCount({});
 
       setError(error);
       if (error) {
-        setData([]);
+        setData(0);
         return
       }
 
-      setData(data);
+      setData(data!.count!);
     } finally {
       setIsLoading(false);
     }
   };
-
 
   useEffect(() => {
     fetch();
   }, []);
 
   return {
-    wishlists: data,
+    requestsCount: data,
     isLoading: isLoading,
     error: error,
     resetError: setError,

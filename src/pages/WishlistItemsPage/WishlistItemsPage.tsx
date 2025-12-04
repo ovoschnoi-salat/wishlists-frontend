@@ -1,23 +1,31 @@
 import {WishlistItems} from '@/components/WishlistItems';
 import {useLocation, useNavigate, useParams} from 'react-router';
-import {FC} from 'react';
+import {FC, memo, useCallback} from 'react';
 import {ButtonCell, Cell, List, Section} from "@telegram-apps/telegram-ui";
 import {Page} from "@/components/Page.tsx";
-import {loadWishlistItems} from "@/hooks/loadWishlistItems.ts";
+import {useBackendWishlistItems} from "@/hooks/useBackendWishlistItems.ts";
 import {Icon28Plus} from "@/icons/28/Plus.tsx";
 import {ServiceWishlist, ServiceWishlistItem} from "@/backend-client";
 import {Icon24Edit} from "@/icons/24";
 import {BackendErrorHandler} from "@/components/BackendErrorHandler/BackendErrorHandler.tsx";
 
-const loadState = () => {
-  const {state} = useLocation()
-  return (state as ServiceWishlist)
-}
-
-export const WishlistItemsPage: FC = () => {
+export const WishlistItemsPage: FC = memo(function WishlistItemsPage() {
   const navigate = useNavigate();
 
-  const wishlist = loadState()
+  const {state} = useLocation()
+  const wishlist = state as ServiceWishlist
+
+  const handleItemPress = useCallback((item: ServiceWishlistItem) => {
+    navigate(`../item/${item.id}`, {relative: "path", state: item})
+  }, [navigate]);
+
+  const handleEditwWishlistPress = useCallback(() => {
+    navigate(`../edit`, {replace: true, relative: "path", state: wishlist})
+  }, [navigate, wishlist]);
+
+  const handleNewWishlistPress = useCallback(() => {
+    navigate(`new`)
+  }, [navigate]);
 
   const {wishlistId} = useParams<{ wishlistId: string }>();
 
@@ -31,20 +39,7 @@ export const WishlistItemsPage: FC = () => {
     return <div>Invalid wishlist ID</div>;
   }
 
-  const {items, isLoading, error, resetError} = loadWishlistItems(wishlistIdNumber);
-
-  const handleItemPress = (item: ServiceWishlistItem) => {
-    navigate(`../item/${item.id}`, {relative: "path", state: item})
-
-  };
-
-  const handleEditwWishlistPress = () => {
-    navigate(`../edit`, {replace: true, relative: "path", state: wishlist})
-  };
-
-  const handleNewWishlistPress = () => {
-    navigate(`new`)
-  };
+  const {items, isLoading, error, resetError} = useBackendWishlistItems(wishlistIdNumber);
 
   return <Page pageTitle={wishlist.title}>
     <BackendErrorHandler error={error} resetError={resetError}/>
@@ -78,4 +73,4 @@ export const WishlistItemsPage: FC = () => {
       </Section>
     </List>
   </Page>
-};
+});

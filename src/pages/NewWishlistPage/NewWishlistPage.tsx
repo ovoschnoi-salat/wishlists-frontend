@@ -1,18 +1,18 @@
 import {List} from '@telegram-apps/telegram-ui';
 import {postApiUserWishlist, ServiceCreateWishlistRequest, SubcodeErrorsResponse} from '@/backend-client';
-import {FC, useState} from 'react';
+import {FC, memo, useState} from 'react';
 import {useNavigate} from "react-router";
 
 import {Page} from "@/components/Page.tsx";
-import {loadFriends} from "@/hooks/loadFriends.ts";
+import {useBackendFriends} from "@/hooks/useBackendFriends.ts";
 import {EditWishlist} from "@/components/EditWishlist/EditWishlist.tsx";
 import {BackendErrorHandler} from "@/components/BackendErrorHandler/BackendErrorHandler.tsx";
 
-export const NewWishlistPage: FC = () => {
+export const NewWishlistPage: FC = memo(function NewWishlistPage() {
   const navigate = useNavigate()
   const [createWishlistError, setCreateWishlistError] = useState<SubcodeErrorsResponse | undefined>()
 
-  const {friends, isLoading, error, resetError} = loadFriends();
+  const {friends, isLoading, error, resetError} = useBackendFriends();
 
   const handleSaveNewWishlist = async (newWishlist: ServiceCreateWishlistRequest) => {
     const {data, error} = await postApiUserWishlist({body: newWishlist});
@@ -43,4 +43,4 @@ export const NewWishlistPage: FC = () => {
       />
     </List>
   </Page>
-};
+});
