@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 body {
-  background: var(--tgui--bg_color, white);
+  background: var(--tg-theme-bg-color, white);
   padding: 0;
   margin: 0;
 }

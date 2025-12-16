@@ -17,10 +17,6 @@ export function Loading() {
     <Placeholder
       description="Loading..."
     >
-      <img
-        alt="Telegram sticker"
-        className="blt0jZBzpxuR4oDhJc8s"
-      />
     </Placeholder>
   );
 }
