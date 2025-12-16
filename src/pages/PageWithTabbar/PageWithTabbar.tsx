@@ -69,25 +69,30 @@ export const PageWithTabbar: FC = memo(function PageWithTabbar() {
       icon: <Icon28Settings/>,
       navLink: "/settings",
     },
-    {
-      tabEnum: Tab.InitData,
-      title: "Init data",
-      icon: <Icon28Person/>,
-      navLink: "/init-data",
-    },
-    {
-      tabEnum: Tab.ThemeParams,
-      title: "Theme params",
-      icon: <Icon28Person/>,
-      navLink: "/theme-params",
-    },
-    {
-      tabEnum: Tab.LaunchParams,
-      title: "Launch params",
-      icon: <Icon28Person/>,
-      navLink: "/launch-params",
-    },
   ]
+
+  if (import.meta.env.DEV) {
+    tabs.push(
+      {
+        tabEnum: Tab.InitData,
+        title: "Init data",
+        icon: <Icon28Person/>,
+        navLink: "/init-data",
+      },
+      {
+        tabEnum: Tab.ThemeParams,
+        title: "Theme params",
+        icon: <Icon28Person/>,
+        navLink: "/theme-params",
+      },
+      {
+        tabEnum: Tab.LaunchParams,
+        title: "Launch params",
+        icon: <Icon28Person/>,
+        navLink: "/launch-params",
+      },
+    )
+  }
 
   const navigate = useNavigate();
 
