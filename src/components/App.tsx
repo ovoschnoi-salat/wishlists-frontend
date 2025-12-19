@@ -71,20 +71,20 @@ const router = createBrowserRouter([
         {path: '/wishlist/:wishlistId/items/new', Component: NewWishlistItemPage},
         {
           path: '/wishlist/:wishlistId/item/:itemId', Component: WishlistItemPage, children: [
-            {path: '/edit', Component: EditWishlistItemPage},
+            {path: 'edit', Component: EditWishlistItemPage},
           ]
         },
 
         {
           path: '/friends', Component: FriendsPage, children: [
-            {path: '/new', Component: NewFriendPage},
-            {path: '/requests/incoming', Component: IncomingFriendsRequestsPage},
+            {path: 'new', Component: NewFriendPage},
+            {path: 'requests/incoming', Component: IncomingFriendsRequestsPage},
           ]
         },
         {
           path: '/friend/:friendId/wishlists', Component: FriendWishlistsPage, children: [
-            {path: '/:wishlistId/items', Component: FriendWishlistItemsPage},
-            {path: '/:wishlistId/item/:itemId', Component: FriendWishlistItemPage},
+            {path: ':wishlistId/items', Component: FriendWishlistItemsPage},
+            {path: ':wishlistId/item/:itemId', Component: FriendWishlistItemPage},
           ]
         },
 
