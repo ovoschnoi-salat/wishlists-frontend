@@ -6,7 +6,7 @@ import {
   Switch,
   Input,
   Textarea,
-  Badge,
+  Badge, ButtonCell,
 } from '@telegram-apps/telegram-ui';
 import type {FC} from 'react';
 import {Icon28Plus} from '@/icons/28/Plus.tsx';
@@ -20,6 +20,7 @@ interface editWishlistProps {
   friends: Friend[];
   isLoadingFriends: boolean;
   onSave: (wishlist: ServiceCreateWishlistRequest) => Promise<void>;
+  onDelete: () => Promise<void>;
 }
 
 export const EditWishlist: FC<editWishlistProps> = memo(function EditWishlist({
@@ -27,13 +28,15 @@ export const EditWishlist: FC<editWishlistProps> = memo(function EditWishlist({
                                                                                 friendsWithAccess,
                                                                                 friends,
                                                                                 isLoadingFriends,
-                                                                                onSave
+                                                                                onSave,
+                                                                                onDelete
                                                                               }) {
   const [title, setTitle] = useState(wishlist.title!);
   const [description, setDescription] = useState(wishlist.description!);
   const [isPrivate, setIsPrivate] = useState(wishlist.is_private!);
   const [usersWithAccess, setUsersWithAccess] = useState(friendsWithAccess);
   const [isSaving, setIsSaving] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false)
   const [showSelectFriends, setShowSelectFriends] = useState(false);
 
   const handlePressIsPrivate = useCallback((e: ChangeEvent<HTMLInputElement>) => {
@@ -55,6 +58,15 @@ export const EditWishlist: FC<editWishlistProps> = memo(function EditWishlist({
       }
     }
   }, [description, isPrivate, onSave, title, usersWithAccess]);
+
+  const handleDelete = useCallback(async () => {
+    setIsDeleting(true)
+    try {
+      await onDelete()
+    } finally {
+      setIsDeleting(false)
+    }
+  },[onDelete, setIsDeleting])
 
   const handleUsersWithAccessPress = useCallback(() => {
     setShowSelectFriends(true)
@@ -123,12 +135,21 @@ export const EditWishlist: FC<editWishlistProps> = memo(function EditWishlist({
               size="m"
               stretched
               onClick={handleSave}
-              disabled={!title.trim() || isSaving}
+              disabled={!title.trim() || isSaving || isDeleting}
               loading={isSaving}
               before={<Icon28Plus/>}
             >
               Save wishlist
             </Button>
+          </Section>
+          <Section>
+            <ButtonCell
+              disabled={isDeleting || isSaving}
+              mode={"destructive"}
+              onClick={handleDelete}
+            >
+              Delete Wishlist
+            </ButtonCell>
           </Section>
         </> :
         <SelectFriends

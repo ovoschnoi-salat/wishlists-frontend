@@ -25,14 +25,14 @@ export const WishlistsPage: FC = memo(function WishlistsPage() {
   }, [navigate]);
 
   const handleWishlistPress = useCallback((wishlist: ServiceWishlist) => {
-    navigate(`/wishlist/${wishlist.id}/items`, {state: wishlist});
+    navigate(`/wishlists/${wishlist.id}/items`, {state: wishlist});
   }, [navigate]);
 
   if (isLoading) {
     return <Loading/>;
   }
 
-  return <Page pageTitle={"Your wishlists"}>
+  return <Page pageTitle={"Your wishlists"} back={false}>
     <BackendErrorHandler error={error} resetError={resetError}/>
     <List>
       <Section header='Wishlists'>

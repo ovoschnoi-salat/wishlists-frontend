@@ -1,7 +1,4 @@
-import {
-  ButtonCell,
-  List, Section,
-} from '@telegram-apps/telegram-ui';
+import {List} from '@telegram-apps/telegram-ui';
 import {FC, memo, useState} from 'react';
 
 import {
@@ -24,7 +21,6 @@ const useLocationState = () => {
 
 export const EditWishlistPage: FC = memo(function EditWishlistPage() {
   const navigate = useNavigate()
-  const [isDeleting, setIsDeleting] = useState(false)
   const [deleteError, setDeleteError] = useState<SubcodeErrorsResponse | undefined>(undefined)
   const [saveError, setSaveError] = useState<SubcodeErrorsResponse | undefined>(undefined)
 
@@ -36,12 +32,10 @@ export const EditWishlistPage: FC = memo(function EditWishlistPage() {
 
 
   const handleDeleteWishlist = async () => {
-    setIsDeleting(true)
     const {error} = await deleteApiUserWishlist({
       query: {wishlist_id: wishlist.id!}
     });
 
-    setIsDeleting(false)
     if (error) {
       setDeleteError(error)
       return
@@ -67,8 +61,8 @@ export const EditWishlistPage: FC = memo(function EditWishlistPage() {
   return <Page
     pageTitle={"Wishlist edit"}
     backNavFn={() => {
-    navigate(`../items`, {replace: true, relative: "path", state: wishlist})
-  }}>
+      navigate(`../items`, {replace: true, relative: "path", state: wishlist})
+    }}>
     <BackendErrorHandler error={error} resetError={resetError}/>
     <BackendErrorHandler error={deleteError} resetError={setDeleteError}/>
     <BackendErrorHandler error={saveError} resetError={setSaveError}/>
@@ -76,19 +70,11 @@ export const EditWishlistPage: FC = memo(function EditWishlistPage() {
       <EditWishlist
         wishlist={wishlist}
         friendsWithAccess={WishlistAccessList.accessList}
-        onSave={handleSaveWishlist}
         friends={friends}
         isLoadingFriends={isLoading || WishlistAccessList.isLoading}
+        onSave={handleSaveWishlist}
+        onDelete={handleDeleteWishlist}
       />
-      <Section>
-        <ButtonCell
-          disabled={isDeleting}
-          mode={"destructive"}
-          onClick={handleDeleteWishlist}
-        >
-          Delete Wishlist
-        </ButtonCell>
-      </Section>
     </List>
   </Page>
 });

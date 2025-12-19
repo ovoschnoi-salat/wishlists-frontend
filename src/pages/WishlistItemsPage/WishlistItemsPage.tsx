@@ -16,7 +16,7 @@ export const WishlistItemsPage: FC = memo(function WishlistItemsPage() {
   const wishlist = state as ServiceWishlist
 
   const handleItemPress = useCallback((item: ServiceWishlistItem) => {
-    navigate(`../item/${item.id}`, {relative: "path", state: item})
+    navigate(`${item.id}`, {relative: "path", state: item})
   }, [navigate]);
 
   const handleEditwWishlistPress = useCallback(() => {

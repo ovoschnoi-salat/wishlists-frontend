@@ -2,7 +2,7 @@ import {
   List,
   Section, ButtonCell, Cell, Badge,
 } from '@telegram-apps/telegram-ui';
-import {FC, memo} from 'react';
+import {FC, memo, useCallback} from 'react';
 
 import {useBackendFriends} from "@/hooks/useBackendFriends.ts";
 import {Friends} from "@/components/Friends/Friends.tsx";
@@ -18,23 +18,29 @@ export const FriendsPage: FC = memo(function FriendsPage() {
 
   const {friends, isLoading, error, resetError} = useBackendFriends();
 
-  const {requestsCount, error: requestsError, resetError: resetRequestsError} = useBackendIncomingFriendsRequestsCount();
+  const {
+    requestsCount,
+    error: requestsError,
+    resetError: resetRequestsError
+  } = useBackendIncomingFriendsRequestsCount();
 
-  const handleIncomingFriendsRequestsPress = () => {
+  const handleIncomingFriendsRequestsPress = useCallback(() => {
     navigate(`requests/incoming`);
-  };
+  }, [navigate]);
 
-  const handleAddFriend = () => {
+  const handleAddFriend = useCallback(() => {
+    console.log('nav to new')
     navigate(`new`);
-  };
+  }, [navigate]);
 
   const handleFriendPress = (friendId: number) => {
-    navigate(`/friend/${friendId}/wishlists`);
+    navigate(`${friendId}/wishlists`);
   };
 
   if (isLoading) {
     return <Loading/>;
-  };
+  }
+  ;
 
   return <Page pageTitle={"Friends"} back={false}>
     <BackendErrorHandler error={error} resetError={resetError}/>
@@ -50,7 +56,10 @@ export const FriendsPage: FC = memo(function FriendsPage() {
          </Cell>
         }
 
-        <ButtonCell before={<Icon28Plus/>} onClick={handleAddFriend}>
+        <ButtonCell
+          before={<Icon28Plus/>}
+          onClick={handleAddFriend}
+        >
           Add friend
         </ButtonCell>
       </Section>

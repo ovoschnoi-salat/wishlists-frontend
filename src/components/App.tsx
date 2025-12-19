@@ -53,7 +53,6 @@ export function App() {
 
 const router = createBrowserRouter([
   {
-    path: '/',
     Component: PageWithTabbar,
     errorElement: <ErrorBoundary/>,
     children:
@@ -66,27 +65,18 @@ const router = createBrowserRouter([
 
         {index: true, Component: WishlistsPage},
         {path: '/wishlists/new', Component: NewWishlistPage},
-        {path: '/wishlist/:wishlistId/items', Component: WishlistItemsPage},
-        {path: '/wishlist/:wishlistId/edit', Component: EditWishlistPage},
-        {path: '/wishlist/:wishlistId/items/new', Component: NewWishlistItemPage},
-        {
-          path: '/wishlist/:wishlistId/item/:itemId', Component: WishlistItemPage, children: [
-            {path: 'edit', Component: EditWishlistItemPage},
-          ]
-        },
+        {path: '/wishlists/:wishlistId/items', Component: WishlistItemsPage},
+        {path: '/wishlists/:wishlistId/edit', Component: EditWishlistPage},
+        {path: '/wishlists/:wishlistId/items/new', Component: NewWishlistItemPage},
+        {path: '/wishlists/:wishlistId/items/:itemId', Component: WishlistItemPage},
+        {path: '/wishlists/:wishlistId/items/:itemId/edit', Component: EditWishlistItemPage},
 
-        {
-          path: '/friends', Component: FriendsPage, children: [
-            {path: 'new', Component: NewFriendPage},
-            {path: 'requests/incoming', Component: IncomingFriendsRequestsPage},
-          ]
-        },
-        {
-          path: '/friend/:friendId/wishlists', Component: FriendWishlistsPage, children: [
-            {path: ':wishlistId/items', Component: FriendWishlistItemsPage},
-            {path: ':wishlistId/item/:itemId', Component: FriendWishlistItemPage},
-          ]
-        },
+        {path: '/friends', Component: FriendsPage},
+        {path: '/friends/new', Component: NewFriendPage},
+        {path: '/friends/requests/incoming', Component: IncomingFriendsRequestsPage},
+        {path: '/friends/:friendId/wishlists', Component: FriendWishlistsPage},
+        {path: '/friends/:friendId/wishlists/:wishlistId/items', Component: FriendWishlistItemsPage},
+        {path: '/friends/:friendId/wishlists/:wishlistId/items/:itemId', Component: FriendWishlistItemPage},
 
         {path: '/settings', Component: SettingsPage}
       ]

@@ -22,7 +22,7 @@ export const NewWishlistPage: FC = memo(function NewWishlistPage() {
       return
     }
 
-    navigate(`/wishlist/${data!.id!}/items`, {replace: true, state: data})
+    navigate(`/wishlists/${data!.id!}/items`, {replace: true, state: data})
   };
 
   return <Page pageTitle={"New wishlist"}>

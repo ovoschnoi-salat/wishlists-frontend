@@ -16,7 +16,7 @@ export const FriendWishlistsPage: FC = memo(function FriendWishlistsPage() {
   // TODO load state
 
   const handleWishlistPress = useCallback((wishlist: ServiceWishlist) => {
-    navigate(`../wishlist/${wishlist.id}/items`, {state: wishlist, relative: "path"});
+    navigate(`../wishlists/${wishlist.id}/items`, {state: wishlist, relative: "path"});
   }, [navigate]);
 
   const {friendId} = useParams<{ friendId: string }>();
