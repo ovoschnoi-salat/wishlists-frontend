@@ -25,7 +25,7 @@ export const FriendsPage: FC = memo(function FriendsPage() {
   };
 
   const handleAddFriend = () => {
-    navigate(`/friend/new`);
+    navigate(`new`);
   };
 
   const handleFriendPress = (friendId: number) => {
