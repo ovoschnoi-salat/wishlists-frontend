@@ -6,14 +6,6 @@ import tailwindcss from '@tailwindcss/vite'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: '/',
-  css: {
-    preprocessorOptions: {
-      scss: {
-        api: 'modern',
-      },
-    },
-  },
   plugins: [
     // Allows using React dev server along with building a React application with Vite.
     // https://npmjs.com/package/@vitejs/plugin-react-swc
