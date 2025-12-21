@@ -59,6 +59,10 @@ export type ServiceUser = {
     photo_url?: string;
 };
 
+export type ServiceUserSettings = {
+    open_to_requests?: boolean;
+};
+
 export type ServiceWishlist = {
     description?: string;
     id?: number;
@@ -532,6 +536,65 @@ export type GetApiUserFriendsRequestsOutcomingResponses = {
 };
 
 export type GetApiUserFriendsRequestsOutcomingResponse = GetApiUserFriendsRequestsOutcomingResponses[keyof GetApiUserFriendsRequestsOutcomingResponses];
+
+export type GetApiUserSettingsData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/api/user/settings';
+};
+
+export type GetApiUserSettingsErrors = {
+    /**
+     * Internal Server Error
+     */
+    500: SubcodeErrorsResponse;
+};
+
+export type GetApiUserSettingsError = GetApiUserSettingsErrors[keyof GetApiUserSettingsErrors];
+
+export type GetApiUserSettingsResponses = {
+    /**
+     * OK
+     */
+    200: ServiceUserSettings;
+};
+
+export type GetApiUserSettingsResponse = GetApiUserSettingsResponses[keyof GetApiUserSettingsResponses];
+
+export type PatchApiUserSettingsData = {
+    /**
+     * request body
+     */
+    body: ServiceUserSettings;
+    path?: never;
+    query?: never;
+    url: '/api/user/settings';
+};
+
+export type PatchApiUserSettingsErrors = {
+    /**
+     * Bad Request
+     */
+    400: SubcodeErrorsResponse;
+    /**
+     * Unauthorized
+     */
+    401: SubcodeErrorsResponse;
+    /**
+     * Internal Server Error
+     */
+    500: SubcodeErrorsResponse;
+};
+
+export type PatchApiUserSettingsError = PatchApiUserSettingsErrors[keyof PatchApiUserSettingsErrors];
+
+export type PatchApiUserSettingsResponses = {
+    /**
+     * No Content
+     */
+    204: unknown;
+};
 
 export type DeleteApiUserWishData = {
     body?: never;

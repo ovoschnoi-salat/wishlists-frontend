@@ -41,7 +41,7 @@ export const EditWishlistPage: FC = memo(function EditWishlistPage() {
       return
     }
 
-    navigate(`/`)
+    navigate(-1)
   };
 
   const handleSaveWishlist = async (newWishlist: ServiceCreateWishlistRequest) => {

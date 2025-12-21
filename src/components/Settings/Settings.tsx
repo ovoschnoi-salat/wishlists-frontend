@@ -1,35 +1,64 @@
 import {
+  Button,
   Cell, Section, Switch
 } from '@telegram-apps/telegram-ui';
 import {ChangeEvent, FC, useCallback, useState} from 'react';
 import {Loading} from "@/components/Loading.tsx";
+import {ServiceUserSettings} from "@/backend-client";
 
 interface SettingsProps {
+  settings: ServiceUserSettings;
   isLoading: boolean;
+  onSave: (settings: ServiceUserSettings) => Promise<void>;
 }
 
-export const Settings: FC<SettingsProps> = ({isLoading}) => {
-  const [openToFriendsRequests, setOpenToFriendsRequests] = useState(false)
+export const Settings: FC<SettingsProps> = ({settings, isLoading, onSave}) => {
+  const [openToFriendsRequests, setOpenToFriendsRequests] = useState(settings.open_to_requests)
+  const [isSaving, setIsSaving] = useState(false)
 
   const handlePressOpenToFriendsRequests = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setOpenToFriendsRequests(e.target.checked)
   }, []);
 
+  const handleSave = useCallback(async () => {
+    setIsSaving(true)
+    try {
+      await onSave({
+        open_to_requests: openToFriendsRequests,
+      })
+    } finally {
+      setIsSaving(false)
+    }
+  }, [onSave, openToFriendsRequests])
+
   if (isLoading) {
     return <Loading/>;
   }
 
-  return <Section>
-
-    <Cell
-      after={
-        <Switch
-          checked={openToFriendsRequests}
-          onChange={handlePressOpenToFriendsRequests}
-        />
-      }
-    >
-      Open to friends requests
-    </Cell>
-  </Section>
+  return <>
+    <Section>
+      <Cell
+        after={
+          <Switch
+            checked={openToFriendsRequests}
+            onChange={handlePressOpenToFriendsRequests}
+          />
+        }
+      >
+        Open to friends requests
+      </Cell>
+    </Section>
+    <Section>
+      <Button
+        mode="filled"
+        size="m"
+        stretched
+        onClick={handleSave}
+        disabled={isSaving}
+        loading={isSaving}
+      >
+        Save
+      </Button>
+    </Section>
+  </>
 };
