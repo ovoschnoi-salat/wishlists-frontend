@@ -1,9 +1,10 @@
 import {useLocation, useNavigate} from 'react-router';
-import {FC, memo, useState} from 'react';
+import {FC, memo, useCallback, useState} from 'react';
 import {List} from "@telegram-apps/telegram-ui";
 import {Page} from "@/components/Page.tsx";
 import {EditWishlistItem} from "@/components/EditWishlistItem/EditWishlistItem.tsx";
 import {
+  deleteApiUserWish,
   patchApiUserWishlistItem,
   ServiceCreateWishlistItemRequest, ServiceWishlistItem, SubcodeErrorsResponse
 } from "@/backend-client";
@@ -16,11 +17,12 @@ const useLocationState = () => {
 
 export const EditWishlistItemPage: FC = memo(function EditWishlistItemPage() {
   const navigate = useNavigate()
-  const [updateWishlistItemError, setUpdateWishlistItemError] = useState<SubcodeErrorsResponse | undefined>()
+  const [updateWishError, setUpdateWishError] = useState<SubcodeErrorsResponse | undefined>()
+  const [deleteWishError, setDeleteWishError] = useState<SubcodeErrorsResponse | undefined>()
 
   const item = useLocationState()
 
-  const handleSaveWishlistItem = async (newItem: ServiceCreateWishlistItemRequest) => {
+  const handleSaveWish = useCallback(async (newItem: ServiceCreateWishlistItemRequest) => {
     newItem.wishlist_id = item.wishlist_id
 
     const {data, error} = await patchApiUserWishlistItem({
@@ -31,22 +33,38 @@ export const EditWishlistItemPage: FC = memo(function EditWishlistItemPage() {
     })
 
     if (error) {
-      setUpdateWishlistItemError(error)
+      setUpdateWishError(error)
       return
     }
 
     navigate(`..`, {replace: true, relative: "path", state: data})
-  };
+  }, [item, navigate]);
+
+  const handleDeleteWish = useCallback(async () => {
+    const {error} = await deleteApiUserWish({
+      query: {
+        wish_id: item.id!,
+      }
+    })
+
+    if (error) {
+      setDeleteWishError(error)
+      return
+    }
+
+    navigate(-1)
+  }, [item.id, navigate])
 
   return <Page
     pageTitle={"Wishlist item edit"}
     backNavFn={() => {
       navigate(`..`, {replace: true, relative: "path", state: item})
     }}>
-    <BackendErrorHandler error={updateWishlistItemError} resetError={setUpdateWishlistItemError}/>
+    <BackendErrorHandler error={deleteWishError} resetError={setDeleteWishError}/>
+    <BackendErrorHandler error={updateWishError} resetError={setUpdateWishError}/>
     <List>
       <EditWishlistItem
-        onSave={handleSaveWishlistItem} wishlist={item}/>
+        onSave={handleSaveWish} onDelete={handleDeleteWish} wishlist={item}/>
     </List>
   </Page>
 });

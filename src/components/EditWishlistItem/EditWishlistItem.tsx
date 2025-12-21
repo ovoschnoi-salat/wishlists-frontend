@@ -1,10 +1,10 @@
-import {useState, type FC} from "react";
+import {useState, type FC, useCallback} from "react";
 import {Icon28Plus} from "@/icons/28/Plus.tsx";
 import {
   Section,
   Button,
   Input,
-  Textarea, Cell, Switch,
+  Textarea, Cell, Switch, ButtonCell,
 } from "@telegram-apps/telegram-ui";
 
 import {ServiceCreateWishlistItemRequest, ServiceWishlistItem, ServiceWishlistItemLink} from "@/backend-client";
@@ -18,10 +18,12 @@ export interface WishlistItemLink {
 export interface NewWishlistItemProps {
   wishlist: ServiceWishlistItem;
   onSave: (wishlistItem: ServiceCreateWishlistItemRequest) => Promise<void>;
+  onDelete?: () => Promise<void>;
 }
 
-export const EditWishlistItem: FC<NewWishlistItemProps> = ({wishlist, onSave}) => {
+export const EditWishlistItem: FC<NewWishlistItemProps> = ({wishlist, onSave, onDelete}) => {
   const [isSaving, setIsSaving] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const [title, setTitle] = useState(wishlist.title!);
   const [description, setDescription] = useState(wishlist.description!);
   const [price, setPrice] = useState(wishlist.price!)
@@ -69,11 +71,11 @@ export const EditWishlistItem: FC<NewWishlistItemProps> = ({wishlist, onSave}) =
     );
   };
 
-  const isFormValid = () => {
+  const isFormValid = useCallback(() => {
     return (
-      title.trim().length > 0 && links.some((link) => link.url.trim())
+      title.trim().length > 0 && !links.some((link) => !link.url.trim())
     );
-  };
+  }, [links, title]);
 
   const handleSubmit = async () => {
     if (isFormValid()) {
@@ -94,6 +96,18 @@ export const EditWishlistItem: FC<NewWishlistItemProps> = ({wishlist, onSave}) =
       setIsSaving(false);
     }
   };
+
+  const handleDelete = async () => {
+    if (!onDelete) {
+      return
+    }
+    setIsDeleting(true)
+    try {
+      await onDelete()
+    } finally {
+      setIsDeleting(false)
+    }
+  }
 
   return (
     <>
@@ -190,6 +204,15 @@ export const EditWishlistItem: FC<NewWishlistItemProps> = ({wishlist, onSave}) =
           Save wish
         </Button>
       </Section>
+      {onDelete && <Section>
+        <ButtonCell
+          disabled={isDeleting || isSaving}
+          mode={"destructive"}
+          onClick={handleDelete}
+        >
+          Delete Wish
+        </ButtonCell>
+      </Section>}
     </>
   );
 };

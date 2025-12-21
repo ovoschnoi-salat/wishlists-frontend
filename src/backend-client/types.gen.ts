@@ -533,6 +533,42 @@ export type GetApiUserFriendsRequestsOutcomingResponses = {
 
 export type GetApiUserFriendsRequestsOutcomingResponse = GetApiUserFriendsRequestsOutcomingResponses[keyof GetApiUserFriendsRequestsOutcomingResponses];
 
+export type DeleteApiUserWishData = {
+    body?: never;
+    path?: never;
+    query: {
+        /**
+         * Wish ID
+         */
+        wish_id: number;
+    };
+    url: '/api/user/wish';
+};
+
+export type DeleteApiUserWishErrors = {
+    /**
+     * Bad Request
+     */
+    400: SubcodeErrorsResponse;
+    /**
+     * Unauthorized
+     */
+    401: SubcodeErrorsResponse;
+    /**
+     * Internal Server Error
+     */
+    500: SubcodeErrorsResponse;
+};
+
+export type DeleteApiUserWishError = DeleteApiUserWishErrors[keyof DeleteApiUserWishErrors];
+
+export type DeleteApiUserWishResponses = {
+    /**
+     * No Content
+     */
+    204: unknown;
+};
+
 export type DeleteApiUserWishlistData = {
     body?: never;
     path?: never;

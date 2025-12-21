@@ -20,7 +20,7 @@ interface editWishlistProps {
   friends: Friend[];
   isLoadingFriends: boolean;
   onSave: (wishlist: ServiceCreateWishlistRequest) => Promise<void>;
-  onDelete: () => Promise<void>;
+  onDelete?: () => Promise<void>;
 }
 
 export const EditWishlist: FC<editWishlistProps> = memo(function EditWishlist({
@@ -60,6 +60,9 @@ export const EditWishlist: FC<editWishlistProps> = memo(function EditWishlist({
   }, [description, isPrivate, onSave, title, usersWithAccess]);
 
   const handleDelete = useCallback(async () => {
+    if (!onDelete) {
+      return
+    }
     setIsDeleting(true)
     try {
       await onDelete()
@@ -142,7 +145,7 @@ export const EditWishlist: FC<editWishlistProps> = memo(function EditWishlist({
               Save wishlist
             </Button>
           </Section>
-          <Section>
+          {onDelete && <Section>
             <ButtonCell
               disabled={isDeleting || isSaving}
               mode={"destructive"}
@@ -150,7 +153,7 @@ export const EditWishlist: FC<editWishlistProps> = memo(function EditWishlist({
             >
               Delete Wishlist
             </ButtonCell>
-          </Section>
+          </Section>}
         </> :
         <SelectFriends
           friends={friends}
