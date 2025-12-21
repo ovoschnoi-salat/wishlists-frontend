@@ -27,13 +27,13 @@ export const EditWishlistItem: FC<NewWishlistItemProps> = ({wishlist, onSave, on
   const [title, setTitle] = useState(wishlist.title!);
   const [description, setDescription] = useState(wishlist.description!);
   const [price, setPrice] = useState(wishlist.price!)
-  const [links, setLinks] = useState<WishlistItemLink[]>(wishlist.links!.map((value, index) => {
+  const [links, setLinks] = useState<WishlistItemLink[]>(wishlist.links ? wishlist.links.map((value, index) => {
     return {
       fieldGroupId: index,
       title: value.title,
       url: value.url,
     } as WishlistItemLink
-  }));
+  }) : []);
   const [isReservable, setIsReservable] = useState(wishlist.reservable!)
 
   const handleAddLink = () => {
