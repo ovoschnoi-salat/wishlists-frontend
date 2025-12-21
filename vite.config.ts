@@ -1,4 +1,4 @@
-import { defineConfig } from 'vite';
+import {defineConfig} from 'vite';
 import tsconfigPaths from 'vite-tsconfig-paths';
 import react from '@vitejs/plugin-react-swc';
 // import mkcert from 'vite-plugin-mkcert';
@@ -28,10 +28,10 @@ export default defineConfig({
   server: {
     // Exposes your dev server and makes it accessible for the devices in the same network.
     host: true,
-    https: {
+    https: process.env.HTTPS ? {
       key: fs.readFileSync('../localhost-ip.key'),
       cert: fs.readFileSync('../localhost-ip.crt'),
-    }
+    } : undefined,
   },
 });
 
