@@ -88,6 +88,7 @@ export const EditWishlist: FC<editWishlistProps> = memo(function EditWishlist({
             header="Title"
           >
             <Input
+              disabled={isDeleting || isSaving}
               placeholder="Title"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
@@ -99,6 +100,7 @@ export const EditWishlist: FC<editWishlistProps> = memo(function EditWishlist({
             header="Description"
           >
             <Textarea
+              disabled={isDeleting || isSaving}
               placeholder="Description"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
@@ -114,6 +116,7 @@ export const EditWishlist: FC<editWishlistProps> = memo(function EditWishlist({
             <Cell
               after={
                 <Switch
+                  disabled={isDeleting || isSaving}
                   checked={isPrivate}
                   onChange={handlePressIsPrivate}
                 />
@@ -124,6 +127,7 @@ export const EditWishlist: FC<editWishlistProps> = memo(function EditWishlist({
 
             {/* Users with Access */}
             {isPrivate && <Cell
+             disabled={isDeleting || isSaving}
              after={<Badge type="number">{usersWithAccess.length}</Badge>}
              onClick={handleUsersWithAccessPress}
             >

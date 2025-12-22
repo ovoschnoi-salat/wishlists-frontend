@@ -114,6 +114,7 @@ export const EditWishlistItem: FC<NewWishlistItemProps> = ({wishlist, onSave, on
       {/* Title Section */}
       <Section header="Title">
         <Input
+          disabled={isDeleting || isSaving}
           placeholder="Title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
@@ -123,6 +124,7 @@ export const EditWishlistItem: FC<NewWishlistItemProps> = ({wishlist, onSave, on
       {/* Description Section */}
       <Section header="Description">
         <Textarea
+          disabled={isDeleting || isSaving}
           placeholder="Description"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
@@ -133,6 +135,7 @@ export const EditWishlistItem: FC<NewWishlistItemProps> = ({wishlist, onSave, on
       {/* Price Section */}
       <Section header="Price">
         <Input
+          disabled={isDeleting || isSaving}
           placeholder="Price"
           value={price}
           onChange={(e) => setPrice(e.target.value)}
@@ -146,6 +149,7 @@ export const EditWishlistItem: FC<NewWishlistItemProps> = ({wishlist, onSave, on
             <Section.Header>
               {"Link"}
               <Button
+                disabled={isDeleting || isSaving}
                 mode="plain"
                 onClick={() => removeLink(link.fieldGroupId)}
               >
@@ -155,6 +159,7 @@ export const EditWishlistItem: FC<NewWishlistItemProps> = ({wishlist, onSave, on
           }
         >
           <Input
+            disabled={isDeleting || isSaving}
             name={"linkTitle" + link.fieldGroupId}
             header={"Title"}
             value={link.title}
@@ -162,6 +167,7 @@ export const EditWishlistItem: FC<NewWishlistItemProps> = ({wishlist, onSave, on
             onChange={(e) => handleInputChange(e.target.value, link.fieldGroupId, "title")}
           />
           <Textarea
+            disabled={isDeleting || isSaving}
             name={"linkUrl" + link.fieldGroupId}
             header={"Url"}
             value={link.url}
@@ -172,7 +178,10 @@ export const EditWishlistItem: FC<NewWishlistItemProps> = ({wishlist, onSave, on
       ))}
 
       <Section>
-        <Button onClick={handleAddLink}>
+        <Button
+          disabled={isDeleting || isSaving}
+          onClick={handleAddLink}
+        >
           Add link
         </Button>
       </Section>
@@ -182,6 +191,7 @@ export const EditWishlistItem: FC<NewWishlistItemProps> = ({wishlist, onSave, on
         <Cell
           after={
             <Switch
+              disabled={isDeleting || isSaving}
               checked={isReservable}
               onChange={(event) => setIsReservable(event.target.checked)}
             />
@@ -197,7 +207,7 @@ export const EditWishlistItem: FC<NewWishlistItemProps> = ({wishlist, onSave, on
           size="m"
           stretched
           onClick={handleSubmit}
-          disabled={!isFormValid() || isSaving}
+          disabled={!isFormValid() || isSaving || isDeleting}
           loading={isSaving}
           before={<Icon28Plus/>}
         >
@@ -206,9 +216,9 @@ export const EditWishlistItem: FC<NewWishlistItemProps> = ({wishlist, onSave, on
       </Section>
       {onDelete && <Section>
         <ButtonCell
-          disabled={isDeleting || isSaving}
-          mode={"destructive"}
-          onClick={handleDelete}
+         disabled={isDeleting || isSaving}
+         mode={"destructive"}
+         onClick={handleDelete}
         >
           Delete Wish
         </ButtonCell>

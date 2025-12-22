@@ -34,6 +34,7 @@ export const NewFriend: FC<NewFriendProps> = memo(function NewFriend({onSend}) {
     <>
       <Section header="Username">
         <Input
+          disabled={isSaving}
           placeholder="@Username"
           value={username}
           header={"Your friend username from telegram"}
