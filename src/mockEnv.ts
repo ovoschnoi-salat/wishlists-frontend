@@ -70,7 +70,7 @@ if (import.meta.env.DEV) {
                 tgWebAppBotInline: false,
                 tgWebAppDefaultColors: themeParams,
                 tgWebAppFullscreen: true,
-                tgWebAppPlatform: "tdesktop",
+                tgWebAppPlatform: "ios",
                 tgWebAppShowSettings: false,
                 // tgWebAppStartParam: string,
                 tgWebAppThemeParams: themeParams,

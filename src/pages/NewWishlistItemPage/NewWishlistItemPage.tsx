@@ -1,17 +1,17 @@
 import {useNavigate, useParams} from 'react-router';
-import {FC, memo, useState} from 'react';
+import {FC, memo} from 'react';
 import {List} from "@telegram-apps/telegram-ui";
 import {Page} from "@/components/Page.tsx";
 import {EditWishlistItem} from "@/components/EditWishlistItem/EditWishlistItem.tsx";
 import {
   postApiUserWishlistItem,
-  ServiceCreateWishlistItemRequest, SubcodeErrorsResponse
+  ServiceCreateWishlistItemRequest
 } from "@/backend-client";
-import {BackendErrorHandler} from "@/components/BackendErrorHandler/BackendErrorHandler.tsx";
+import {toast} from "react-hot-toast";
+import {ToastBackendError} from "@/components/ToastBackendError/ToastBackendError.tsx";
 
 export const NewWishlistItemPage: FC = memo(function NewWishlistItemPage() {
   const navigate = useNavigate()
-  const [createWishlistItemError, setCreateWishlistItemError] = useState<SubcodeErrorsResponse | undefined>()
 
   const {wishlistId} = useParams<{ wishlistId: string }>();
 
@@ -26,21 +26,28 @@ export const NewWishlistItemPage: FC = memo(function NewWishlistItemPage() {
   }
 
   const handleSaveNewWishlistItem = async (item: ServiceCreateWishlistItemRequest) => {
+    const toastId = toast.loading("Creating new wish...")
+
     item.wishlist_id = wishlistIdNumber
     const {data, error} = await postApiUserWishlistItem({
       body: item,
     })
 
     if (error) {
-      setCreateWishlistItemError(error)
+      toast.error(
+        <ToastBackendError
+          error={error}
+        />,
+        {id: toastId})
       return
     }
 
-    navigate(`/wishlists/${wishlistId}/items/${data!.id!}`, {replace: true, state: data})
+    toast.success("Wish created successfully", {id: toastId})
+
+    navigate(`/wishlists/${wishlistId}/items/${data.id!}`, {replace: true, state: data})
   };
 
-  return <Page pageTitle={"New wishlist item"}>
-    <BackendErrorHandler error={createWishlistItemError} resetError={setCreateWishlistItemError}/>
+  return <Page pageTitle={"New wish"}>
     <List>
       <EditWishlistItem
         onSave={handleSaveNewWishlistItem}

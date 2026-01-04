@@ -1,11 +1,11 @@
 import {List} from '@telegram-apps/telegram-ui';
-import {FC, memo, useState} from 'react';
+import {FC, memo} from 'react';
 
 import {
   deleteApiUserWishlist,
   patchApiUserWishlist,
   ServiceCreateWishlistRequest,
-  ServiceWishlist, SubcodeErrorsResponse
+  ServiceWishlist,
 } from '@/backend-client';
 import {Page} from "@/components/Page.tsx";
 import {useLocation, useNavigate} from "react-router";
@@ -13,6 +13,8 @@ import {useBackendFriends} from "@/hooks/useBackendFriends.ts";
 import {useBackendWishlistAccessList} from "@/hooks/useBackendWishlistAccessList.ts";
 import {EditWishlist} from "@/components/EditWishlist/EditWishlist.tsx";
 import {BackendErrorHandler} from "@/components/BackendErrorHandler/BackendErrorHandler.tsx";
+import {toast} from "react-hot-toast";
+import {ToastBackendError} from "@/components/ToastBackendError/ToastBackendError.tsx";
 
 const useLocationState = () => {
   const {state} = useLocation()
@@ -21,8 +23,6 @@ const useLocationState = () => {
 
 export const EditWishlistPage: FC = memo(function EditWishlistPage() {
   const navigate = useNavigate()
-  const [deleteError, setDeleteError] = useState<SubcodeErrorsResponse | undefined>(undefined)
-  const [saveError, setSaveError] = useState<SubcodeErrorsResponse | undefined>(undefined)
 
   const wishlist = useLocationState()
 
@@ -32,28 +32,44 @@ export const EditWishlistPage: FC = memo(function EditWishlistPage() {
 
 
   const handleDeleteWishlist = async () => {
+    const toastId = toast.loading("Deleting wishlist...")
+
     const {error} = await deleteApiUserWishlist({
       query: {wishlist_id: wishlist.id!}
     });
 
     if (error) {
-      setDeleteError(error)
+      toast.error(
+        <ToastBackendError
+          error={error}
+        />,
+        {id: toastId})
       return
     }
+
+    toast.success("Wishlist deleted successfully", {id: toastId})
 
     navigate(-1)
   };
 
   const handleSaveWishlist = async (newWishlist: ServiceCreateWishlistRequest) => {
+    const toastId = toast.loading("Saving wishlist...")
+
     const {data, error} = await patchApiUserWishlist({
       body: newWishlist,
       query: {wishlist_id: wishlist.id!}
     });
 
     if (error) {
-      setSaveError(error)
+      toast.error(
+        <ToastBackendError
+          error={error}
+        />,
+        {id: toastId})
       return
     }
+
+    toast.success("Wishlist saved successfully", {id: toastId})
 
     navigate(`../items`, {replace: true, relative: "path", state: data})
   };
@@ -64,8 +80,6 @@ export const EditWishlistPage: FC = memo(function EditWishlistPage() {
       navigate(`../items`, {replace: true, relative: "path", state: wishlist})
     }}>
     <BackendErrorHandler error={error} resetError={resetError}/>
-    <BackendErrorHandler error={deleteError} resetError={setDeleteError}/>
-    <BackendErrorHandler error={saveError} resetError={setSaveError}/>
     <List>
       <EditWishlist
         wishlist={wishlist}

@@ -6,19 +6,18 @@ import {StrictMode} from 'react';
 import {retrieveRawInitData, retrieveLaunchParams} from '@tma.js/sdk-react';
 
 import {EnvUnsupported} from '@/components/EnvUnsupported.tsx';
+import {App} from "@/components/App.tsx";
+
 import {init} from '@/init.ts';
-
 import {client} from './backend-client/client.gen';
-
-import './index.css';
 
 // Mock the environment in case, we are outside Telegram.
 import './mockEnv.ts';
 
-import {App} from "@/components/App.tsx";
+import './index.css';
+
 
 const root = ReactDOM.createRoot(document.getElementById('root')!);
-
 
 try {
   client.setConfig({

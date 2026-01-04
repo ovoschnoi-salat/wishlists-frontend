@@ -26,6 +26,7 @@ import {
 import {useRouteError} from "react-router";
 import {ErrorSnackbar} from "@/components/ErrorSnackbar/ErrorSnackbar.tsx";
 import {errorToString} from "@/helpers/error.ts";
+import {Toaster} from "react-hot-toast";
 
 export function ErrorBoundary() {
   const error = useRouteError();
@@ -47,6 +48,7 @@ export function App() {
       platform={['macos', 'ios'].includes(lp.tgWebAppPlatform) ? 'ios' : 'base'}
     >
       <RouterProvider router={router}/>
+      <Toaster position="bottom-center"/>
     </AppRoot>
   );
 }

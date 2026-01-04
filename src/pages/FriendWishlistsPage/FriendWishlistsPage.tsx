@@ -26,7 +26,7 @@ export const FriendWishlistsPage: FC = memo(function FriendWishlistsPage() {
   const {wishlists, isLoading, error, resetError} = useBackendFriendWishlists(friendIdNumber);
 
   if (!friendId) {
-    return <div>Wishlist ID not found</div>;
+    return <div>Wrong friend ID</div>;
   }
 
   return <Page>

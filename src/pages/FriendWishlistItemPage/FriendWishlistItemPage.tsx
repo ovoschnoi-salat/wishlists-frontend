@@ -5,10 +5,13 @@ import {Cell, List} from "@telegram-apps/telegram-ui";
 import {FriendWishlistItem} from "@/components/FriendWishlistItem";
 import {
   postApiUserFriendWishlistWishReservationCancel,
-  postApiUserFriendWishlistWishReservationReserve, ServiceFriendWishlistItem, SubcodeErrorsResponse
+  postApiUserFriendWishlistWishReservationReserve,
+  ServiceFriendWishlistItem,
 } from "@/backend-client";
 import {useBackendFriendWishlistItem} from "@/hooks/useBackendFriendWishlistItem.ts";
 import {BackendErrorHandler} from "@/components/BackendErrorHandler/BackendErrorHandler.tsx";
+import {toast} from "react-hot-toast";
+import {ToastBackendError} from "@/components/ToastBackendError/ToastBackendError.tsx";
 
 export const FriendWishlistItemPage: FC = memo(function FriendWishlistItemPage() {
   const {state} = useLocation()
@@ -16,7 +19,6 @@ export const FriendWishlistItemPage: FC = memo(function FriendWishlistItemPage()
 
   const {item, error, resetError, refetch} = useBackendFriendWishlistItem(itemFromState)
 
-  const [reservationError, setReservationError] = useState<SubcodeErrorsResponse | undefined>()
   const [isReservationLoading, setIsReservationLoading] = useState(false)
 
   const handlePressReservation = useCallback(async () => {
@@ -26,6 +28,7 @@ export const FriendWishlistItemPage: FC = memo(function FriendWishlistItemPage()
 
     setIsReservationLoading(true)
     if (!item.reserved) {
+      const toastId = toast.loading("Reserving wish...")
 
       const {error} = await postApiUserFriendWishlistWishReservationReserve({
         query: {
@@ -34,10 +37,18 @@ export const FriendWishlistItemPage: FC = memo(function FriendWishlistItemPage()
       })
       if (error) {
         setIsReservationLoading(false)
-        setReservationError(error)
+        toast.error(
+          <ToastBackendError
+            error={error}
+          />,
+          {id: toastId})
         return
       }
+
+      toast.success("Wish reserved successfully", {id: toastId})
     } else {
+      const toastId = toast.loading("Canceling wish reservation...")
+
       const {error} = await postApiUserFriendWishlistWishReservationCancel({
         query: {
           wish_id: item.id!
@@ -46,24 +57,29 @@ export const FriendWishlistItemPage: FC = memo(function FriendWishlistItemPage()
 
       if (error) {
         setIsReservationLoading(false)
-        setReservationError(error)
+        toast.error(
+          <ToastBackendError
+            error={error}
+          />,
+          {id: toastId})
         return
       }
+
+      toast.success("Wish reservation canceled successfully", {id: toastId})
     }
 
     setIsReservationLoading(false)
     refetch()
-  }, [item])
+  }, [item, refetch])
 
   if (!item) {
     return <Cell>
-      Wish not found
+      Error loading wish
     </Cell>
   }
 
   return <Page>
     <BackendErrorHandler error={error} resetError={resetError}/>
-    <BackendErrorHandler error={reservationError} resetError={setReservationError}/>
 
     <List>
       <FriendWishlistItem item={item} onPressReservation={handlePressReservation} isReservationLoading={isReservationLoading}/>

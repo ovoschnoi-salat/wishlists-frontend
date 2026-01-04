@@ -1,33 +1,41 @@
 import {List} from '@telegram-apps/telegram-ui';
-import {postApiUserWishlist, ServiceCreateWishlistRequest, SubcodeErrorsResponse} from '@/backend-client';
-import {FC, memo, useState} from 'react';
+import {postApiUserWishlist, ServiceCreateWishlistRequest} from '@/backend-client';
+import {FC, memo} from 'react';
 import {useNavigate} from "react-router";
 
 import {Page} from "@/components/Page.tsx";
 import {useBackendFriends} from "@/hooks/useBackendFriends.ts";
 import {EditWishlist} from "@/components/EditWishlist/EditWishlist.tsx";
 import {BackendErrorHandler} from "@/components/BackendErrorHandler/BackendErrorHandler.tsx";
+import {toast} from "react-hot-toast";
+import {ToastBackendError} from "@/components/ToastBackendError/ToastBackendError.tsx";
 
 export const NewWishlistPage: FC = memo(function NewWishlistPage() {
   const navigate = useNavigate()
-  const [createWishlistError, setCreateWishlistError] = useState<SubcodeErrorsResponse | undefined>()
 
   const {friends, isLoading, error, resetError} = useBackendFriends();
 
   const handleSaveNewWishlist = async (newWishlist: ServiceCreateWishlistRequest) => {
+    const toastId = toast.loading("Creating new wishlist...")
+
     const {data, error} = await postApiUserWishlist({body: newWishlist});
 
     if (error) {
-      setCreateWishlistError(error)
+      toast.error(
+        <ToastBackendError
+          error={error}
+        />,
+        {id: toastId})
       return
     }
+
+    toast.success("Wishlist created successfully", {id: toastId})
 
     navigate(`/wishlists/${data!.id!}/items`, {replace: true, state: data})
   };
 
   return <Page pageTitle={"New wishlist"}>
     <BackendErrorHandler error={error} resetError={resetError}/>
-    <BackendErrorHandler error={createWishlistError} resetError={setCreateWishlistError}/>
     <List>
       <EditWishlist
         onSave={handleSaveNewWishlist}
