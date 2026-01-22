@@ -5,15 +5,14 @@ import {
 
 import {Page} from "@/components/Page.tsx";
 import {Settings} from "@/components/Settings/Settings.tsx";
-import {useBackendUserSettings} from "@/hooks/useBackendUserSettings.ts";
-import {BackendErrorHandler} from "@/components/BackendErrorHandler/BackendErrorHandler.tsx";
+import {useBackendUserSettings} from "@/hooks/useBackendUserSettings.tsx";
 import {patchApiUserSettings, ServiceUserSettings} from "@/backend-client";
 import {Loading} from "@/components/Loading.tsx";
 import {toast} from "react-hot-toast";
 import {ToastBackendError} from "@/components/ToastBackendError/ToastBackendError.tsx";
 
 export const SettingsPage: FC = memo(function SettingsPage() {
-  const {settings, isLoading, error, resetError} = useBackendUserSettings()
+  const {settings, isLoading} = useBackendUserSettings()
 
   const onSave = useCallback(async (settings: ServiceUserSettings) => {
     const toastId = toast.loading("Saving settings...")
@@ -39,7 +38,6 @@ export const SettingsPage: FC = memo(function SettingsPage() {
   }
 
   return <Page pageTitle={"Settings"} back={false}>
-    <BackendErrorHandler error={error} resetError={resetError}/>
     <List>
       <Settings settings={settings} onSave={onSave} isLoading={isLoading}/>
     </List>

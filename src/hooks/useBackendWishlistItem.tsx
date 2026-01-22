@@ -1,19 +1,18 @@
-import {useEffect, useState} from 'react';
-import {getApiUserWishlistItem, ServiceWishlistItem, SubcodeErrorsResponse} from '@/backend-client';
+import {useCallback, useEffect, useState} from 'react';
+import {getApiUserWishlistItem, ServiceWishlistItem} from '@/backend-client';
 import {useLocation} from "react-router";
 import {loadResult} from "@/hooks/loaderProps.ts";
+import {toast} from "react-hot-toast";
+import {ToastBackendError} from "@/components/ToastBackendError/ToastBackendError.tsx";
 
 export const useBackendWishlistItem = (itemId: number): loadResult & {item: ServiceWishlistItem} => {
   const {state} = useLocation()
   const itemFromState = state as ServiceWishlistItem | undefined
 
   const [data, setData] = useState<ServiceWishlistItem>(itemFromState ?? {});
-  const [shouldBeLoaded, setShouldBeLoaded] = useState(itemFromState === undefined || itemFromState?.id !== itemId);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<SubcodeErrorsResponse | undefined>();
 
-  const fetch = async () => {
-    setShouldBeLoaded(true);
+  const fetch = useCallback(async () => {
     try {
       setIsLoading(true);
 
@@ -21,9 +20,9 @@ export const useBackendWishlistItem = (itemId: number): loadResult & {item: Serv
         query: {item_id: itemId}
       });
 
-      setError(error);
       if (error) {
         setData({});
+        toast.error(<ToastBackendError error={error}/>)
         return
       }
 
@@ -31,19 +30,17 @@ export const useBackendWishlistItem = (itemId: number): loadResult & {item: Serv
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [itemId]);
 
   useEffect(() => {
-    if (shouldBeLoaded) {
+    if (itemFromState === undefined || itemFromState?.id !== itemId) {
       fetch();
     }
-  }, [itemId]);
+  }, [fetch, itemFromState, itemId]);
 
   return {
     item: data,
     isLoading: isLoading,
-    error,
-    resetError: setError,
     refetch: fetch,
   };
 };

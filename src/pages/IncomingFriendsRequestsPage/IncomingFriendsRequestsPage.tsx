@@ -12,16 +12,15 @@ import {
   postApiUserFriendRequestDeny,
   ServiceFriend,
 } from "@/backend-client";
-import {useBackendIncomingFriendsRequests} from "@/hooks/useBackendIncomingFriendsRequests.ts";
+import {useBackendIncomingFriendsRequests} from "@/hooks/useBackendIncomingFriendsRequests.tsx";
 import {useNavigate} from "react-router";
-import {BackendErrorHandler} from "@/components/BackendErrorHandler/BackendErrorHandler.tsx";
 import {toast} from "react-hot-toast";
 import {ToastBackendError} from "@/components/ToastBackendError/ToastBackendError.tsx";
 
 export const IncomingFriendsRequestsPage: FC = memo(function IncomingFriendsRequestsPage() {
   const navigate = useNavigate()
 
-  const {friends, setFriends, isLoading, error, resetError} = useBackendIncomingFriendsRequests()
+  const {friends, setFriends, isLoading} = useBackendIncomingFriendsRequests()
 
   const handleAcceptPress = async (friendId: number) => {
     const toastId = toast.loading("Accepting request...")
@@ -74,7 +73,6 @@ export const IncomingFriendsRequestsPage: FC = memo(function IncomingFriendsRequ
   }
 
   return <Page pageTitle={"Incoming friends requests"} backNavFn={() => {navigate("../..", {replace: true, relative: "path"})}}>
-    <BackendErrorHandler error={error} resetError={resetError}/>
     <List>
       <Section header='Incoming friends requests'>
         <IncomingFriendsRequests friends={friends} onDenyClick={handleDenyPress} onAcceptClick={handleAcceptPress}/>

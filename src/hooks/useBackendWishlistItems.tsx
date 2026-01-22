@@ -1,27 +1,25 @@
 import {useState, useEffect, useCallback} from 'react';
-import {
-  getApiUserFriendWishlistItems,
-  ServiceFriendWishlistItem, SubcodeErrorsResponse
-} from '@/backend-client';
+import {getApiUserWishlistItems, ServiceWishlistItem} from '@/backend-client';
 import {loadResult} from "@/hooks/loaderProps.ts";
+import {toast} from "react-hot-toast";
+import {ToastBackendError} from "@/components/ToastBackendError/ToastBackendError.tsx";
 
-export const useBackendFriendWishlistItems = (wishlistId: number): loadResult & { items: ServiceFriendWishlistItem[] } => {
-  const [data, setData] = useState<ServiceFriendWishlistItem[]>([]);
+export const useBackendWishlistItems = (wishlistId: number): loadResult & { items: ServiceWishlistItem[] } => {
+  const [data, setData] = useState<ServiceWishlistItem[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<SubcodeErrorsResponse | undefined>();
 
   const fetch = useCallback(async () => {
     try {
       setIsLoading(true);
 
-      const {data, error} = await getApiUserFriendWishlistItems({
+      const {data, error} = await getApiUserWishlistItems({
         query: {wishlist_id: wishlistId}
       });
 
-      setError(error);
       if (error) {
         setData([]);
-        return;
+        toast.error(<ToastBackendError error={error}/>)
+        return
       }
 
       setData(data);
@@ -37,8 +35,6 @@ export const useBackendFriendWishlistItems = (wishlistId: number): loadResult & 
   return {
     items: data,
     isLoading: isLoading,
-    error: error,
-    resetError: setError,
     refetch: fetch,
   };
 };

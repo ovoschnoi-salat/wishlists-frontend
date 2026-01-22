@@ -4,25 +4,20 @@ import {
 } from '@telegram-apps/telegram-ui';
 import {FC, memo, useCallback} from 'react';
 
-import {useBackendFriends} from "@/hooks/useBackendFriends.ts";
+import {useBackendFriends} from "@/hooks/useBackendFriends.tsx";
 import {Friends} from "@/components/Friends/Friends.tsx";
 import {Page} from "@/components/Page.tsx";
 import {Loading} from "@/components/Loading.tsx";
 import {Icon28Plus} from "@/icons/28/Plus.tsx";
 import {useNavigate} from "react-router";
-import {useBackendIncomingFriendsRequestsCount} from "@/hooks/useBackendIncomingFriendsRequestsCount.ts";
-import {BackendErrorHandler} from "@/components/BackendErrorHandler/BackendErrorHandler.tsx";
+import {useBackendIncomingFriendsRequestsCount} from "@/hooks/useBackendIncomingFriendsRequestsCount.tsx";
 
 export const FriendsPage: FC = memo(function FriendsPage() {
   const navigate = useNavigate();
 
-  const {friends, isLoading, error, resetError} = useBackendFriends();
+  const {friends, isLoading} = useBackendFriends();
 
-  const {
-    requestsCount,
-    error: requestsError,
-    resetError: resetRequestsError
-  } = useBackendIncomingFriendsRequestsCount();
+  const {requestsCount} = useBackendIncomingFriendsRequestsCount();
 
   const handleIncomingFriendsRequestsPress = useCallback(() => {
     navigate(`requests/incoming`);
@@ -40,11 +35,8 @@ export const FriendsPage: FC = memo(function FriendsPage() {
   if (isLoading) {
     return <Loading/>;
   }
-  ;
 
   return <Page pageTitle={"Friends"} back={false}>
-    <BackendErrorHandler error={error} resetError={resetError}/>
-    <BackendErrorHandler error={requestsError} resetError={resetRequestsError}/>
     <List>
       <Section header='Friends requests'>
         {requestsCount !== 0 &&

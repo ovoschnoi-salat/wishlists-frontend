@@ -8,8 +8,7 @@ import {
   postApiUserFriendWishlistWishReservationReserve,
   ServiceFriendWishlistItem,
 } from "@/backend-client";
-import {useBackendFriendWishlistItem} from "@/hooks/useBackendFriendWishlistItem.ts";
-import {BackendErrorHandler} from "@/components/BackendErrorHandler/BackendErrorHandler.tsx";
+import {useBackendFriendWishlistItem} from "@/hooks/useBackendFriendWishlistItem.tsx";
 import {toast} from "react-hot-toast";
 import {ToastBackendError} from "@/components/ToastBackendError/ToastBackendError.tsx";
 
@@ -17,7 +16,7 @@ export const FriendWishlistItemPage: FC = memo(function FriendWishlistItemPage()
   const {state} = useLocation()
   const itemFromState = state as ServiceFriendWishlistItem | undefined
 
-  const {item, error, resetError, refetch} = useBackendFriendWishlistItem(itemFromState)
+  const {item, refetch} = useBackendFriendWishlistItem(itemFromState)
 
   const [isReservationLoading, setIsReservationLoading] = useState(false)
 
@@ -79,8 +78,6 @@ export const FriendWishlistItemPage: FC = memo(function FriendWishlistItemPage()
   }
 
   return <Page>
-    <BackendErrorHandler error={error} resetError={resetError}/>
-
     <List>
       <FriendWishlistItem item={item} onPressReservation={handlePressReservation} isReservationLoading={isReservationLoading}/>
     </List>

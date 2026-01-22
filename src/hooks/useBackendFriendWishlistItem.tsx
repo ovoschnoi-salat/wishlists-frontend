@@ -1,14 +1,15 @@
 import {useState, useEffect, useCallback} from 'react';
 import {
   getApiUserFriendWishlistItem,
-  ServiceFriendWishlistItem, SubcodeErrorsResponse
+  ServiceFriendWishlistItem,
 } from '@/backend-client';
 import {loadResult} from "@/hooks/loaderProps.ts";
+import {toast} from "react-hot-toast";
+import {ToastBackendError} from "@/components/ToastBackendError/ToastBackendError.tsx";
 
 export const useBackendFriendWishlistItem = (wish: ServiceFriendWishlistItem | undefined): loadResult & { item: ServiceFriendWishlistItem | undefined } => {
   const [data, setData] = useState<ServiceFriendWishlistItem | undefined>(wish);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<SubcodeErrorsResponse | undefined>();
 
   const fetch = useCallback(async () => {
     if (!wish) {
@@ -24,9 +25,9 @@ export const useBackendFriendWishlistItem = (wish: ServiceFriendWishlistItem | u
         }
       });
 
-      setError(error);
       if (error) {
         setData(undefined);
+        toast.error(<ToastBackendError error={error}/>)
         return;
       }
 
@@ -43,8 +44,6 @@ export const useBackendFriendWishlistItem = (wish: ServiceFriendWishlistItem | u
   return {
     item: data,
     isLoading: isLoading,
-    error: error,
-    resetError: setError,
     refetch: fetch,
   };
 };

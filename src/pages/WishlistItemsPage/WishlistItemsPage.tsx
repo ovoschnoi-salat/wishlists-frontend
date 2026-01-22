@@ -3,11 +3,10 @@ import {useLocation, useNavigate, useParams} from 'react-router';
 import {FC, memo, useCallback} from 'react';
 import {ButtonCell, Cell, List, Section} from "@telegram-apps/telegram-ui";
 import {Page} from "@/components/Page.tsx";
-import {useBackendWishlistItems} from "@/hooks/useBackendWishlistItems.ts";
+import {useBackendWishlistItems} from "@/hooks/useBackendWishlistItems.tsx";
 import {Icon28Plus} from "@/icons/28/Plus.tsx";
 import {ServiceWishlist, ServiceWishlistItem} from "@/backend-client";
 import {Icon24Edit} from "@/icons/24";
-import {BackendErrorHandler} from "@/components/BackendErrorHandler/BackendErrorHandler.tsx";
 
 export const WishlistItemsPage: FC = memo(function WishlistItemsPage() {
   const navigate = useNavigate();
@@ -29,20 +28,18 @@ export const WishlistItemsPage: FC = memo(function WishlistItemsPage() {
 
   const {wishlistId} = useParams<{ wishlistId: string }>();
 
+  const wishlistIdNumber = parseInt(wishlistId ?? "", 10);
+
+  const {items, isLoading} = useBackendWishlistItems(wishlistIdNumber);
+
   if (!wishlistId) {
     return <div>Wishlist ID not found</div>;
   }
 
-  const wishlistIdNumber = parseInt(wishlistId, 10);
-
   if (isNaN(wishlistIdNumber)) {
     return <div>Invalid wishlist ID</div>;
   }
-
-  const {items, isLoading, error, resetError} = useBackendWishlistItems(wishlistIdNumber);
-
   return <Page pageTitle={wishlist.title}>
-    <BackendErrorHandler error={error} resetError={resetError}/>
     <List>
       <Section>
         <Cell subhead="Title" subtitle={wishlist.is_private ? "private" : undefined}>

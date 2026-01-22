@@ -4,8 +4,7 @@ import {List} from "@telegram-apps/telegram-ui";
 import {Page} from "@/components/Page.tsx";
 import {FriendWishlistItems} from "@/components/FriendWishlistItems";
 import {ServiceWishlist, ServiceWishlistItem} from "@/backend-client";
-import {useBackendFriendWishlistItems} from "@/hooks/useBackendFriendWishlistItems.ts";
-import {BackendErrorHandler} from "@/components/BackendErrorHandler/BackendErrorHandler.tsx";
+import {useBackendFriendWishlistItems} from "@/hooks/useBackendFriendWishlistItems.tsx";
 
 const useLocationState = () => {
   const {state} = useLocation()
@@ -19,24 +18,24 @@ export const FriendWishlistItemsPage: FC = memo(function FriendWishlistItemsPage
 
   const {wishlistId} = useParams<{ wishlistId: string }>();
 
-  if (!wishlistId) {
-    return <div>Wishlist ID not found</div>;
-  }
 
-  const wishlistIdNumber = parseInt(wishlistId, 10);
-
-  if (isNaN(wishlistIdNumber)) {
-    return <div>Invalid wishlist ID</div>;
-  }
+  const wishlistIdNumber = parseInt(wishlistId ?? "", 10);
 
   const handleItemPress = (item: ServiceWishlistItem) => {
     navigate(`../items/${item.id}`, {state: item, relative: "path"})
   };
 
-  const {items, isLoading, error, resetError} = useBackendFriendWishlistItems(wishlistIdNumber);
+  const {items, isLoading} = useBackendFriendWishlistItems(wishlistIdNumber);
+
+  if (!wishlistId) {
+    return <div>Wishlist ID not found</div>;
+  }
+
+  if (isNaN(wishlistIdNumber)) {
+    return <div>Invalid wishlist ID</div>;
+  }
 
   return <Page pageTitle={wishlist.title}>
-    <BackendErrorHandler error={error} resetError={resetError}/>
     <List title={"Friend wishlists"}>
       <FriendWishlistItems items={items} isLoading={isLoading} onItemClick={handleItemPress}/>
     </List>

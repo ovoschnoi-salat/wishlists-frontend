@@ -9,10 +9,9 @@ import {
 } from '@/backend-client';
 import {Page} from "@/components/Page.tsx";
 import {useLocation, useNavigate} from "react-router";
-import {useBackendFriends} from "@/hooks/useBackendFriends.ts";
-import {useBackendWishlistAccessList} from "@/hooks/useBackendWishlistAccessList.ts";
+import {useBackendFriends} from "@/hooks/useBackendFriends.tsx";
+import {useBackendWishlistAccessList} from "@/hooks/useBackendWishlistAccessList.tsx";
 import {EditWishlist} from "@/components/EditWishlist/EditWishlist.tsx";
-import {BackendErrorHandler} from "@/components/BackendErrorHandler/BackendErrorHandler.tsx";
 import {toast} from "react-hot-toast";
 import {ToastBackendError} from "@/components/ToastBackendError/ToastBackendError.tsx";
 
@@ -26,7 +25,7 @@ export const EditWishlistPage: FC = memo(function EditWishlistPage() {
 
   const wishlist = useLocationState()
 
-  const {friends, isLoading, error, resetError} = useBackendFriends();
+  const {friends, isLoading} = useBackendFriends();
 
   const WishlistAccessList = useBackendWishlistAccessList(wishlist.id!)
 
@@ -79,7 +78,6 @@ export const EditWishlistPage: FC = memo(function EditWishlistPage() {
     backNavFn={() => {
       navigate(`../items`, {replace: true, relative: "path", state: wishlist})
     }}>
-    <BackendErrorHandler error={error} resetError={resetError}/>
     <List>
       <EditWishlist
         wishlist={wishlist}

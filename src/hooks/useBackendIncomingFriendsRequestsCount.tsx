@@ -1,23 +1,22 @@
-import { useState, useEffect } from 'react';
-import {
-  getApiUserFriendsRequestsIncomingCount, SubcodeErrorsResponse
-} from '@/backend-client';
+import {useState, useEffect, useCallback} from 'react';
+import {getApiUserFriendsRequestsIncomingCount} from '@/backend-client';
 import {loadResult} from "@/hooks/loaderProps.ts";
+import {toast} from "react-hot-toast";
+import {ToastBackendError} from "@/components/ToastBackendError/ToastBackendError.tsx";
 
 export const useBackendIncomingFriendsRequestsCount = (): loadResult & {requestsCount: number} => {
   const [data, setData] = useState<number>(0);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<SubcodeErrorsResponse | undefined>();
 
-  const fetch = async () => {
+  const fetch = useCallback(async () => {
     try {
       setIsLoading(true);
 
       const { data, error } = await getApiUserFriendsRequestsIncomingCount({});
 
-      setError(error);
       if (error) {
         setData(0);
+        toast.error(<ToastBackendError error={error}/>)
         return
       }
 
@@ -25,17 +24,15 @@ export const useBackendIncomingFriendsRequestsCount = (): loadResult & {requests
     } finally {
       setIsLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
     fetch();
-  }, []);
+  }, [fetch]);
 
   return {
     requestsCount: data,
     isLoading: isLoading,
-    error: error,
-    resetError: setError,
     refetch: fetch,
   };
 };

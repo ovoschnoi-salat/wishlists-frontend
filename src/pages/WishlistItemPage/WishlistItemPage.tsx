@@ -1,11 +1,9 @@
 import {useNavigate, useParams} from 'react-router';
 import {FC, memo} from 'react';
 import {List} from "@telegram-apps/telegram-ui";
-import {useBackendWishlistItem} from "@/hooks/useBackendWishlistItem.ts";
+import {useBackendWishlistItem} from "@/hooks/useBackendWishlistItem.tsx";
 import {Page} from "@/components/Page.tsx";
 import {WishlistItem} from '@/components/WishlistItem';
-import {BackendErrorHandler} from "@/components/BackendErrorHandler/BackendErrorHandler.tsx";
-
 
 export const WishlistItemPage: FC = memo(function WishlistItemPage() {
   const navigate = useNavigate()
@@ -22,14 +20,13 @@ export const WishlistItemPage: FC = memo(function WishlistItemPage() {
     return <div>Invalid item ID</div>;
   }
 
-  const {item, isLoading, error, resetError} = useBackendWishlistItem(itemIdNumber);
+  const {item, isLoading} = useBackendWishlistItem(itemIdNumber);
 
   const handleEdit = () => {
     navigate(`edit`, {replace: true, state: item})
   }
 
   return <Page>
-    <BackendErrorHandler error={error} resetError={resetError}/>
     <List>
       <WishlistItem item={item} isLoading={isLoading} onPressEdit={handleEdit}/>
     </List>

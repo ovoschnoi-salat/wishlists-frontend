@@ -4,16 +4,15 @@ import {FC, memo} from 'react';
 import {useNavigate} from "react-router";
 
 import {Page} from "@/components/Page.tsx";
-import {useBackendFriends} from "@/hooks/useBackendFriends.ts";
+import {useBackendFriends} from "@/hooks/useBackendFriends.tsx";
 import {EditWishlist} from "@/components/EditWishlist/EditWishlist.tsx";
-import {BackendErrorHandler} from "@/components/BackendErrorHandler/BackendErrorHandler.tsx";
 import {toast} from "react-hot-toast";
 import {ToastBackendError} from "@/components/ToastBackendError/ToastBackendError.tsx";
 
 export const NewWishlistPage: FC = memo(function NewWishlistPage() {
   const navigate = useNavigate()
 
-  const {friends, isLoading, error, resetError} = useBackendFriends();
+  const {friends, isLoading} = useBackendFriends();
 
   const handleSaveNewWishlist = async (newWishlist: ServiceCreateWishlistRequest) => {
     const toastId = toast.loading("Creating new wishlist...")
@@ -22,10 +21,9 @@ export const NewWishlistPage: FC = memo(function NewWishlistPage() {
 
     if (error) {
       toast.error(
-        <ToastBackendError
-          error={error}
-        />,
-        {id: toastId})
+        <ToastBackendError error={error}/>,
+        {id: toastId},
+      )
       return
     }
 
@@ -35,7 +33,6 @@ export const NewWishlistPage: FC = memo(function NewWishlistPage() {
   };
 
   return <Page pageTitle={"New wishlist"}>
-    <BackendErrorHandler error={error} resetError={resetError}/>
     <List>
       <EditWishlist
         onSave={handleSaveNewWishlist}
