@@ -5,7 +5,7 @@ import {useBackendWishlistItem} from "@/hooks/useBackendWishlistItem.tsx";
 import {Page} from "@/components/Page.tsx";
 import {WishlistItem} from '@/components/WishlistItem';
 
-export const WishlistItemPage: FC = memo(function WishlistItemPage() {
+export const WishPage: FC = memo(function WishlistItemPage() {
   const navigate = useNavigate()
 
   const {itemId} = useParams<{ itemId: string }>();

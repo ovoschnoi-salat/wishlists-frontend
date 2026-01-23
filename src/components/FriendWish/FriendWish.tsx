@@ -17,7 +17,7 @@ interface FriendWishlistItemProps {
   isReservationLoading: boolean;
 }
 
-export const FriendWishlistItem: FC<FriendWishlistItemProps> = memo(function FriendWishlistItem({
+export const FriendWish: FC<FriendWishlistItemProps> = memo(function FriendWishlistItem({
                                                                                                   item,
                                                                                                   onPressReservation,
                                                                                                   isReservationLoading

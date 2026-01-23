@@ -2,7 +2,7 @@ import {useLocation} from 'react-router';
 import {FC, memo, useCallback, useState} from 'react';
 import {Page} from "@/components/Page.tsx";
 import {Cell, List} from "@telegram-apps/telegram-ui";
-import {FriendWishlistItem} from "@/components/FriendWishlistItem";
+import {FriendWish} from "@/components/FriendWish";
 import {
   postApiUserFriendWishlistWishReservationCancel,
   postApiUserFriendWishlistWishReservationReserve,
@@ -12,7 +12,7 @@ import {useBackendFriendWishlistItem} from "@/hooks/useBackendFriendWishlistItem
 import {toast} from "react-hot-toast";
 import {ToastBackendError} from "@/components/ToastBackendError/ToastBackendError.tsx";
 
-export const FriendWishlistItemPage: FC = memo(function FriendWishlistItemPage() {
+export const FriendWishPage: FC = memo(function FriendWishlistItemPage() {
   const {state} = useLocation()
   const itemFromState = state as ServiceFriendWishlistItem | undefined
 
@@ -79,7 +79,7 @@ export const FriendWishlistItemPage: FC = memo(function FriendWishlistItemPage()
 
   return <Page>
     <List>
-      <FriendWishlistItem item={item} onPressReservation={handlePressReservation} isReservationLoading={isReservationLoading}/>
+      <FriendWish item={item} onPressReservation={handlePressReservation} isReservationLoading={isReservationLoading}/>
     </List>
   </Page>
 });

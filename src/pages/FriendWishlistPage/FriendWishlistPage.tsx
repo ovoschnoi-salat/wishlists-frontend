@@ -11,7 +11,7 @@ const useLocationState = () => {
   return state as ServiceWishlist
 }
 
-export const FriendWishlistItemsPage: FC = memo(function FriendWishlistItemsPage() {
+export const FriendWishlistPage: FC = memo(function FriendWishlistItemsPage() {
   const navigate = useNavigate()
 
   const wishlist = useLocationState()

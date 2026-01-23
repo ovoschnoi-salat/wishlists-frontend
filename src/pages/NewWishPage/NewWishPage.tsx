@@ -10,7 +10,7 @@ import {
 import {toast} from "react-hot-toast";
 import {ToastBackendError} from "@/components/ToastBackendError/ToastBackendError.tsx";
 
-export const NewWishlistItemPage: FC = memo(function NewWishlistItemPage() {
+export const NewWishPage: FC = memo(function NewWishlistItemPage() {
   const navigate = useNavigate()
 
   const {wishlistId} = useParams<{ wishlistId: string }>();

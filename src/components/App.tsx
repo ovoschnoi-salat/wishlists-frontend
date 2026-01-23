@@ -9,18 +9,18 @@ import {
   LaunchParamsPage,
   PageWithTabbar,
   WishlistsPage,
-  WishlistItemPage,
+  WishPage,
   FriendsPage,
   NewFriendPage,
   IncomingFriendsRequestsPage,
   FriendWishlistsPage,
-  FriendWishlistItemsPage,
+  FriendWishlistPage,
   NewWishlistPage,
-  NewWishlistItemPage,
+  NewWishPage,
   WishlistPage,
-  FriendWishlistItemPage,
+  FriendWishPage,
   EditWishlistPage,
-  EditWishlistItemPage,
+  EditWishPage,
   SettingsPage
 } from "@/pages";
 import {useRouteError} from "react-router";
@@ -69,16 +69,16 @@ const router = createBrowserRouter([
         {path: '/wishlists/new', Component: NewWishlistPage},
         {path: '/wishlists/:wishlistId/items', Component: WishlistPage},
         {path: '/wishlists/:wishlistId/edit', Component: EditWishlistPage},
-        {path: '/wishlists/:wishlistId/items/new', Component: NewWishlistItemPage},
-        {path: '/wishlists/:wishlistId/items/:itemId', Component: WishlistItemPage},
-        {path: '/wishlists/:wishlistId/items/:itemId/edit', Component: EditWishlistItemPage},
+        {path: '/wishlists/:wishlistId/items/new', Component: NewWishPage},
+        {path: '/wishlists/:wishlistId/items/:itemId', Component: WishPage},
+        {path: '/wishlists/:wishlistId/items/:itemId/edit', Component: EditWishPage},
 
         {path: '/friends', Component: FriendsPage},
         {path: '/friends/new', Component: NewFriendPage},
         {path: '/friends/requests/incoming', Component: IncomingFriendsRequestsPage},
         {path: '/friends/:friendId/wishlists', Component: FriendWishlistsPage},
-        {path: '/friends/:friendId/wishlists/:wishlistId/items', Component: FriendWishlistItemsPage},
-        {path: '/friends/:friendId/wishlists/:wishlistId/items/:itemId', Component: FriendWishlistItemPage},
+        {path: '/friends/:friendId/wishlists/:wishlistId/items', Component: FriendWishlistPage},
+        {path: '/friends/:friendId/wishlists/:wishlistId/items/:itemId', Component: FriendWishPage},
 
         {path: '/settings', Component: SettingsPage}
       ]

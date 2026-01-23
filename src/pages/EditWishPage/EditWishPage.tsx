@@ -16,7 +16,7 @@ const useLocationState = () => {
   return state as ServiceWishlistItem
 }
 
-export const EditWishlistItemPage: FC = memo(function EditWishlistItemPage() {
+export const EditWishPage: FC = memo(function EditWishlistItemPage() {
   const navigate = useNavigate()
 
   const item = useLocationState()
