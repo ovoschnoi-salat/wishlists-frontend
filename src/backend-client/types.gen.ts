@@ -128,6 +128,42 @@ export type PatchApiUserResponses = {
 
 export type PatchApiUserResponse = PatchApiUserResponses[keyof PatchApiUserResponses];
 
+export type DeleteApiUserFriendData = {
+    body?: never;
+    path?: never;
+    query: {
+        /**
+         * Friend ID
+         */
+        friend_id: number;
+    };
+    url: '/api/user/friend';
+};
+
+export type DeleteApiUserFriendErrors = {
+    /**
+     * Bad Request
+     */
+    400: SubcodeErrorsResponse;
+    /**
+     * Unauthorized
+     */
+    401: SubcodeErrorsResponse;
+    /**
+     * Internal Server Error
+     */
+    500: SubcodeErrorsResponse;
+};
+
+export type DeleteApiUserFriendError = DeleteApiUserFriendErrors[keyof DeleteApiUserFriendErrors];
+
+export type DeleteApiUserFriendResponses = {
+    /**
+     * No Content
+     */
+    204: unknown;
+};
+
 export type PostApiUserFriendRequestData = {
     body?: never;
     path?: never;
