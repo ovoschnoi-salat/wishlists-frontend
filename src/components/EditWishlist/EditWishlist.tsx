@@ -13,6 +13,7 @@ import {Icon28Plus} from '@/icons/28/Plus.tsx';
 import {SelectFriends} from "@/components/SelectFriends/SelectFriends.tsx";
 import {Friend} from "@/components/Friends/Friends.tsx";
 import {ServiceCreateWishlistRequest, ServiceWishlist} from "@/backend-client";
+import {Icon28Cancel} from "@/icons/28/Cancel.tsx";
 
 interface editWishlistProps {
   wishlist: ServiceWishlist;
@@ -153,6 +154,7 @@ export const EditWishlist: FC<editWishlistProps> = memo(function EditWishlist({
             <ButtonCell
               disabled={isDeleting || isSaving}
               mode="destructive"
+              before={<Icon28Cancel/>}
               onClick={handleDelete}
             >
               Delete Wishlist

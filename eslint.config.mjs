@@ -11,7 +11,7 @@ export default defineConfig(
  ...tseslint.configs.recommended,
  react.configs.flat.recommended, // Enables recommended rules for React
  react.configs.flat['jsx-runtime'], // Enables rules for React 17+ JSX transform
- reactHooks.configs["recommended-latest"],
+ reactHooks.configs.flat["recommended-latest"],
  {
    // Custom settings or overrides
    settings: {

@@ -8,6 +8,7 @@ import {
 } from "@telegram-apps/telegram-ui";
 
 import {ServiceCreateWishlistItemRequest, ServiceWishlistItem, ServiceWishlistItemLink} from "@/backend-client";
+import {Icon28Cancel} from "@/icons/28/Cancel.tsx";
 
 export interface WishlistItemLink {
   fieldGroupId: number;
@@ -218,6 +219,7 @@ export const EditWishlistItem: FC<NewWishlistItemProps> = ({wishlist, onSave, on
         <ButtonCell
          disabled={isDeleting || isSaving}
          mode={"destructive"}
+         before={<Icon28Cancel/>}
          onClick={handleDelete}
         >
           Delete Wish

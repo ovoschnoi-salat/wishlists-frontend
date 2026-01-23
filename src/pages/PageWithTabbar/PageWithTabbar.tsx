@@ -39,9 +39,10 @@ export const PageWithTabbar: FC = memo(function PageWithTabbar() {
   useEffect(() => {
     const tabbar = document.getElementById("tabbar")
     if (tabbar) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setTabbarHeight(tabbar.clientHeight);
     }
-  }, [setTabbarHeight])
+  }, [])
 
   interface tab {
     tabEnum: Tab,
