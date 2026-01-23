@@ -22,7 +22,10 @@ const root = ReactDOM.createRoot(document.getElementById('root')!);
 try {
   client.setConfig({
     auth: () => {
-      const initDataRaw  = retrieveRawInitData()
+      let initDataRaw = retrieveRawInitData()
+      if (import.meta.env.DEV && import.meta.env.VITE_INIT_DATA) {
+        initDataRaw = import.meta.env.VITE_INIT_DATA
+      }
       return `tma ${initDataRaw ?? ''}`},
     baseUrl: import.meta.env.VITE_BACKEND_API_ADDR,
   });

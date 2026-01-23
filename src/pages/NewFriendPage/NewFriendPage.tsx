@@ -20,11 +20,7 @@ export const NewFriendPage: FC = memo(function NewFriendPage() {
     });
 
     if (error) {
-      toast.error(
-        <ToastBackendError
-          error={error}
-        />,
-        {id: toastId})
+      toast.error(<ToastBackendError error={error}/>, {id: toastId})
       return
     }
 

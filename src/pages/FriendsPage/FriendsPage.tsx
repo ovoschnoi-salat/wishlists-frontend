@@ -11,6 +11,7 @@ import {Loading} from "@/components/Loading.tsx";
 import {Icon28Plus} from "@/icons/28/Plus.tsx";
 import {useNavigate} from "react-router";
 import {useBackendIncomingFriendsRequestsCount} from "@/hooks/useBackendIncomingFriendsRequestsCount.tsx";
+import {ServiceFriend} from "@/backend-client";
 
 export const FriendsPage: FC = memo(function FriendsPage() {
   const navigate = useNavigate();
@@ -28,8 +29,8 @@ export const FriendsPage: FC = memo(function FriendsPage() {
     navigate(`new`);
   }, [navigate]);
 
-  const handleFriendPress = (friendId: number) => {
-    navigate(`${friendId}/wishlists`);
+  const handleFriendPress = (friend: ServiceFriend) => {
+    navigate(`${friend.id}/wishlists`, {state: friend});
   };
 
   if (isLoading) {

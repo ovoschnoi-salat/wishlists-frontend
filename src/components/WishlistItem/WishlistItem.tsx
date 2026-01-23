@@ -30,7 +30,7 @@ export const WishlistItem: FC<WishlistItemProps> = memo(function WishlistItem({i
       {/* Title Section */}
       <Section header="Title">
         <Cell>
-          <Title level="2">
+          <Title level="3">
             {item.title}
           </Title>
         </Cell>

@@ -34,11 +34,7 @@ export const NewWishlistItemPage: FC = memo(function NewWishlistItemPage() {
     })
 
     if (error) {
-      toast.error(
-        <ToastBackendError
-          error={error}
-        />,
-        {id: toastId})
+      toast.error(<ToastBackendError error={error}/>, {id: toastId})
       return
     }
 

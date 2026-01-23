@@ -1,6 +1,6 @@
-import {useLocation, useNavigate, useParams} from 'react-router';
+import {useLocation, useNavigate} from 'react-router';
 import {FC, memo} from 'react';
-import {List} from "@telegram-apps/telegram-ui";
+import {Cell, List, Section, Title} from "@telegram-apps/telegram-ui";
 import {Page} from "@/components/Page.tsx";
 import {FriendWishlistItems} from "@/components/FriendWishlistItems";
 import {ServiceWishlist, ServiceWishlistItem} from "@/backend-client";
@@ -16,28 +16,31 @@ export const FriendWishlistItemsPage: FC = memo(function FriendWishlistItemsPage
 
   const wishlist = useLocationState()
 
-  const {wishlistId} = useParams<{ wishlistId: string }>();
-
-
-  const wishlistIdNumber = parseInt(wishlistId ?? "", 10);
-
   const handleItemPress = (item: ServiceWishlistItem) => {
     navigate(`../items/${item.id}`, {state: item, relative: "path"})
   };
 
-  const {items, isLoading} = useBackendFriendWishlistItems(wishlistIdNumber);
-
-  if (!wishlistId) {
-    return <div>Wishlist ID not found</div>;
-  }
-
-  if (isNaN(wishlistIdNumber)) {
-    return <div>Invalid wishlist ID</div>;
-  }
+  const {items, isLoading} = useBackendFriendWishlistItems(wishlist.id!);
 
   return <Page pageTitle={wishlist.title}>
-    <List title={"Friend wishlists"}>
-      <FriendWishlistItems items={items} isLoading={isLoading} onItemClick={handleItemPress}/>
+    <List>
+      <Section header={"Friend wishlist"}>
+        <Cell subhead="Title" subtitle={wishlist.is_private ? "private" : undefined}>
+          <Title level="3">
+            {wishlist.title}
+          </Title>
+        </Cell>
+
+        {wishlist.description &&
+         <Cell subhead="Description">
+           {wishlist.description}
+         </Cell>
+        }
+      </Section>
+
+      <Section header={"Wishes"}>
+        <FriendWishlistItems items={items} isLoading={isLoading} onItemClick={handleItemPress}/>
+      </Section>
     </List>
   </Page>
 });

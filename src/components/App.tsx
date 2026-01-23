@@ -17,7 +17,7 @@ import {
   FriendWishlistItemsPage,
   NewWishlistPage,
   NewWishlistItemPage,
-  WishlistItemsPage,
+  WishlistPage,
   FriendWishlistItemPage,
   EditWishlistPage,
   EditWishlistItemPage,
@@ -67,7 +67,7 @@ const router = createBrowserRouter([
 
         {index: true, Component: WishlistsPage},
         {path: '/wishlists/new', Component: NewWishlistPage},
-        {path: '/wishlists/:wishlistId/items', Component: WishlistItemsPage},
+        {path: '/wishlists/:wishlistId/items', Component: WishlistPage},
         {path: '/wishlists/:wishlistId/edit', Component: EditWishlistPage},
         {path: '/wishlists/:wishlistId/items/new', Component: NewWishlistItemPage},
         {path: '/wishlists/:wishlistId/items/:itemId', Component: WishlistItemPage},

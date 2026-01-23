@@ -28,11 +28,7 @@ export const IncomingFriendsRequestsPage: FC = memo(function IncomingFriendsRequ
     const {error} = await postApiUserFriendRequestAccept({query: {friend_id: friendId}})
 
     if (error) {
-      toast.error(
-        <ToastBackendError
-          error={error}
-        />,
-        {id: toastId})
+      toast.error(<ToastBackendError error={error}/>, {id: toastId})
       return
     }
 
@@ -47,11 +43,7 @@ export const IncomingFriendsRequestsPage: FC = memo(function IncomingFriendsRequ
     const {error} = await postApiUserFriendRequestDeny({query: {friend_id: friendId}})
 
     if (error) {
-      toast.error(
-        <ToastBackendError
-          error={error}
-        />,
-        {id: toastId})
+      toast.error(<ToastBackendError error={error}/>, {id: toastId})
       return
     }
 

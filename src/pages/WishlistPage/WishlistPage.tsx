@@ -1,14 +1,14 @@
 import {WishlistItems} from '@/components/WishlistItems';
 import {useLocation, useNavigate, useParams} from 'react-router';
 import {FC, memo, useCallback} from 'react';
-import {ButtonCell, Cell, List, Section} from "@telegram-apps/telegram-ui";
+import {ButtonCell, Cell, List, Section, Title} from "@telegram-apps/telegram-ui";
 import {Page} from "@/components/Page.tsx";
 import {useBackendWishlistItems} from "@/hooks/useBackendWishlistItems.tsx";
 import {Icon28Plus} from "@/icons/28/Plus.tsx";
 import {ServiceWishlist, ServiceWishlistItem} from "@/backend-client";
 import {Icon24Edit} from "@/icons/24";
 
-export const WishlistItemsPage: FC = memo(function WishlistItemsPage() {
+export const WishlistPage: FC = memo(function WishlistItemsPage() {
   const navigate = useNavigate();
 
   const {state} = useLocation()
@@ -43,12 +43,16 @@ export const WishlistItemsPage: FC = memo(function WishlistItemsPage() {
     <List>
       <Section>
         <Cell subhead="Title" subtitle={wishlist.is_private ? "private" : undefined}>
-          {wishlist.title}
+          <Title level="3">
+            {wishlist.title}
+          </Title>
         </Cell>
 
-        <Cell subhead="Description">
-          {wishlist.description}
-        </Cell>
+        {wishlist.description &&
+         <Cell subhead="Description">
+           {wishlist.description}
+         </Cell>
+        }
 
         <ButtonCell
           before={<Icon24Edit/>}

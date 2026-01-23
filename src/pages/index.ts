@@ -3,7 +3,7 @@ export {PageWithTabbar} from './PageWithTabbar/PageWithTabbar.tsx';
 // User wishlists
 export {WishlistsPage} from './WishlistsPage/WishlistsPage.tsx';
 export {NewWishlistPage} from './NewWishlistPage/NewWishlistPage.tsx';
-export {WishlistItemsPage} from './WishlistItemsPage/WishlistItemsPage.tsx';
+export {WishlistPage} from '@/pages/WishlistPage/WishlistPage.tsx';
 export {EditWishlistPage} from './EditWishlistPage/EditWishlistPage.tsx';
 export {NewWishlistItemPage} from './NewWishlistItemPage/NewWishlistItemPage.tsx';
 export {WishlistItemPage} from './WishlistItemPage/WishlistItemPage.tsx';

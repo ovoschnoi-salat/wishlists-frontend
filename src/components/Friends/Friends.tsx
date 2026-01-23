@@ -12,7 +12,7 @@ export type Friend = ServiceFriend;
 
 interface FriendsProps {
   friends: Friend[];
-  onFriendClick: (friendId: number) => void;
+  onFriendClick: (friend: Friend) => void;
 }
 
 export const Friends: FC<FriendsProps> = ({friends, onFriendClick}) => {
@@ -23,7 +23,7 @@ export const Friends: FC<FriendsProps> = ({friends, onFriendClick}) => {
       before={<Avatar size={28} src={friend.photo_url}
                       acronym={usernameAndNameToAcronym(friend.name, friend.username!)}/>}
       after={<Navigation/>}
-      onClick={() => onFriendClick(friend.id!)}
+      onClick={() => onFriendClick(friend)}
     >
       {friend.name ? friend.name : "@"+friend.username}
     </Cell>

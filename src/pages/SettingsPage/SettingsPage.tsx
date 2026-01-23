@@ -22,11 +22,7 @@ export const SettingsPage: FC = memo(function SettingsPage() {
     })
 
     if (error) {
-      toast.error(
-        <ToastBackendError
-          error={error}
-        />,
-        {id: toastId})
+      toast.error(<ToastBackendError error={error}/>, {id: toastId})
       return
     }
 

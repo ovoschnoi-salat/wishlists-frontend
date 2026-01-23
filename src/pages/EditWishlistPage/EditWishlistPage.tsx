@@ -38,11 +38,7 @@ export const EditWishlistPage: FC = memo(function EditWishlistPage() {
     });
 
     if (error) {
-      toast.error(
-        <ToastBackendError
-          error={error}
-        />,
-        {id: toastId})
+      toast.error(<ToastBackendError error={error}/>, {id: toastId})
       return
     }
 
@@ -60,11 +56,7 @@ export const EditWishlistPage: FC = memo(function EditWishlistPage() {
     });
 
     if (error) {
-      toast.error(
-        <ToastBackendError
-          error={error}
-        />,
-        {id: toastId})
+      toast.error(<ToastBackendError error={error}/>, {id: toastId})
       return
     }
 
