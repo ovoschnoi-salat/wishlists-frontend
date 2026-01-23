@@ -1,5 +1,5 @@
 import {WishlistItems} from '@/components/WishlistItems';
-import {useLocation, useNavigate, useParams} from 'react-router';
+import {useLocation, useNavigate} from 'react-router';
 import {FC, memo, useCallback} from 'react';
 import {ButtonCell, Cell, List, Section, Title} from "@telegram-apps/telegram-ui";
 import {Page} from "@/components/Page.tsx";
@@ -18,27 +18,16 @@ export const WishlistPage: FC = memo(function WishlistItemsPage() {
     navigate(`${item.id}`, {relative: "path", state: item})
   }, [navigate]);
 
-  const handleEditwWishlistPress = useCallback(() => {
+  const handleEditWishlistPress = useCallback(() => {
     navigate(`../edit`, {replace: true, relative: "path", state: wishlist})
   }, [navigate, wishlist]);
 
-  const handleNewWishlistPress = useCallback(() => {
+  const handleNewWishPress = useCallback(() => {
     navigate(`new`)
   }, [navigate]);
 
-  const {wishlistId} = useParams<{ wishlistId: string }>();
+  const {items, isLoading} = useBackendWishlistItems(wishlist.id!);
 
-  const wishlistIdNumber = parseInt(wishlistId ?? "", 10);
-
-  const {items, isLoading} = useBackendWishlistItems(wishlistIdNumber);
-
-  if (!wishlistId) {
-    return <div>Wishlist ID not found</div>;
-  }
-
-  if (isNaN(wishlistIdNumber)) {
-    return <div>Invalid wishlist ID</div>;
-  }
   return <Page pageTitle={wishlist.title}>
     <List>
       <Section>
@@ -56,7 +45,7 @@ export const WishlistPage: FC = memo(function WishlistItemsPage() {
 
         <ButtonCell
           before={<Icon24Edit/>}
-          onClick={handleEditwWishlistPress}
+          onClick={handleEditWishlistPress}
         >
           Edit wishlist
         </ButtonCell>
@@ -67,9 +56,9 @@ export const WishlistPage: FC = memo(function WishlistItemsPage() {
 
         <ButtonCell
           before={<Icon28Plus/>}
-          onClick={handleNewWishlistPress}
+          onClick={handleNewWishPress}
         >
-          Add item
+          Add wish
         </ButtonCell>
       </Section>
     </List>
