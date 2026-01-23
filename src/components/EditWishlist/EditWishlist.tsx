@@ -152,7 +152,7 @@ export const EditWishlist: FC<editWishlistProps> = memo(function EditWishlist({
           {onDelete && <Section>
             <ButtonCell
               disabled={isDeleting || isSaving}
-              mode={"destructive"}
+              mode="destructive"
               onClick={handleDelete}
             >
               Delete Wishlist

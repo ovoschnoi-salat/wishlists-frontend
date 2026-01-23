@@ -56,8 +56,7 @@ export const FriendWishlistsPage: FC = memo(function FriendWishlistsPage() {
   const {wishlists, isLoading} = useBackendFriendWishlists(friendIdNumber);
 
   if (!friend) {
-    return
-    <Page>
+    return <Page>
       <List>
         <Cell>Wrong state</Cell>
       </List>
@@ -67,9 +66,11 @@ export const FriendWishlistsPage: FC = memo(function FriendWishlistsPage() {
   return <Page>
     <List>
       <Section header={"Friend"}>
-        <Cell subhead="Name">
-          {friend.name}
-        </Cell>
+        {friend.name &&
+         <Cell subhead="Name">
+           {friend.name}
+         </Cell>
+        }
 
         <Cell subhead="Username">
           {"@" + friend.username}
@@ -77,6 +78,7 @@ export const FriendWishlistsPage: FC = memo(function FriendWishlistsPage() {
 
         <ButtonCell
           disabled={isRemoving}
+          mode="destructive"
           before={<Icon28Cancel/>}
           onClick={handleRemoveFromFriendsPress}
         >
