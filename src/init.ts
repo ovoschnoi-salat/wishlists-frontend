@@ -8,8 +8,9 @@ import {
   retrieveLaunchParams,
   ThemeParams,
   mockTelegramEnv,
-  themeParams, viewport
+  themeParams, viewport, swipeBehavior, retrieveRawInitData
 } from '@tma.js/sdk-react';
+import {client} from "@/backend-client/client.gen.ts";
 
 /**
  * Initializes the application and configures its dependencies.
@@ -76,4 +77,17 @@ export async function init(options: {
       viewport.bindCssVars();
     });
   }
+
+  swipeBehavior.disableVertical();
+
+  let initDataRaw = retrieveRawInitData()
+
+  if (import.meta.env.DEV && import.meta.env.VITE_INIT_DATA) {
+    initDataRaw = import.meta.env.VITE_INIT_DATA
+  }
+
+  client.setConfig({
+    auth: `tma ${initDataRaw ?? ''}`,
+    baseUrl: import.meta.env.VITE_BACKEND_API_ADDR,
+  });
 }

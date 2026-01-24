@@ -14,7 +14,7 @@ export {FriendsPage} from './FriendsPage/FriendsPage.tsx';
 export {NewFriendPage} from './NewFriendPage/NewFriendPage.tsx';
 export {IncomingFriendsRequestsPage} from './IncomingFriendsRequestsPage/IncomingFriendsRequestsPage.tsx';
 
-export {FriendWishlistsPage} from './FriendWishlistsPage/FriendWishlistsPage.tsx';
+export {FriendPage} from '@/pages/FriendPage/FriendPage.tsx';
 export {FriendWishlistPage} from '@/pages/FriendWishlistPage/FriendWishlistPage.tsx';
 export {FriendWishPage} from '@/pages/FriendWishPage/FriendWishPage.tsx';
 

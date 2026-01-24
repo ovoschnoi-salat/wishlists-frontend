@@ -13,7 +13,7 @@ import {
   FriendsPage,
   NewFriendPage,
   IncomingFriendsRequestsPage,
-  FriendWishlistsPage,
+  FriendPage,
   FriendWishlistPage,
   NewWishlistPage,
   NewWishPage,
@@ -76,7 +76,7 @@ const router = createBrowserRouter([
         {path: '/friends', Component: FriendsPage},
         {path: '/friends/new', Component: NewFriendPage},
         {path: '/friends/requests/incoming', Component: IncomingFriendsRequestsPage},
-        {path: '/friends/:friendId/wishlists', Component: FriendWishlistsPage},
+        {path: '/friends/:friendId/wishlists', Component: FriendPage},
         {path: '/friends/:friendId/wishlists/:wishlistId/items', Component: FriendWishlistPage},
         {path: '/friends/:friendId/wishlists/:wishlistId/items/:itemId', Component: FriendWishPage},
 

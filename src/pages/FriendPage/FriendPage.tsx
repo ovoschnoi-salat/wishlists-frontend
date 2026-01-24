@@ -14,7 +14,7 @@ import {Icon28Cancel} from "@/icons/28/Cancel.tsx";
 import {toast} from "react-hot-toast";
 import {ToastBackendError} from "@/components/ToastBackendError/ToastBackendError.tsx";
 
-export const FriendWishlistsPage: FC = memo(function FriendWishlistsPage() {
+export const FriendPage: FC = memo(function FriendWishlistsPage() {
   const navigate = useNavigate()
   const [isRemoving, setIsRemoving] = useState(false)
 
