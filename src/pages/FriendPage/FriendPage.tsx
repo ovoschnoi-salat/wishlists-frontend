@@ -37,6 +37,7 @@ export const FriendPage: FC = memo(function FriendWishlistsPage() {
 
       const buttonId = await promise;
       if (buttonId !== "yes") {
+        console.log("returned from popup", buttonId)
         return
       }
 

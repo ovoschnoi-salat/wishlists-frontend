@@ -78,7 +78,10 @@ export async function init(options: {
     });
   }
 
-  swipeBehavior.disableVertical();
+  if (swipeBehavior.mount.isAvailable()) {
+    swipeBehavior.mount();
+    swipeBehavior.disableVertical();
+  }
 
   let initDataRaw = retrieveRawInitData()
 
