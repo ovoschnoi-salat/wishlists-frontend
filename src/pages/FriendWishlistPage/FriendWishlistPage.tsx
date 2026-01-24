@@ -17,7 +17,7 @@ export const FriendWishlistPage: FC = memo(function FriendWishlistItemsPage() {
   const wishlist = useLocationState()
 
   const handleItemPress = (item: ServiceWishlistItem) => {
-    navigate(`../items/${item.id}`, {state: item, relative: "path"})
+    navigate(`/${item.id}`, {state: item, relative: "path"})
   };
 
   const {items, isLoading} = useBackendFriendWishlistItems(wishlist.id!);

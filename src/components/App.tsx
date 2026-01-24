@@ -1,7 +1,7 @@
 import {useSignal, miniApp, useLaunchParams} from '@tma.js/sdk-react';
 import {AppRoot} from '@telegram-apps/telegram-ui';
 
-import {createBrowserRouter} from "react-router";
+import {createBrowserRouter, Navigate} from "react-router";
 import {RouterProvider} from "react-router/dom";
 import {
   InitDataPage,
@@ -38,6 +38,27 @@ export function ErrorBoundary() {
   );
 }
 
+export function InitialNavigation() {
+
+  return <Navigate to="/wishlists"/>
+  // const lp = useLaunchParams();
+  //
+  // const startParam = lp.tgWebAppStartParam;
+  //
+  // if (!startParam) {
+  //   return <Navigate to="/wishlists"/>
+  // }
+  // const parts = startParam.split("_")
+  // if (parts.length < 2) {
+  //   return <Navigate to="/wishlists"/>
+  // }
+  // if (parts[0] === "wishlist") {
+  //   return <SharedWishlistPage/>
+  // }
+  //
+  // return lp.tgWebAppStartParam ? (<Navigate to="/dashboard" replace/>) : (<Navigate to="/login" replace/>);
+}
+
 export function App() {
   const lp = useLaunchParams();
   const isDark = useSignal(miniApp.isDark);
@@ -59,13 +80,8 @@ const router = createBrowserRouter([
     errorElement: <ErrorBoundary/>,
     children:
       [
-        ...(import.meta.env.DEV ? [
-          {path: '/init-data', Component: InitDataPage},
-          {path: '/theme-params', Component: ThemeParamsPage},
-          {path: '/launch-params', Component: LaunchParamsPage}
-        ] : []),
-
-        {index: true, Component: WishlistsPage},
+        {index: true, Component: InitialNavigation},
+        {path: '/wishlists', Component: WishlistsPage},
         {path: '/wishlists/new', Component: NewWishlistPage},
         {path: '/wishlists/:wishlistId/items', Component: WishlistPage},
         {path: '/wishlists/:wishlistId/edit', Component: EditWishlistPage},
@@ -80,7 +96,13 @@ const router = createBrowserRouter([
         {path: '/friends/:friendId/wishlists/:wishlistId/items', Component: FriendWishlistPage},
         {path: '/friends/:friendId/wishlists/:wishlistId/items/:itemId', Component: FriendWishPage},
 
-        {path: '/settings', Component: SettingsPage}
+        {path: '/settings', Component: SettingsPage},
+
+        ...(import.meta.env.DEV ? [
+          {path: '/init-data', Component: InitDataPage},
+          {path: '/theme-params', Component: ThemeParamsPage},
+          {path: '/launch-params', Component: LaunchParamsPage}
+        ] : [])
       ]
   },
 ]);

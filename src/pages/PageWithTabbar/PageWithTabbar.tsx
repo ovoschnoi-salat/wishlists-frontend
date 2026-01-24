@@ -56,7 +56,7 @@ export const PageWithTabbar: FC = memo(function PageWithTabbar() {
       tabEnum: Tab.MyLists,
       title: "My lists",
       icon: <Icon28Actions/>,
-      navLink: "/",
+      navLink: "/wishlists",
     },
     {
       tabEnum: Tab.Friends,
