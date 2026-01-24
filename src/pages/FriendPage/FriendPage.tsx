@@ -13,6 +13,7 @@ import {FriendWishlists} from "@/components/FriendWishlists/FriendWishlists.tsx"
 import {Icon28Cancel} from "@/icons/28/Cancel.tsx";
 import {toast} from "react-hot-toast";
 import {ToastBackendError} from "@/components/ToastBackendError/ToastBackendError.tsx";
+import {popup} from "@tma.js/sdk-react";
 
 export const FriendPage: FC = memo(function FriendWishlistsPage() {
   const navigate = useNavigate()
@@ -24,6 +25,21 @@ export const FriendPage: FC = memo(function FriendWishlistsPage() {
   const handleRemoveFromFriendsPress = useCallback(async () => {
     try {
       setIsRemoving(true)
+
+      const promise = popup.show({
+        title: 'Remove friend',
+        message: `Remove @${friend?.username} from friends?`,
+        buttons: [
+          {id: 'yes', type: 'destructive', text: 'Yes'},
+          {id: 'no', type: 'default', text: 'No'}
+        ],
+      });
+
+      const buttonId = await promise;
+      if (buttonId !== "yes") {
+        return
+      }
+
       const toastId = toast.loading("Removing from friends...")
 
       const {error} = await deleteApiUserFriend({
