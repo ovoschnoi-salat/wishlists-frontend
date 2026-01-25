@@ -19,23 +19,23 @@ interface TgTheme {
   text_color?: RGB
 }
 
-const IOSLightTheme1: TgTheme = {
-  accent_text_color: '#2481cc',
-  bg_color: '#ffffff',
-  bottom_bar_bg_color: '#e4e4e4',
-  button_color: '#2481cc',
-  button_text_color: '#ffffff',
-  destructive_text_color: '#ff3b30',
-  header_bg_color: '#efeff3',
-  hint_color: '#999999',
-  link_color: '#2481cc',
-  secondary_og_color: '#efeff3',
-  section_bg_color: '#ffffff',
-  section_header_text_color: '#6d6d71',
-  section_separator_color: '#eaeaea',
-  subtitle_text_color: '#999999',
-  text_color: '#000000',
-}
+// const IOSLightTheme1: TgTheme = {
+//   accent_text_color: '#2481cc',
+//   bg_color: '#ffffff',
+//   bottom_bar_bg_color: '#e4e4e4',
+//   button_color: '#2481cc',
+//   button_text_color: '#ffffff',
+//   destructive_text_color: '#ff3b30',
+//   header_bg_color: '#efeff3',
+//   hint_color: '#999999',
+//   link_color: '#2481cc',
+//   secondary_og_color: '#efeff3',
+//   section_bg_color: '#ffffff',
+//   section_header_text_color: '#6d6d71',
+//   section_separator_color: '#eaeaea',
+//   subtitle_text_color: '#999999',
+//   text_color: '#000000',
+// }
 
 const IOSDarkTheme: TgTheme = {
   "accent_text_color": "#0089ff",
@@ -54,57 +54,57 @@ const IOSDarkTheme: TgTheme = {
   "hint_color": "#98989e",
   "destructive_text_color": "#eb5545"
 }
-const IOSLightTheme: TgTheme = {
-  "header_bg_color": "#f8f8f8",
-  "accent_text_color": "#3b8fbb",
-  "section_header_text_color": "#6d6d72",
-  "destructive_text_color": "#ff3b30",
-  "section_bg_color": "#ffffff",
-  "bottom_bar_bg_color": "#f2f2f2",
-  "secondary_bg_color": "#efeff4",
-  "link_color": "#3b8fbb",
-  "section_separator_color": "#c8c7cc",
-  "bg_color": "#ffffff",
-  "hint_color": "#8e8e93",
-  "subtitle_text_color": "#8e8e93",
-  "button_text_color": "#ffffff",
-  "text_color": "#000000",
-  "button_color": "#3b8fbb"
-}
-const MACOSDarkTheme: TgTheme = {
-  "section_bg_color": "#282828",
-  "accent_text_color": "#007AFF",
-  "header_bg_color": "#1C1C1C",
-  "text_color": "#FFFFFF",
-  "section_separator_color": "#3D3D3D",
-  "link_color": "#007AFF",
-  "bottom_bar_bg_color": "#3E464C",
-  "button_color": "#007AFF",
-  "button_text_color": "#FFFFFF",
-  "bg_color": "#282828",
-  "hint_color": "#FFFFFF",
-  "section_header_text_color": "#E5E5E5",
-  "secondary_bg_color": "#1C1C1C",
-  "subtitle_text_color": "#FFFFFF",
-  "destructive_text_color": "#FF453A"
-}
-const MACOSLightTheme: TgTheme = {
-  "accent_text_color": "#2481CC",
-  "section_header_text_color": "#6D6D71",
-  "link_color": "#2481CC",
-  "section_bg_color": "#FFFFFF",
-  "bottom_bar_bg_color": "#E4E4E4",
-  "hint_color": "#999999",
-  "button_color": "#2481CC",
-  "secondary_bg_color": "#EFEFF3",
-  "bg_color": "#FFFFFF",
-  "subtitle_text_color": "#999999",
-  "destructive_text_color": "#FF3B30",
-  "text_color": "#000000",
-  "header_bg_color": "#EFEFF3",
-  "button_text_color": "#FFFFFF",
-  "section_separator_color": "#EAEAEA"
-}
+// const IOSLightTheme: TgTheme = {
+//   "header_bg_color": "#f8f8f8",
+//   "accent_text_color": "#3b8fbb",
+//   "section_header_text_color": "#6d6d72",
+//   "destructive_text_color": "#ff3b30",
+//   "section_bg_color": "#ffffff",
+//   "bottom_bar_bg_color": "#f2f2f2",
+//   "secondary_bg_color": "#efeff4",
+//   "link_color": "#3b8fbb",
+//   "section_separator_color": "#c8c7cc",
+//   "bg_color": "#ffffff",
+//   "hint_color": "#8e8e93",
+//   "subtitle_text_color": "#8e8e93",
+//   "button_text_color": "#ffffff",
+//   "text_color": "#000000",
+//   "button_color": "#3b8fbb"
+// }
+// const MACOSDarkTheme: TgTheme = {
+//   "section_bg_color": "#282828",
+//   "accent_text_color": "#007AFF",
+//   "header_bg_color": "#1C1C1C",
+//   "text_color": "#FFFFFF",
+//   "section_separator_color": "#3D3D3D",
+//   "link_color": "#007AFF",
+//   "bottom_bar_bg_color": "#3E464C",
+//   "button_color": "#007AFF",
+//   "button_text_color": "#FFFFFF",
+//   "bg_color": "#282828",
+//   "hint_color": "#FFFFFF",
+//   "section_header_text_color": "#E5E5E5",
+//   "secondary_bg_color": "#1C1C1C",
+//   "subtitle_text_color": "#FFFFFF",
+//   "destructive_text_color": "#FF453A"
+// }
+// const MACOSLightTheme: TgTheme = {
+//   "accent_text_color": "#2481CC",
+//   "section_header_text_color": "#6D6D71",
+//   "link_color": "#2481CC",
+//   "section_bg_color": "#FFFFFF",
+//   "bottom_bar_bg_color": "#E4E4E4",
+//   "hint_color": "#999999",
+//   "button_color": "#2481CC",
+//   "secondary_bg_color": "#EFEFF3",
+//   "bg_color": "#FFFFFF",
+//   "subtitle_text_color": "#999999",
+//   "destructive_text_color": "#FF3B30",
+//   "text_color": "#000000",
+//   "header_bg_color": "#EFEFF3",
+//   "button_text_color": "#FFFFFF",
+//   "section_separator_color": "#EAEAEA"
+// }
 
 // It is important, to mock the environment only for development purposes. When building the
 // application, import.meta.env.DEV will become false, and the code inside will be tree-shaken,
