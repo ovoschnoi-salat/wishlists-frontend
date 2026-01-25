@@ -5,3 +5,4 @@
 - move from cloudflare
 - share wishlist link
 - add popups for destructive actions
+- refactor paths

@@ -4,36 +4,36 @@ type Slot = 'body' | 'headers' | 'path' | 'query';
 
 export type Field =
   | {
-  in: Exclude<Slot, 'body'>;
-  /**
-   * Field name. This is the name we want the user to see and use.
-   */
-  key: string;
-  /**
-   * Field mapped name. This is the name we want to use in the request.
-   * If omitted, we use the same value as `key`.
-   */
-  map?: string;
-}
+      in: Exclude<Slot, 'body'>;
+      /**
+       * Field name. This is the name we want the user to see and use.
+       */
+      key: string;
+      /**
+       * Field mapped name. This is the name we want to use in the request.
+       * If omitted, we use the same value as `key`.
+       */
+      map?: string;
+    }
   | {
-  in: Extract<Slot, 'body'>;
-  /**
-   * Key isn't required for bodies.
-   */
-  key?: string;
-  map?: string;
-}
+      in: Extract<Slot, 'body'>;
+      /**
+       * Key isn't required for bodies.
+       */
+      key?: string;
+      map?: string;
+    }
   | {
-  /**
-   * Field name. This is the name we want the user to see and use.
-   */
-  key: string;
-  /**
-   * Field mapped name. This is the name we want to use in the request.
-   * If `in` is omitted, `map` aliases `key` to the transport layer.
-   */
-  map: Slot;
-};
+      /**
+       * Field name. This is the name we want the user to see and use.
+       */
+      key: string;
+      /**
+       * Field mapped name. This is the name we want to use in the request.
+       * If `in` is omitted, `map` aliases `key` to the transport layer.
+       */
+      map: Slot;
+    };
 
 export interface Fields {
   allowExtra?: Partial<Record<Slot, boolean>>;
@@ -53,13 +53,13 @@ const extraPrefixes = Object.entries(extraPrefixesMap);
 type KeyMap = Map<
   string,
   | {
-  in: Slot;
-  map?: string;
-}
+      in: Slot;
+      map?: string;
+    }
   | {
-  in?: never;
-  map: Slot;
-}
+      in?: never;
+      map: Slot;
+    }
 >;
 
 const buildKeyMap = (fields: FieldsConfig, map?: KeyMap): KeyMap => {
@@ -156,7 +156,7 @@ export const buildClientParams = (
             const [prefix, slot] = extra;
             (params[slot] as Record<string, unknown>)[
               key.slice(prefix.length)
-              ] = value;
+            ] = value;
           } else if ('allowExtra' in config && config.allowExtra) {
             for (const [slot, allowed] of Object.entries(config.allowExtra)) {
               if (allowed) {

@@ -40,10 +40,12 @@ export function ErrorBoundary() {
 
 export function InitialNavigation() {
 
+  const lp = useLaunchParams();
+
+  const startParam = lp.tgWebAppStartParam;
+  console.log(startParam);
+
   return <Navigate to="/wishlists"/>
-  // const lp = useLaunchParams();
-  //
-  // const startParam = lp.tgWebAppStartParam;
   //
   // if (!startParam) {
   //   return <Navigate to="/wishlists"/>
