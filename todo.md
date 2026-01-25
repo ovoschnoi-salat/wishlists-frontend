@@ -6,3 +6,4 @@
 - share wishlist link
 - add popups for destructive actions
 - refactor paths
+- add small lock icon to private wishlists 

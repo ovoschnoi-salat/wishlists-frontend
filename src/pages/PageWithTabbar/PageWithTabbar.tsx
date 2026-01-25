@@ -22,7 +22,7 @@ enum Tab {
 // }
 
 function getCurrentTab(path: string): Tab {
-  if (path.startsWith("/friends")) {
+  if (path.startsWith("/friend")) {
     return Tab.Friends
   }
   if (path.startsWith("/settings")) {
@@ -98,10 +98,8 @@ export const PageWithTabbar: FC = memo(function PageWithTabbar() {
   const navigate = useNavigate();
 
   const handleTabClick = (tab: Tab, link: string) => {
-    if (tab !== activeTab) {
-      setActiveTab(tab)
-      navigate(link)
-    }
+    setActiveTab(tab)
+    navigate(link)
   }
 
   return <>
