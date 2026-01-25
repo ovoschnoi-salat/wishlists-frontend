@@ -37,7 +37,7 @@ export const NewWishlistPage: FC = memo(function NewWishlistPage() {
     return <Loading/>
   }
 
-  return <Page pageTitle="New wishlist">
+  return <Page>
     <List>
       <EditWishlist
         onSave={handleSaveNewWishlist}

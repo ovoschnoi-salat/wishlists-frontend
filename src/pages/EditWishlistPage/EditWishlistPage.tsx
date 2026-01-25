@@ -74,7 +74,6 @@ export const EditWishlistPage: FC = memo(function EditWishlistPage() {
   }
 
   return <Page
-    pageTitle="Edit wishlist"
     backNavFn={() => {
       navigate(`..`, {replace: true, relative: "path", state: wishlist})
     }}>

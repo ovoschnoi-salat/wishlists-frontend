@@ -22,7 +22,7 @@ export const WishPage: FC = memo(function WishlistItemPage() {
     navigate(`edit`, {replace: true, state: item})
   }
 
-  return <Page pageTitle={item.title}>
+  return <Page>
     <List>
       <WishlistItem item={item} isLoading={isLoading} onPressEdit={handleEdit}/>
     </List>

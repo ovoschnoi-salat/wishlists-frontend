@@ -32,7 +32,7 @@ export const WishlistsPage: FC = memo(function WishlistsPage() {
     return <Loading/>;
   }
 
-  return <Page pageTitle="Own wishlists" back={false}>
+  return <Page back={false}>
     <ReactPullToRefresh onRefresh={refetch}>
       <List>
         <Section header='Wishlists'>

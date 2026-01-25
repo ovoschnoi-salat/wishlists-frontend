@@ -66,7 +66,7 @@ export const WishlistPage: FC = memo(function WishlistItemsPage() {
     </ButtonCell>
   ])
 
-  return <Page pageTitle={wishlist.title}>
+  return <Page>
     <List>
       <Section>
         {...wishlistCells}

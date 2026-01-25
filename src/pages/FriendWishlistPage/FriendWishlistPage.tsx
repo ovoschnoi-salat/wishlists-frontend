@@ -42,7 +42,7 @@ export const FriendWishlistPage: FC = memo(function FriendWishlistItemsPage() {
     ])
   }
 
-  return <Page pageTitle={wishlist.title}>
+  return <Page>
     <List>
       <Section header={"Friend wishlist"}>
         {...descriptionCells}
