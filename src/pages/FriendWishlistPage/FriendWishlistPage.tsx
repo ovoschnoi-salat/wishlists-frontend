@@ -1,5 +1,5 @@
 import {useLocation, useNavigate} from 'react-router';
-import {FC, memo} from 'react';
+import {FC, memo, ReactNode} from 'react';
 import {Cell, List, Section, Title} from "@telegram-apps/telegram-ui";
 import {Page} from "@/components/Page.tsx";
 import {FriendWishlistItems} from "@/components/FriendWishlistItems";
@@ -22,20 +22,26 @@ export const FriendWishlistPage: FC = memo(function FriendWishlistItemsPage() {
 
   const {items, isLoading} = useBackendFriendWishlistItems(wishlist.id!);
 
+  const descriptionCells: ReactNode[] = [
+    <Cell key="title" subhead="Title" subtitle={wishlist.is_private ? "private" : undefined}>
+      <Title level="3">
+        {wishlist.title}
+      </Title>
+    </Cell>
+  ]
+
+  if (wishlist.description) {
+    descriptionCells.push([
+      <Cell key="description" subhead="Description">
+        {wishlist.description}
+      </Cell>
+    ])
+  }
+
   return <Page pageTitle={wishlist.title}>
     <List>
       <Section header={"Friend wishlist"}>
-        <Cell subhead="Title" subtitle={wishlist.is_private ? "private" : undefined}>
-          <Title level="3">
-            {wishlist.title}
-          </Title>
-        </Cell>
-
-        {wishlist.description &&
-         <Cell subhead="Description">
-           {wishlist.description}
-         </Cell>
-        }
+        {...descriptionCells}
       </Section>
 
       <Section header={"Wishes"}>

@@ -2,7 +2,9 @@ import {
   Section,
   Cell,
   Button,
-  Text, Divider, Title, ButtonCell,
+  Text,
+  Title,
+  ButtonCell,
 } from '@telegram-apps/telegram-ui';
 import {FC, memo, useCallback} from 'react';
 import {ServiceWishlistItem, ServiceWishlistItemLink} from "@/backend-client";
@@ -21,6 +23,63 @@ export const WishlistItem: FC<WishlistItemProps> = memo(function WishlistItem({i
     openLink(url)
   }, []);
 
+  const cells = []
+
+  if (item.description) {
+    cells.push([
+      <Cell key="description" subhead="Description">
+        {item.description}
+      </Cell>
+    ])
+  }
+
+  if (item.price) {
+    cells.push([
+      <Cell key="price" subhead="Price">
+        {item.price}
+      </Cell>
+    ])
+  }
+
+  if (item.links) {
+    cells.push(item.links.map((link: ServiceWishlistItemLink, index) => (
+      <Cell
+        key={"link-" + index}
+        subhead="Link"
+        after={
+          <Button
+            mode="filled"
+            size="s"
+            onClick={() => handleOpenLink(link.url!)}
+            before={<Icon24Link/>}>
+            Open
+          </Button>
+        }>
+        {link.title}
+      </Cell>
+    )))
+  }
+
+  cells.push([
+    <Cell key="reservation" subhead="Reservation">
+      <Text>
+        {item.reservable ? "This item is reservable" : "This item is free of reservation"}
+      </Text>
+    </Cell>
+  ])
+
+  if (onPressEdit) {
+    cells.push([
+      <ButtonCell
+        key="edit"
+        onClick={onPressEdit}
+        before={<Icon24Edit/>}
+      >
+        Edit wish
+      </ButtonCell>
+    ])
+  }
+
   if (isLoading) {
     return <Loading/>
   }
@@ -36,71 +95,9 @@ export const WishlistItem: FC<WishlistItemProps> = memo(function WishlistItem({i
         </Cell>
       </Section>
 
-
       {/* Content Section */}
       <Section header="About">
-
-        {/* Description */}
-        {item.description &&
-         <>
-           <Cell subhead="Description">
-             {item.description}
-           </Cell>
-           <Divider/>
-         </>
-        }
-
-        {/* Price */}
-        {item.price && (
-          <>
-            <Cell subhead="Price">
-              {item.price}
-            </Cell>
-            <Divider/>
-          </>
-        )}
-        {/* Link */}
-        {item.links && (
-          <>
-            {item.links.map((link: ServiceWishlistItemLink) => (
-              <>
-                <Cell
-                  subhead="Link"
-                  after={
-                    <Button
-                      mode="filled"
-                      size="s"
-                      onClick={() => handleOpenLink(link.url!)}
-                      before={<Icon24Link/>}>
-                      Open
-                    </Button>
-                  }>
-                  {link.title}
-                </Cell>
-                <Divider/>
-              </>
-            ))}
-          </>
-        )}
-
-        <Cell subhead="Reservation">
-          <Text>
-            {item.reservable ? "This item is reservable" : "This item is free of reservation"}
-          </Text>
-        </Cell>
-
-        {onPressEdit && <>
-          <Divider/>
-
-          <ButtonCell
-           onClick={onPressEdit}
-           before={<Icon24Edit/>}
-          >
-            <Text>Edit wish</Text>
-          </ButtonCell>
-        </>
-        }
-
+        {...cells}
       </Section>
     </>
   );

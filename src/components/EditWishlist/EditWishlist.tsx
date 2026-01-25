@@ -113,27 +113,42 @@ export const EditWishlist: FC<editWishlistProps> = memo(function EditWishlist({
           <Section
             header="Privacy settings"
           >
-            {/* Private List Toggle */}
-            <Cell
-              after={
-                <Switch
-                  disabled={isDeleting || isSaving}
-                  checked={isPrivate}
-                  onChange={handlePressIsPrivate}
-                />
-              }
-            >
-              Private list
-            </Cell>
+            {isPrivate ? <>
+              {/* Private List Toggle */}
+              <Cell
+                after={
+                  <Switch
+                    disabled={isDeleting || isSaving}
+                    checked={isPrivate}
+                    onChange={handlePressIsPrivate}
+                  />
+                }
+              >
+                Private list
+              </Cell>
 
-            {/* Users with Access */}
-            {isPrivate && <Cell
-             disabled={isDeleting || isSaving}
-             after={<Badge type="number">{usersWithAccess.length}</Badge>}
-             onClick={handleUsersWithAccessPress}
-            >
-              Users with access
-            </Cell>}
+              {/* Users with Access */}
+              <Cell
+                disabled={isDeleting || isSaving}
+                after={<Badge type="number">{usersWithAccess.length}</Badge>}
+                onClick={handleUsersWithAccessPress}
+              >
+                Users with access
+              </Cell>
+            </> : <>
+              {/* Private List Toggle */}
+              <Cell
+                after={
+                  <Switch
+                    disabled={isDeleting || isSaving}
+                    checked={isPrivate}
+                    onChange={handlePressIsPrivate}
+                  />
+                }
+              >
+                Private list
+              </Cell>
+            </>}
           </Section>
 
           {/* Create List Button */}

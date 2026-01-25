@@ -24,19 +24,21 @@ import {
   SettingsPage
 } from "@/pages";
 import {useRouteError} from "react-router";
-import {ErrorSnackbar} from "@/components/ErrorSnackbar/ErrorSnackbar.tsx";
 import {errorToString} from "@/helpers/error.ts";
-import {Toaster} from "react-hot-toast";
+import {toast, Toaster} from "react-hot-toast";
 import {SharedWishlistPage} from "@/pages/SharedWishlistPage/SharedWishlistPage.tsx";
 
 export function ErrorBoundary() {
   const error = useRouteError();
-  return (
-    <ErrorSnackbar
-      title={"Unexpected error"}
-      description={"please copy error and send report"}
-      copyMsg={errorToString(error)}/>
-  );
+  toast.error(errorToString(error))
+  return <Navigate to="/"/>
+  // return (
+  //   <ErrorSnackbar
+  //     title={"Unexpected error"}
+  //     description={"please copy error and send report"}
+  //     copyMsg={errorToString(error)}
+  //   />
+  // );
 }
 
 export function InitialNavigation() {

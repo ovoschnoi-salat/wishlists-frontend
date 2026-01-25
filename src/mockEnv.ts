@@ -19,7 +19,7 @@ interface TgTheme {
   text_color?: RGB
 }
 
-const IOSLightTheme: TgTheme = {
+const IOSLightTheme1: TgTheme = {
   accent_text_color: '#2481cc',
   bg_color: '#ffffff',
   bottom_bar_bg_color: '#e4e4e4',
@@ -37,12 +37,81 @@ const IOSLightTheme: TgTheme = {
   text_color: '#000000',
 }
 
+const IOSDarkTheme: TgTheme = {
+  "accent_text_color": "#0089ff",
+  "section_bg_color": "#1c1c1d",
+  "text_color": "#ffffff",
+  "header_bg_color": "#1a1a1a",
+  "bottom_bar_bg_color": "#1d1d1d",
+  "subtitle_text_color": "#98989e",
+  "button_text_color": "#ffffff",
+  "button_color": "#0089ff",
+  "bg_color": "#000000",
+  "section_separator_color": "#545458",
+  "section_header_text_color": "#8d8e93",
+  "secondary_bg_color": "#000000",
+  "link_color": "#0089ff",
+  "hint_color": "#98989e",
+  "destructive_text_color": "#eb5545"
+}
+const IOSLightTheme: TgTheme = {
+  "header_bg_color": "#f8f8f8",
+  "accent_text_color": "#3b8fbb",
+  "section_header_text_color": "#6d6d72",
+  "destructive_text_color": "#ff3b30",
+  "section_bg_color": "#ffffff",
+  "bottom_bar_bg_color": "#f2f2f2",
+  "secondary_bg_color": "#efeff4",
+  "link_color": "#3b8fbb",
+  "section_separator_color": "#c8c7cc",
+  "bg_color": "#ffffff",
+  "hint_color": "#8e8e93",
+  "subtitle_text_color": "#8e8e93",
+  "button_text_color": "#ffffff",
+  "text_color": "#000000",
+  "button_color": "#3b8fbb"
+}
+const MACOSDarkTheme: TgTheme = {
+  "section_bg_color": "#282828",
+  "accent_text_color": "#007AFF",
+  "header_bg_color": "#1C1C1C",
+  "text_color": "#FFFFFF",
+  "section_separator_color": "#3D3D3D",
+  "link_color": "#007AFF",
+  "bottom_bar_bg_color": "#3E464C",
+  "button_color": "#007AFF",
+  "button_text_color": "#FFFFFF",
+  "bg_color": "#282828",
+  "hint_color": "#FFFFFF",
+  "section_header_text_color": "#E5E5E5",
+  "secondary_bg_color": "#1C1C1C",
+  "subtitle_text_color": "#FFFFFF",
+  "destructive_text_color": "#FF453A"
+}
+const MACOSLightTheme: TgTheme = {
+  "accent_text_color": "#2481CC",
+  "section_header_text_color": "#6D6D71",
+  "link_color": "#2481CC",
+  "section_bg_color": "#FFFFFF",
+  "bottom_bar_bg_color": "#E4E4E4",
+  "hint_color": "#999999",
+  "button_color": "#2481CC",
+  "secondary_bg_color": "#EFEFF3",
+  "bg_color": "#FFFFFF",
+  "subtitle_text_color": "#999999",
+  "destructive_text_color": "#FF3B30",
+  "text_color": "#000000",
+  "header_bg_color": "#EFEFF3",
+  "button_text_color": "#FFFFFF",
+  "section_separator_color": "#EAEAEA"
+}
+
 // It is important, to mock the environment only for development purposes. When building the
 // application, import.meta.env.DEV will become false, and the code inside will be tree-shaken,
 // so you will not see it in your final bundle.
 if (import.meta.env.DEV) {
   if (!await isTMA('complete')) {
-    const themeParams = IOSLightTheme;
+    const themeParams = IOSDarkTheme;
     const noInsets = {left: 0, top: 0, bottom: 0, right: 0} as const;
 
     mockTelegramEnv({
@@ -116,7 +185,10 @@ if (import.meta.env.DEV) {
     });
 
     console.info(
-      '⚠️ As long as the current environment was not considered as the Telegram-based one, it was mocked. Take a note, that you should not do it in production and current behavior is only specific to the development process. Environment mocking is also applied only in development mode. So, after building the application, you will not see this behavior and related warning, leading to crashing the application outside Telegram.',
+      '⚠️ As long as the current environment was not considered as the Telegram-based one, it was mocked. ' +
+      'Take a note, that you should not do it in production and current behavior is only specific to the development process. ' +
+      'Environment mocking is also applied only in development mode. ' +
+      'So, after building the application, you will not see this behavior and related warning, leading to crashing the application outside Telegram.',
     );
   }
 }

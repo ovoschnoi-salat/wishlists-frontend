@@ -22,6 +22,10 @@ export const FriendPage: FC = memo(function FriendWishlistsPage() {
   const {state} = useLocation()
   const friend = state as ServiceFriend
 
+  if (!friend) {
+    throw "invalid state"
+  }
+
   const handleRemoveFromFriendsPress = useCallback(async () => {
     try {
       setIsRemoving(true)
@@ -68,40 +72,42 @@ export const FriendPage: FC = memo(function FriendWishlistsPage() {
 
   const {wishlists, isLoading} = useBackendFriendWishlists(friend.id!);
 
-  if (!friend) {
-    return <Page>
-      <List>
-        <Cell>Wrong state</Cell>
-      </List>
-    </Page>
+  const friendCells = []
+
+  if (friend.name) {
+    friendCells.push([
+      <Cell key="name" subhead="Name">
+        {friend.name}
+      </Cell>
+    ])
   }
+  friendCells.push([
+    <Cell key="username" subhead="Username">
+      {"@" + friend.username}
+    </Cell>,
+    <ButtonCell
+      key="remove"
+      disabled={isRemoving}
+      mode="destructive"
+      before={<Icon28Cancel/>}
+      onClick={handleRemoveFromFriendsPress}
+    >
+      Remove from friends
+    </ButtonCell>
+  ])
 
   return <Page>
     <List>
       <Section header={"Friend"}>
-        {friend.name &&
-         <Cell subhead="Name">
-           {friend.name}
-         </Cell>
-        }
-
-        <Cell subhead="Username">
-          {"@" + friend.username}
-        </Cell>
-
-        <ButtonCell
-          disabled={isRemoving}
-          mode="destructive"
-          before={<Icon28Cancel/>}
-          onClick={handleRemoveFromFriendsPress}
-        >
-          Remove from friends
-        </ButtonCell>
+        {...friendCells}
       </Section>
 
       <Section header={"Friend wishlists"}>
-        <FriendWishlists wishlists={wishlists} isLoading={isLoading || isRemoving}
-                         onWishlistClick={handleWishlistPress}/>
+        <FriendWishlists
+          wishlists={wishlists}
+          isLoading={isLoading || isRemoving}
+          onWishlistClick={handleWishlistPress}
+        />
       </Section>
     </List>
   </Page>

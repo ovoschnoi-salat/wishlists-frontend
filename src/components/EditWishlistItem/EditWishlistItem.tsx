@@ -4,7 +4,7 @@ import {
   Section,
   Button,
   Input,
-  Textarea, Cell, Switch, ButtonCell,
+  Textarea, Cell, Switch, ButtonCell, List,
 } from "@telegram-apps/telegram-ui";
 
 import {ServiceCreateWishlistItemRequest, ServiceWishlistItem, ServiceWishlistItemLink} from "@/backend-client";
@@ -123,7 +123,7 @@ export const EditWishlistItem: FC<NewWishlistItemProps> = ({wishlist, onSave, on
         />
       </Section>
 
-      {/* Description Section */}
+    {/* Description Section */}
       <Section header="Description">
         <Textarea
           disabled={isDeleting || isSaving}
@@ -134,7 +134,7 @@ export const EditWishlistItem: FC<NewWishlistItemProps> = ({wishlist, onSave, on
         />
       </Section>
 
-      {/* Price Section */}
+    {/* Price Section */}
       <Section header="Price">
         <Input
           disabled={isDeleting || isSaving}
@@ -148,7 +148,7 @@ export const EditWishlistItem: FC<NewWishlistItemProps> = ({wishlist, onSave, on
         header="Links"
       >
         {links.map((link) => (
-          <>
+          <List key={"link-list-" + link.fieldGroupId}>
             <div className="px-6 flex items-center justify-between">
               Link
               <Button
@@ -177,8 +177,9 @@ export const EditWishlistItem: FC<NewWishlistItemProps> = ({wishlist, onSave, on
               placeholder="https://example-link.com/"
               onChange={(e) => handleInputChange(e.target.value, link.fieldGroupId, "url")}
             />
-          </>
+          </List>
         ))}
+
         <ButtonCell before={<Icon28Plus/>} disabled={isDeleting || isSaving} onClick={handleAddLink}>
           Add link
         </ButtonCell>
@@ -213,16 +214,19 @@ export const EditWishlistItem: FC<NewWishlistItemProps> = ({wishlist, onSave, on
         </StretchedButton>
       </Section>
 
-      {onDelete && <Section>
-        <ButtonCell
-         disabled={isDeleting || isSaving}
-         mode={"destructive"}
-         before={<Icon28Cancel/>}
-         onClick={handleDelete}
-        >
-          Delete Wish
-        </ButtonCell>
-      </Section>}
+      {onDelete &&
+       <Section>
+         <ButtonCell
+          disabled={isDeleting || isSaving}
+          mode={"destructive"}
+          before={<Icon28Cancel/>}
+          onClick={handleDelete}
+         >
+           Delete Wish
+         </ButtonCell>
+       </Section>
+      }
     </>
-  );
+  )
+    ;
 };

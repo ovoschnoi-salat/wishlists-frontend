@@ -2,10 +2,9 @@ import {
   Section,
   Cell,
   Button,
-  Divider,
   Title,
 } from '@telegram-apps/telegram-ui';
-import {FC, memo, useCallback} from 'react';
+import {FC, memo, ReactNode, useCallback} from 'react';
 import {ServiceFriendWishlistItem, ServiceWishlistItemLink} from "@/backend-client";
 import {Icon24Link} from "@/icons/24";
 import {openLink} from "@tma.js/sdk-react";
@@ -26,6 +25,73 @@ export const FriendWish: FC<FriendWishlistItemProps> = memo(function FriendWishl
     openLink(url)
   }, []);
 
+  const cells = []
+  {/* Description */
+  }
+  if (item.description) {
+    cells.push([
+      <Cell key="description" subhead="Description">
+        {item.description}
+      </Cell>
+    ])
+  }
+
+  if (item.price) {
+    cells.push([
+      <Cell key="price" subhead="Price">
+        {item.price}
+      </Cell>
+    ])
+  }
+
+  if (item.links) {
+    cells.push(
+      item.links.map((link: ServiceWishlistItemLink, index) => (
+        <Cell
+          key={"link-" + index}
+          subhead="Link"
+          after={
+            <Button
+              mode="filled"
+              size="s"
+              onClick={() => handleOpenLink(link.url!)}
+              before={<Icon24Link/>}>
+              Open
+            </Button>
+          }>
+          {link.title}
+        </Cell>
+      ))
+    )
+  }
+
+  const reservationCells: ReactNode[] = [
+    <Cell key="reservaion-info">
+      {
+        item.reservable ?
+          (
+            item.reserved ?
+              (
+                item.reservation_can_be_canceled ? "This wish is reserved by you" : "This wish is already reserved"
+              )
+              :
+              "This item can be reserved"
+          )
+          :
+          "This item is free of reservation"
+      }
+    </Cell>
+  ]
+
+  if (item.reservable && (!item.reserved || item.reservation_can_be_canceled)) {
+    reservationCells.push([
+      <StretchedButton key="reserve" size="m" mode="filled" stretched disabled={isReservationLoading}
+                       onClick={onPressReservation}>
+        {item.reservation_can_be_canceled ? "Undo reservation" : "Reserve"}
+      </StretchedButton>
+    ])
+  }
+
   return (
     <>
       {/* Title Section */}
@@ -37,76 +103,14 @@ export const FriendWish: FC<FriendWishlistItemProps> = memo(function FriendWishl
         </Cell>
       </Section>
 
+      {/* Description Section */}
+      {cells && <Section header="About">
+        {...cells}
+      </Section>}
 
-      {/* Content Section */}
-      <Section header="About">
-
-        {/* Description */}
-        {item.description &&
-         <>
-           <Cell subhead="Description">
-             {item.description}
-           </Cell>
-           <Divider/>
-         </>
-        }
-
-        {/* Price */}
-        {item.price && (
-          <>
-            <Cell subhead="Price">
-              {item.price}
-            </Cell>
-            <Divider/>
-          </>
-        )}
-        {/* Link */}
-        {item.links && (
-          <>
-            {item.links.map((link: ServiceWishlistItemLink) => (
-              <>
-                <Cell
-                  subhead="Link"
-                  after={
-                    <Button
-                      mode="filled"
-                      size="s"
-                      onClick={() => handleOpenLink(link.url!)}
-                      before={<Icon24Link/>}>
-                      Open
-                    </Button>
-                  }>
-                  {link.title}
-                </Cell>
-                <Divider/>
-              </>
-            ))}
-          </>
-        )}
-
-      </Section>
+      {/* Reservation Section */}
       <Section header="Reservation">
-        <Cell>
-          {item.reservable ?
-            (item.reserved ?
-                (item.reservation_can_be_canceled ?
-                    "This wish is reserved by you" :
-                    "This wish is already reserved"
-                )
-                : "This item is reservable"
-            )
-            : "This item is free of reservation"
-          }
-        </Cell>
-        {
-          item.reservable && (!item.reserved || item.reservation_can_be_canceled) && <>
-           <StretchedButton size="m" mode="filled" stretched disabled={isReservationLoading}
-                            onClick={onPressReservation}>
-             {item.reservation_can_be_canceled ? "Undo reservation" : "Reserve"}
-           </StretchedButton>
-         </>
-        }
-
+        {...reservationCells}
       </Section>
     </>
   );

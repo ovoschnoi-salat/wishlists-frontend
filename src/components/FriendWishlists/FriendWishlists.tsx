@@ -18,6 +18,12 @@ export const FriendWishlists: FC<FriendWishlistsProps> = memo(function FriendWis
     return <Loading/>;
   }
 
+  if (wishlists.length === 0) {
+    return <Cell>
+      No wishlists yet
+    </Cell>
+  }
+
   return wishlists.map((wishlist) =>
       <Cell
         key={wishlist.id}
