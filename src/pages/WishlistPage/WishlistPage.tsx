@@ -31,7 +31,7 @@ export const WishlistPage: FC = memo(function WishlistItemsPage() {
   const handleShareWishlistPress = useCallback(async () => {
     const link = "https://t.me/" + import.meta.env.VITE_BOT_NAME + "?startapp=wishlist_" + wishlist.share_uuid
     await copyTextToClipboard(link);
-    shareURL(link, `Here is my wishlist "${wishlist.title}"`)
+    shareURL(link, `\nHere is link to my wishlist "${wishlist.title}"`)
   }, [wishlist]);
 
   const handleNewWishPress = useCallback(() => {
