@@ -12,6 +12,10 @@ export const WishPage: FC = memo(function WishlistItemPage() {
   const {state} = useLocation()
   const wish = state as ServiceWishlistItem
 
+  if (!wish) {
+    throw "invalid state"
+  }
+
   const {item, isLoading} = useBackendWishlistItem(wish.id!);
 
   const handleEdit = () => {

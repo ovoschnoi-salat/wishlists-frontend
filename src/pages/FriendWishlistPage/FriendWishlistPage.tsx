@@ -8,13 +8,17 @@ import {useBackendFriendWishlistItems} from "@/hooks/useBackendFriendWishlistIte
 
 const useLocationState = () => {
   const {state} = useLocation()
-  return state as ServiceWishlist
+  return state as ServiceWishlist | undefined
 }
 
 export const FriendWishlistPage: FC = memo(function FriendWishlistItemsPage() {
   const navigate = useNavigate()
 
   const wishlist = useLocationState()
+
+  if (!wishlist) {
+    throw "invalid state"
+  }
 
   const handleItemPress = (item: ServiceWishlistItem) => {
     navigate(`item`, {state: item, relative: "path"})

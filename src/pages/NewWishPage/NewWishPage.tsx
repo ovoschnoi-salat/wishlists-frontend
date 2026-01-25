@@ -15,7 +15,11 @@ export const NewWishPage: FC = memo(function NewWishlistItemPage() {
   const navigate = useNavigate()
 
   const {state} = useLocation()
-  const wishlist = state as ServiceWishlist
+  const wishlist = state as ServiceWishlist | undefined
+
+  if (!wishlist) {
+    throw "invalid state"
+  }
 
   const handleSaveNewWishlistItem = useCallback(async (item: ServiceCreateWishlistItemRequest) => {
     const toastId = toast.loading("Creating new wish...")

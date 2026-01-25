@@ -8,7 +8,6 @@ export const SharedWishlistPage: FC = memo(function WishlistItemsPage() {
   const lp = useLaunchParams();
 
   const startParam = lp.tgWebAppStartParam;
-  console.log(startParam);
 
   if (!startParam) {
     throw "Unexpected state"
@@ -26,8 +25,10 @@ export const SharedWishlistPage: FC = memo(function WishlistItemsPage() {
   }
 
   if (!wishlist) {
+    console.log("redirect to wishlists", wishlist)
+    console.log(wishlist)
     return <Navigate to="/wishlists" replace={true}/>
   }
 
-  return <Navigate to={`/friend/wishlist`} replace={true}/>
+  return <Navigate to={`/friend/wishlist`} replace={true} state={wishlist}/>
 });

@@ -16,6 +16,10 @@ export const FriendWishPage: FC = memo(function FriendWishlistItemPage() {
   const {state} = useLocation()
   const itemFromState = state as ServiceFriendWishlistItem | undefined
 
+  if (!itemFromState) {
+    throw "invalid state"
+  }
+
   const {item, refetch} = useBackendFriendWishlistItem(itemFromState)
 
   const [isReservationLoading, setIsReservationLoading] = useState(false)
@@ -72,9 +76,11 @@ export const FriendWishPage: FC = memo(function FriendWishlistItemPage() {
   }, [item, refetch])
 
   if (!item) {
-    return <Cell>
-      Error loading wish
-    </Cell>
+    return <Page>
+      <Cell>
+        Error loading wish
+      </Cell>
+    </Page>
   }
 
   return <Page>

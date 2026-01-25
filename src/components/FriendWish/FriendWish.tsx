@@ -104,7 +104,7 @@ export const FriendWish: FC<FriendWishlistItemProps> = memo(function FriendWishl
       </Section>
 
       {/* Description Section */}
-      {cells && <Section header="About">
+      {cells.length > 0 && <Section header="About">
         {...cells}
       </Section>}
 

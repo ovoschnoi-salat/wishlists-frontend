@@ -146,7 +146,7 @@ if (import.meta.env.DEV) {
         tgWebAppFullscreen: true,
         tgWebAppPlatform: "ios", // "android" | "android_x" | "ios" | "macos" | "tdesktop" | "unigram" | "unknown" | "web" | "weba"
         tgWebAppShowSettings: false,
-        // tgWebAppStartParam: string,
+        tgWebAppStartParam: "wishlist_a790e7e0-cb16-4d1a-871a-db30e12d66a7",
         tgWebAppThemeParams: themeParams,
         tgWebAppVersion: "8.5",
         tgWebAppData: new URLSearchParams([

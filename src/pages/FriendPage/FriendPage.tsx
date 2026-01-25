@@ -20,7 +20,7 @@ export const FriendPage: FC = memo(function FriendWishlistsPage() {
   const [isRemoving, setIsRemoving] = useState(false)
 
   const {state} = useLocation()
-  const friend = state as ServiceFriend
+  const friend = state as ServiceFriend | undefined
 
   if (!friend) {
     throw "invalid state"

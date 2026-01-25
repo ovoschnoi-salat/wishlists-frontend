@@ -13,13 +13,17 @@ import {ToastBackendError} from "@/components/ToastBackendError/ToastBackendErro
 
 const useLocationState = () => {
   const {state} = useLocation()
-  return state as ServiceWishlistItem
+  return state as ServiceWishlistItem | undefined
 }
 
 export const EditWishPage: FC = memo(function EditWishlistItemPage() {
   const navigate = useNavigate()
 
   const item = useLocationState()
+
+  if (!item) {
+    throw "invalid state"
+  }
 
   const handleSaveWish = useCallback(async (newItem: ServiceCreateWishlistItemRequest) => {
     const toastId = toast.loading("Saving wish...")

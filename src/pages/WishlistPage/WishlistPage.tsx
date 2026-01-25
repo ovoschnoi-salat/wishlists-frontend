@@ -1,6 +1,6 @@
 import {WishlistItems} from '@/components/WishlistItems';
 import {useLocation, useNavigate} from 'react-router';
-import {FC, memo, useCallback} from 'react';
+import {FC, memo, ReactNode, useCallback} from 'react';
 import {ButtonCell, Cell, List, Section, Title} from "@telegram-apps/telegram-ui";
 import {Page} from "@/components/Page.tsx";
 import {useBackendWishlistItems} from "@/hooks/useBackendWishlistItems.tsx";
@@ -8,12 +8,17 @@ import {Icon28Plus} from "@/icons/28/Plus.tsx";
 import {ServiceWishlist, ServiceWishlistItem} from "@/backend-client";
 import {Icon24Edit} from "@/icons/24";
 import {StretchedButton} from "@/components/StretchedButton/StretchedButton.tsx";
+import {copyTextToClipboard} from "@tma.js/sdk-react";
 
 export const WishlistPage: FC = memo(function WishlistItemsPage() {
   const navigate = useNavigate();
 
   const {state} = useLocation()
   const wishlist = state as ServiceWishlist
+
+  if (!wishlist) {
+    throw "invalid state"
+  }
 
   const handleItemPress = useCallback((item: ServiceWishlistItem) => {
     navigate(`item`, {state: item})
@@ -23,33 +28,47 @@ export const WishlistPage: FC = memo(function WishlistItemsPage() {
     navigate(`edit`, {replace: true, state: wishlist})
   }, [navigate, wishlist]);
 
+  const handleShareWishlistPress = useCallback(async () => {
+    const link = "https://t.me/" + import.meta.env.VITE_BOT_NAME + "?startapp=wishlist_" + wishlist.share_uuid
+    await copyTextToClipboard(link);
+  }, [wishlist]);
+
   const handleNewWishPress = useCallback(() => {
     navigate(`items/new`, {state: wishlist})
   }, [navigate, wishlist]);
 
   const {items, isLoading} = useBackendWishlistItems(wishlist.id!);
 
+  const wishlistCells: ReactNode[] = [
+    <Cell key="title" subhead="Title" subtitle={wishlist.is_private ? "private" : undefined}>
+      <Title level="3">
+        {wishlist.title}
+      </Title>
+    </Cell>
+  ]
+
+  if (wishlist.description) {
+    wishlistCells.push([
+      <Cell key="description" subhead="Description">
+        {wishlist.description}
+      </Cell>
+    ])
+  }
+
+  wishlistCells.push([
+    <ButtonCell
+      key="edit"
+      before={<Icon24Edit/>}
+      onClick={handleEditWishlistPress}
+    >
+      Edit wishlist
+    </ButtonCell>
+  ])
+
   return <Page pageTitle={wishlist.title}>
     <List>
       <Section>
-        <Cell subhead="Title" subtitle={wishlist.is_private ? "private" : undefined}>
-          <Title level="3">
-            {wishlist.title}
-          </Title>
-        </Cell>
-
-        {wishlist.description &&
-         <Cell subhead="Description">
-           {wishlist.description}
-         </Cell>
-        }
-
-        <ButtonCell
-          before={<Icon24Edit/>}
-          onClick={handleEditWishlistPress}
-        >
-          Edit wishlist
-        </ButtonCell>
+        {...wishlistCells}
       </Section>
 
       <Section>
@@ -57,6 +76,7 @@ export const WishlistPage: FC = memo(function WishlistItemsPage() {
           mode="filled"
           size="m"
           stretched
+          onClick={handleShareWishlistPress}
         >
           Share wishlist
         </StretchedButton>
