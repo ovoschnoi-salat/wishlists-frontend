@@ -97,11 +97,9 @@ export const FriendWish: FC<FriendWishlistItemProps> = memo(function FriendWishl
         </Cell>
         {
           item.reservable && (!item.reserved || item.reservation_can_be_canceled) && <>
-           <div className="px-6 py-4">
              <Button size="m" mode="filled" stretched disabled={isReservationLoading} onClick={onPressReservation}>
                {item.reservation_can_be_canceled ? "Undo reservation" : "Reserve"}
              </Button>
-           </div>
          </>
         }
 

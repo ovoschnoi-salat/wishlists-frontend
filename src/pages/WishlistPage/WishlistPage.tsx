@@ -52,15 +52,13 @@ export const WishlistPage: FC = memo(function WishlistItemsPage() {
       </Section>
 
       <Section>
-        <div className="px-6 py-4">
-          <Button
-            mode="filled"
-            size="m"
-            stretched
-          >
-            Share wishlist
-          </Button>
-        </div>
+        <Button
+          mode="filled"
+          size="m"
+          stretched
+        >
+          Share wishlist
+        </Button>
       </Section>
 
       <Section header={"Wishlist items"}>

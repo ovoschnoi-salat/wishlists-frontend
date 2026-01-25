@@ -138,20 +138,19 @@ export const EditWishlist: FC<editWishlistProps> = memo(function EditWishlist({
 
           {/* Create List Button */}
           <Section>
-            <div className="px-6 py-4">
-              <Button
-                mode="filled"
-                size="m"
-                stretched
-                onClick={handleSave}
-                disabled={!title.trim() || isSaving || isDeleting}
-                loading={isSaving}
-                before={<Icon28Plus/>}
-              >
-                Save wishlist
-              </Button>
-            </div>
+            <Button
+              mode="filled"
+              size="m"
+              stretched
+              onClick={handleSave}
+              disabled={!title.trim() || isSaving || isDeleting}
+              loading={isSaving}
+              before={<Icon28Plus/>}
+            >
+              Save wishlist
+            </Button>
           </Section>
+
           {onDelete && <Section>
             <ButtonCell
              disabled={isDeleting || isSaving}

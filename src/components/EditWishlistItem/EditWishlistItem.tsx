@@ -199,19 +199,17 @@ export const EditWishlistItem: FC<NewWishlistItemProps> = ({wishlist, onSave, on
       </Section>
 
       <Section>
-        <div className="px-6 py-4">
-          <Button
-            mode="filled"
-            size="m"
-            stretched
-            onClick={handleSubmit}
-            disabled={!isFormValid() || isSaving || isDeleting}
-            loading={isSaving}
-            before={<Icon28Plus/>}
-          >
-            Save wish
-          </Button>
-        </div>
+        <Button
+          mode="filled"
+          size="m"
+          stretched
+          onClick={handleSubmit}
+          disabled={!isFormValid() || isSaving || isDeleting}
+          loading={isSaving}
+          before={<Icon28Plus/>}
+        >
+          Save wish
+        </Button>
       </Section>
 
       {onDelete && <Section>

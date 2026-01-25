@@ -64,7 +64,6 @@ export const Settings: FC<SettingsProps> = ({settings, isLoading, onSave}) => {
     </Section>
 
     <Section>
-      <div className="px-6 py-4">
         <Button
           mode="filled"
           size="m"
@@ -75,7 +74,6 @@ export const Settings: FC<SettingsProps> = ({settings, isLoading, onSave}) => {
         >
           Save
         </Button>
-      </div>
     </Section>
   </>
 };
