@@ -8,6 +8,7 @@ import {useBackendFriends} from "@/hooks/useBackendFriends.tsx";
 import {EditWishlist} from "@/components/EditWishlist/EditWishlist.tsx";
 import {toast} from "react-hot-toast";
 import {ToastBackendError} from "@/components/ToastBackendError/ToastBackendError.tsx";
+import {Loading} from "@/components/Loading.tsx";
 
 export const NewWishlistPage: FC = memo(function NewWishlistPage() {
   const navigate = useNavigate()
@@ -32,12 +33,15 @@ export const NewWishlistPage: FC = memo(function NewWishlistPage() {
     navigate(`/wishlist`, {replace: true, state: data})
   };
 
-  return <Page pageTitle={"New wishlist"}>
+  if (isLoading) {
+    return <Loading/>
+  }
+
+  return <Page pageTitle="New wishlist">
     <List>
       <EditWishlist
         onSave={handleSaveNewWishlist}
         friends={friends}
-        isLoadingFriends={isLoading}
         wishlist={{
           description: "",
           id: undefined,

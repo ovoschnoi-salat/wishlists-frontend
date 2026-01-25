@@ -33,7 +33,7 @@ export const SettingsPage: FC = memo(function SettingsPage() {
     return <Loading/>;
   }
 
-  return <Page pageTitle={"Settings"} back={false}>
+  return <Page pageTitle="Settings" back={false}>
     <List>
       <Settings settings={settings} onSave={onSave} isLoading={isLoading}/>
     </List>

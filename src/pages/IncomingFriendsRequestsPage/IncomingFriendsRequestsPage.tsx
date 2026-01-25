@@ -64,7 +64,7 @@ export const IncomingFriendsRequestsPage: FC = memo(function IncomingFriendsRequ
     return <Loading/>;
   }
 
-  return <Page pageTitle={"Incoming friends requests"}>
+  return <Page pageTitle="Incoming friends requests">
     <List>
       <Section header='Incoming friends requests'>
         <IncomingFriendsRequests friends={friends} onDenyClick={handleDenyPress} onAcceptClick={handleAcceptPress}/>

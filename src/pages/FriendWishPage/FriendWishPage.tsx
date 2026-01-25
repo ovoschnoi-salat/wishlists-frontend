@@ -83,7 +83,7 @@ export const FriendWishPage: FC = memo(function FriendWishlistItemPage() {
     </Page>
   }
 
-  return <Page>
+  return <Page pageTitle={item.title}>
     <List>
       <FriendWish item={item} onPressReservation={handlePressReservation} isReservationLoading={isReservationLoading}/>
     </List>

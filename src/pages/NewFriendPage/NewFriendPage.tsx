@@ -29,7 +29,7 @@ export const NewFriendPage: FC = memo(function NewFriendPage() {
     navigate(-1)
   }, [navigate]);
 
-  return <Page>
+  return <Page pageTitle="New friend">
     <List>
       <NewFriend onSend={handleSendFriendRequest}/>
     </List>

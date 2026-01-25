@@ -37,7 +37,7 @@ export const FriendsPage: FC = memo(function FriendsPage() {
     return <Loading/>;
   }
 
-  return <Page pageTitle={"Friends"} back={false}>
+  return <Page pageTitle="Friends" back={false}>
     <List>
       <Section header='Friends requests'>
         {requestsCount !== 0 &&

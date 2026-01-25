@@ -96,7 +96,7 @@ export const FriendPage: FC = memo(function FriendWishlistsPage() {
     </ButtonCell>
   ])
 
-  return <Page>
+  return <Page pageTitle="Friend">
     <List>
       <Section header={"Friend"}>
         {...friendCells}

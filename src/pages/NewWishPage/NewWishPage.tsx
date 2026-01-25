@@ -39,7 +39,7 @@ export const NewWishPage: FC = memo(function NewWishlistItemPage() {
     navigate(`/wishlist/item`, {replace: true, state: data})
   }, [navigate, wishlist]);
 
-  return <Page pageTitle={"New wish"}>
+  return <Page pageTitle="New wish">
     <List>
       <EditWishlistItem
         onSave={handleSaveNewWishlistItem}
