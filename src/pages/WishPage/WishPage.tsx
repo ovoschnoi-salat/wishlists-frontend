@@ -16,7 +16,7 @@ export const WishPage: FC = memo(function WishlistItemPage() {
     throw "invalid state"
   }
 
-  const {item, isLoading} = useBackendWishlistItem(wish.id!);
+  const {item, isLoading} = useBackendWishlistItem(wish);
 
   const handleEdit = () => {
     navigate(`edit`, {replace: true, state: item})

@@ -8,7 +8,7 @@ import {Icon28Plus} from "@/icons/28/Plus.tsx";
 import {ServiceWishlist, ServiceWishlistItem} from "@/backend-client";
 import {Icon24Edit} from "@/icons/24";
 import {StretchedButton} from "@/components/StretchedButton/StretchedButton.tsx";
-import {copyTextToClipboard} from "@tma.js/sdk-react";
+import {copyTextToClipboard, shareURL} from "@tma.js/sdk-react";
 
 export const WishlistPage: FC = memo(function WishlistItemsPage() {
   const navigate = useNavigate();
@@ -31,6 +31,7 @@ export const WishlistPage: FC = memo(function WishlistItemsPage() {
   const handleShareWishlistPress = useCallback(async () => {
     const link = "https://t.me/" + import.meta.env.VITE_BOT_NAME + "?startapp=wishlist_" + wishlist.share_uuid
     await copyTextToClipboard(link);
+    shareURL(link, `Here is my wishlist "${wishlist.title}"`)
   }, [wishlist]);
 
   const handleNewWishPress = useCallback(() => {
@@ -71,7 +72,7 @@ export const WishlistPage: FC = memo(function WishlistItemsPage() {
         {...wishlistCells}
       </Section>
 
-      <Section>
+      <Section footer="User with this link will be added to your friends and added to wishlist access list if it is private">
         <StretchedButton
           mode="filled"
           size="m"
