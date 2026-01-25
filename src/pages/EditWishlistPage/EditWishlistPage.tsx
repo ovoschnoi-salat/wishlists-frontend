@@ -14,6 +14,7 @@ import {useBackendWishlistAccessList} from "@/hooks/useBackendWishlistAccessList
 import {EditWishlist} from "@/components/EditWishlist/EditWishlist.tsx";
 import {toast} from "react-hot-toast";
 import {ToastBackendError} from "@/components/ToastBackendError/ToastBackendError.tsx";
+import {Loading} from "@/components/Loading.tsx";
 
 const useLocationState = () => {
   const {state} = useLocation()
@@ -31,8 +32,7 @@ export const EditWishlistPage: FC = memo(function EditWishlistPage() {
 
   const {friends, isLoading} = useBackendFriends();
 
-  const WishlistAccessList = useBackendWishlistAccessList(wishlist.id!)
-
+  const {accessList, isLoading: isLoadingAccessList} = useBackendWishlistAccessList(wishlist.id!)
 
   const handleDeleteWishlist = async () => {
     const toastId = toast.loading("Deleting wishlist...")
@@ -69,6 +69,10 @@ export const EditWishlistPage: FC = memo(function EditWishlistPage() {
     navigate(`..`, {replace: true, relative: "path", state: data})
   };
 
+  if (isLoading || isLoadingAccessList) {
+    return <Loading/>
+  }
+
   return <Page
     pageTitle={"Wishlist edit"}
     backNavFn={() => {
@@ -77,9 +81,8 @@ export const EditWishlistPage: FC = memo(function EditWishlistPage() {
     <List>
       <EditWishlist
         wishlist={wishlist}
-        friendsWithAccess={WishlistAccessList.accessList}
+        friendsWithAccess={accessList}
         friends={friends}
-        isLoadingFriends={isLoading || WishlistAccessList.isLoading}
         onSave={handleSaveWishlist}
         onDelete={handleDeleteWishlist}
       />

@@ -5,7 +5,6 @@ import {
 import {FC, memo, useState} from 'react';
 import {ServiceFriend} from '@/backend-client';
 import {usernameAndNameToAcronym} from "@/helpers/acronym.ts";
-import {Loading} from "@/components/Loading.tsx";
 import {StretchedButton} from "@/components/StretchedButton/StretchedButton.tsx";
 
 export type Friend = ServiceFriend;
@@ -13,11 +12,10 @@ export type Friend = ServiceFriend;
 interface FriendsProps {
   friends: Friend[];
   selectedFriendsIds: number[];
-  isLoading: boolean;
   saveFriendsList: (friendsIds: number[]) => void;
 }
 
-export const SelectFriends: FC<FriendsProps> = memo(function SelectFriends({friends, selectedFriendsIds, isLoading, saveFriendsList}) {
+export const SelectFriends: FC<FriendsProps> = memo(function SelectFriends({friends, selectedFriendsIds, saveFriendsList}) {
   const [friendsIds, setFriendsIds] = useState(selectedFriendsIds)
 
   const onFriendClick = (friendId: number) => {
@@ -27,10 +25,6 @@ export const SelectFriends: FC<FriendsProps> = memo(function SelectFriends({frie
       setFriendsIds([...friendsIds, friendId])
     }
   };
-
-  if (isLoading) {
-    return <Loading/>;
-  }
 
   return <Section>
     {friends.map((friend) =>

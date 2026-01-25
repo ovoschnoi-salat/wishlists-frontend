@@ -19,7 +19,6 @@ interface editWishlistProps {
   wishlist: ServiceWishlist;
   friendsWithAccess: number[];
   friends: Friend[];
-  isLoadingFriends: boolean;
   onSave: (wishlist: ServiceCreateWishlistRequest) => Promise<void>;
   onDelete?: () => Promise<void>;
 }
@@ -28,7 +27,6 @@ export const EditWishlist: FC<editWishlistProps> = memo(function EditWishlist({
                                                                                 wishlist,
                                                                                 friendsWithAccess,
                                                                                 friends,
-                                                                                isLoadingFriends,
                                                                                 onSave,
                                                                                 onDelete
                                                                               }) {
@@ -180,7 +178,6 @@ export const EditWishlist: FC<editWishlistProps> = memo(function EditWishlist({
         <SelectFriends
           friends={friends}
           selectedFriendsIds={usersWithAccess}
-          isLoading={isLoadingFriends}
           saveFriendsList={handleSaveUsersWithAccess}
         />
       }

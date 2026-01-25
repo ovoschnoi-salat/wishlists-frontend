@@ -23,7 +23,7 @@ export const useBackendWishlistAccessList = (wishlistId: number): loadResult & {
         toast.error(<ToastBackendError error={error}/>)
         return
       }
-
+      console.log(data)
       setData(data);
     } finally {
       setIsLoading(false);
