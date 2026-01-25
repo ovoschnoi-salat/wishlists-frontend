@@ -9,6 +9,7 @@ import {Icon28Actions, Icon28Group, Icon28Person, Icon28Settings} from "@/icons/
 import "./PageWithTabbar.css";
 
 enum Tab {
+  Unknown = "Unknown",
   MyLists = "MyLists",
   Friends = "Friends",
   Settings = "Settings",
@@ -28,7 +29,10 @@ function getCurrentTab(path: string): Tab {
   if (path.startsWith("/settings")) {
     return Tab.Settings
   }
-  return Tab.MyLists
+  if (path.startsWith("/wishlist")) {
+    return Tab.MyLists
+  }
+  return Tab.Unknown
 }
 
 export const PageWithTabbar: FC = memo(function PageWithTabbar() {
