@@ -1,11 +1,11 @@
 import {ChangeEvent, memo, useCallback, useState} from 'react';
 import {
   Section,
-  Button,
   Input,
 } from '@telegram-apps/telegram-ui';
 import type {FC} from 'react';
 import {Icon28Plus} from '@/icons/28/Plus.tsx';
+import {StretchedButton} from "@/components/StretchedButton/StretchedButton.tsx";
 
 interface NewFriendProps {
   onSend: (username: string) => Promise<void>;
@@ -44,7 +44,7 @@ export const NewFriend: FC<NewFriendProps> = memo(function NewFriend({onSend}) {
 
       {/* Send request Button */}
       <Section>
-        <Button
+        <StretchedButton
           mode="filled"
           size="m"
           stretched
@@ -54,7 +54,7 @@ export const NewFriend: FC<NewFriendProps> = memo(function NewFriend({onSend}) {
           before={<Icon28Plus/>}
         >
           Send friends request
-        </Button>
+        </StretchedButton>
       </Section>
     </>
   );

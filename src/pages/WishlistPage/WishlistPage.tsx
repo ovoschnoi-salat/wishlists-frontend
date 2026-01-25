@@ -1,12 +1,13 @@
 import {WishlistItems} from '@/components/WishlistItems';
 import {useLocation, useNavigate} from 'react-router';
 import {FC, memo, useCallback} from 'react';
-import {Button, ButtonCell, Cell, List, Section, Title} from "@telegram-apps/telegram-ui";
+import {ButtonCell, Cell, List, Section, Title} from "@telegram-apps/telegram-ui";
 import {Page} from "@/components/Page.tsx";
 import {useBackendWishlistItems} from "@/hooks/useBackendWishlistItems.tsx";
 import {Icon28Plus} from "@/icons/28/Plus.tsx";
 import {ServiceWishlist, ServiceWishlistItem} from "@/backend-client";
 import {Icon24Edit} from "@/icons/24";
+import {StretchedButton} from "@/components/StretchedButton/StretchedButton.tsx";
 
 export const WishlistPage: FC = memo(function WishlistItemsPage() {
   const navigate = useNavigate();
@@ -52,13 +53,13 @@ export const WishlistPage: FC = memo(function WishlistItemsPage() {
       </Section>
 
       <Section>
-        <Button
+        <StretchedButton
           mode="filled"
           size="m"
           stretched
         >
           Share wishlist
-        </Button>
+        </StretchedButton>
       </Section>
 
       <Section header={"Wishlist items"}>

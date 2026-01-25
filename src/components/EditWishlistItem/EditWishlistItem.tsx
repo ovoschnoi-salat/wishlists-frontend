@@ -9,6 +9,7 @@ import {
 
 import {ServiceCreateWishlistItemRequest, ServiceWishlistItem, ServiceWishlistItemLink} from "@/backend-client";
 import {Icon28Cancel} from "@/icons/28/Cancel.tsx";
+import {StretchedButton} from "@/components/StretchedButton/StretchedButton.tsx";
 
 export interface WishlistItemLink {
   fieldGroupId: number;
@@ -199,7 +200,7 @@ export const EditWishlistItem: FC<NewWishlistItemProps> = ({wishlist, onSave, on
       </Section>
 
       <Section>
-        <Button
+        <StretchedButton
           mode="filled"
           size="m"
           stretched
@@ -209,7 +210,7 @@ export const EditWishlistItem: FC<NewWishlistItemProps> = ({wishlist, onSave, on
           before={<Icon28Plus/>}
         >
           Save wish
-        </Button>
+        </StretchedButton>
       </Section>
 
       {onDelete && <Section>

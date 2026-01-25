@@ -1,10 +1,10 @@
 import {
-  Button,
   Cell, Input, Section, Switch
 } from '@telegram-apps/telegram-ui';
 import {ChangeEvent, FC, useCallback, useState} from 'react';
 import {Loading} from "@/components/Loading.tsx";
 import {ServiceUserSettings} from "@/backend-client";
+import {StretchedButton} from "@/components/StretchedButton/StretchedButton.tsx";
 
 interface SettingsProps {
   settings: ServiceUserSettings;
@@ -64,7 +64,7 @@ export const Settings: FC<SettingsProps> = ({settings, isLoading, onSave}) => {
     </Section>
 
     <Section>
-        <Button
+        <StretchedButton
           mode="filled"
           size="m"
           stretched
@@ -73,7 +73,7 @@ export const Settings: FC<SettingsProps> = ({settings, isLoading, onSave}) => {
           loading={isSaving}
         >
           Save
-        </Button>
+        </StretchedButton>
     </Section>
   </>
 };

@@ -2,7 +2,6 @@ import {ChangeEvent, memo, useCallback, useState} from 'react';
 import {
   Section,
   Cell,
-  Button,
   Switch,
   Input,
   Textarea,
@@ -14,6 +13,7 @@ import {SelectFriends} from "@/components/SelectFriends/SelectFriends.tsx";
 import {Friend} from "@/components/Friends/Friends.tsx";
 import {ServiceCreateWishlistRequest, ServiceWishlist} from "@/backend-client";
 import {Icon28Cancel} from "@/icons/28/Cancel.tsx";
+import {StretchedButton} from "@/components/StretchedButton/StretchedButton.tsx";
 
 interface editWishlistProps {
   wishlist: ServiceWishlist;
@@ -138,7 +138,7 @@ export const EditWishlist: FC<editWishlistProps> = memo(function EditWishlist({
 
           {/* Create List Button */}
           <Section>
-            <Button
+            <StretchedButton
               mode="filled"
               size="m"
               stretched
@@ -148,7 +148,7 @@ export const EditWishlist: FC<editWishlistProps> = memo(function EditWishlist({
               before={<Icon28Plus/>}
             >
               Save wishlist
-            </Button>
+            </StretchedButton>
           </Section>
 
           {onDelete && <Section>

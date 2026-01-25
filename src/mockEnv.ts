@@ -75,7 +75,7 @@ if (import.meta.env.DEV) {
         tgWebAppBotInline: false,
         tgWebAppDefaultColors: themeParams,
         tgWebAppFullscreen: true,
-        tgWebAppPlatform: "tdesktop", // "android" | "android_x" | "ios" | "macos" | "tdesktop" | "unigram" | "unknown" | "web" | "weba"
+        tgWebAppPlatform: "ios", // "android" | "android_x" | "ios" | "macos" | "tdesktop" | "unigram" | "unknown" | "web" | "weba"
         tgWebAppShowSettings: false,
         // tgWebAppStartParam: string,
         tgWebAppThemeParams: themeParams,

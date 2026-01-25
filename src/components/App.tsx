@@ -100,9 +100,10 @@ const router = createBrowserRouter([
 
         {path: '/settings', Component: SettingsPage},
 
+        {path: '/theme-params', Component: ThemeParamsPage},
+
         ...(import.meta.env.DEV ? [
           {path: '/init-data', Component: InitDataPage},
-          {path: '/theme-params', Component: ThemeParamsPage},
           {path: '/launch-params', Component: LaunchParamsPage}
         ] : [])
       ]

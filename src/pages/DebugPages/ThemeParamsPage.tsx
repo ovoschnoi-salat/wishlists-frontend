@@ -24,6 +24,9 @@ export const ThemeParamsPage: FC = memo(function ThemeParamsPage() {
           }
         />
       </List>
+      <List>
+        <DisplayData rows={[{title: "scheme", value: JSON.stringify(tp)}]}/>
+      </List>
     </Page>
   );
 });

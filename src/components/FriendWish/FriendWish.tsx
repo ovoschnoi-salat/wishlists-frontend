@@ -9,6 +9,7 @@ import {FC, memo, useCallback} from 'react';
 import {ServiceFriendWishlistItem, ServiceWishlistItemLink} from "@/backend-client";
 import {Icon24Link} from "@/icons/24";
 import {openLink} from "@tma.js/sdk-react";
+import {StretchedButton} from "@/components/StretchedButton/StretchedButton.tsx";
 
 interface FriendWishlistItemProps {
   item: ServiceFriendWishlistItem;
@@ -83,7 +84,9 @@ export const FriendWish: FC<FriendWishlistItemProps> = memo(function FriendWishl
           </>
         )}
 
-        <Cell subhead="Reservation">
+      </Section>
+      <Section header="Reservation">
+        <Cell>
           {item.reservable ?
             (item.reserved ?
                 (item.reservation_can_be_canceled ?
@@ -97,9 +100,10 @@ export const FriendWish: FC<FriendWishlistItemProps> = memo(function FriendWishl
         </Cell>
         {
           item.reservable && (!item.reserved || item.reservation_can_be_canceled) && <>
-             <Button size="m" mode="filled" stretched disabled={isReservationLoading} onClick={onPressReservation}>
-               {item.reservation_can_be_canceled ? "Undo reservation" : "Reserve"}
-             </Button>
+           <StretchedButton size="m" mode="filled" stretched disabled={isReservationLoading}
+                            onClick={onPressReservation}>
+             {item.reservation_can_be_canceled ? "Undo reservation" : "Reserve"}
+           </StretchedButton>
          </>
         }
 

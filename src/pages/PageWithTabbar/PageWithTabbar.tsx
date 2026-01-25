@@ -70,6 +70,12 @@ export const PageWithTabbar: FC = memo(function PageWithTabbar() {
       icon: <Icon28Settings/>,
       navLink: "/settings",
     },
+    {
+      tabEnum: Tab.ThemeParams,
+      title: "Theme params",
+      icon: <Icon28Person/>,
+      navLink: "/theme-params",
+    },
   ]
 
   if (import.meta.env.DEV) {
@@ -79,12 +85,6 @@ export const PageWithTabbar: FC = memo(function PageWithTabbar() {
         title: "Init data",
         icon: <Icon28Person/>,
         navLink: "/init-data",
-      },
-      {
-        tabEnum: Tab.ThemeParams,
-        title: "Theme params",
-        icon: <Icon28Person/>,
-        navLink: "/theme-params",
       },
       {
         tabEnum: Tab.LaunchParams,
