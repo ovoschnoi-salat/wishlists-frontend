@@ -6,7 +6,7 @@ import {
 import {FC, memo, useCallback, useState} from 'react';
 
 import {Page} from "@/components/Page.tsx";
-import {useLocation, useNavigate, useParams} from "react-router";
+import {useLocation, useNavigate} from "react-router";
 import {useBackendFriendWishlists} from "@/hooks/useBackendFriendWishlists.tsx";
 import {deleteApiUserFriend, ServiceFriend, ServiceWishlist} from "@/backend-client";
 import {FriendWishlists} from "@/components/FriendWishlists/FriendWishlists.tsx";
@@ -20,7 +20,7 @@ export const FriendPage: FC = memo(function FriendWishlistsPage() {
   const [isRemoving, setIsRemoving] = useState(false)
 
   const {state} = useLocation()
-  const friend = state as ServiceFriend | undefined
+  const friend = state as ServiceFriend
 
   const handleRemoveFromFriendsPress = useCallback(async () => {
     try {
@@ -56,21 +56,17 @@ export const FriendPage: FC = memo(function FriendWishlistsPage() {
 
       toast.success("Removed from friends successfully", {id: toastId})
 
-      navigate(`../..`, {replace: true, relative: "path"})
+      navigate(`/friends`, {replace: true})
     } finally {
       setIsRemoving(false)
     }
   }, [friend, navigate]);
 
   const handleWishlistPress = useCallback((wishlist: ServiceWishlist) => {
-    navigate(`../wishlists/${wishlist.id}/items`, {state: wishlist, relative: "path"});
+    navigate(`wishlist`, {state: wishlist});
   }, [navigate]);
 
-  const {friendId} = useParams<{ friendId: string }>();
-
-  const friendIdNumber = parseInt(friendId ?? "0", 10);
-
-  const {wishlists, isLoading} = useBackendFriendWishlists(friendIdNumber);
+  const {wishlists, isLoading} = useBackendFriendWishlists(friend.id!);
 
   if (!friend) {
     return <Page>

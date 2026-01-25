@@ -18,6 +18,8 @@ export {FriendPage} from '@/pages/FriendPage/FriendPage.tsx';
 export {FriendWishlistPage} from '@/pages/FriendWishlistPage/FriendWishlistPage.tsx';
 export {FriendWishPage} from '@/pages/FriendWishPage/FriendWishPage.tsx';
 
+export {SharedWishlistPage} from '@/pages/SharedWishlistPage/SharedWishlistPage.tsx';
+
 // Settings
 export {SettingsPage} from './SettingsPage/SettingsPage.tsx';
 

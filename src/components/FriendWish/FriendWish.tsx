@@ -4,7 +4,6 @@ import {
   Button,
   Divider,
   Title,
-  ButtonCell,
 } from '@telegram-apps/telegram-ui';
 import {FC, memo, useCallback} from 'react';
 import {ServiceFriendWishlistItem, ServiceWishlistItemLink} from "@/backend-client";
@@ -18,10 +17,10 @@ interface FriendWishlistItemProps {
 }
 
 export const FriendWish: FC<FriendWishlistItemProps> = memo(function FriendWishlistItem({
-                                                                                                  item,
-                                                                                                  onPressReservation,
-                                                                                                  isReservationLoading
-                                                                                                }) {
+                                                                                          item,
+                                                                                          onPressReservation,
+                                                                                          isReservationLoading
+                                                                                        }) {
   const handleOpenLink = useCallback((url: string) => {
     openLink(url)
   }, []);
@@ -97,19 +96,12 @@ export const FriendWish: FC<FriendWishlistItemProps> = memo(function FriendWishl
           }
         </Cell>
         {
-          item.reservable && <>
-            {
-              !item.reserved &&
-             <ButtonCell disabled={isReservationLoading} onClick={onPressReservation}>
-               Reserve
-             </ButtonCell>
-            }
-            {
-              item.reservation_can_be_canceled &&
-             <ButtonCell disabled={isReservationLoading} onClick={onPressReservation}>
-               Undo reservation
-             </ButtonCell>
-            }
+          item.reservable && (!item.reserved || item.reservation_can_be_canceled) && <>
+           <div className="px-6 py-4">
+             <Button size="m" mode="filled" stretched disabled={isReservationLoading} onClick={onPressReservation}>
+               {item.reservation_can_be_canceled ? "Undo reservation" : "Reserve"}
+             </Button>
+           </div>
          </>
         }
 

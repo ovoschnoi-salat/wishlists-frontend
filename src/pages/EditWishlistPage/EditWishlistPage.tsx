@@ -62,13 +62,13 @@ export const EditWishlistPage: FC = memo(function EditWishlistPage() {
 
     toast.success("Wishlist saved successfully", {id: toastId})
 
-    navigate(`../items`, {replace: true, relative: "path", state: data})
+    navigate(`..`, {replace: true, relative: "path", state: data})
   };
 
   return <Page
     pageTitle={"Wishlist edit"}
     backNavFn={() => {
-      navigate(`../items`, {replace: true, relative: "path", state: wishlist})
+      navigate(`..`, {replace: true, relative: "path", state: wishlist})
     }}>
     <List>
       <EditWishlist

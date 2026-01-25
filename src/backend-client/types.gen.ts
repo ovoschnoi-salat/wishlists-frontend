@@ -103,7 +103,7 @@ export type GetApiSharedWishlistData = {
         /**
          * Wishlist UUID
          */
-        wishlist_uuid: number;
+        wishlist_uuid: string;
     };
     url: '/api/shared/wishlist';
 };

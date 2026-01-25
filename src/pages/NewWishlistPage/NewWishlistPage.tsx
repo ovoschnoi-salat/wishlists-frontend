@@ -29,7 +29,7 @@ export const NewWishlistPage: FC = memo(function NewWishlistPage() {
 
     toast.success("Wishlist created successfully", {id: toastId})
 
-    navigate(`/wishlists/${data!.id!}/items`, {replace: true, state: data})
+    navigate(`/wishlist`, {replace: true, state: data})
   };
 
   return <Page pageTitle={"New wishlist"}>

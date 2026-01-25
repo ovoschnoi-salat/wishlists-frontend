@@ -27,6 +27,7 @@ import {useRouteError} from "react-router";
 import {ErrorSnackbar} from "@/components/ErrorSnackbar/ErrorSnackbar.tsx";
 import {errorToString} from "@/helpers/error.ts";
 import {Toaster} from "react-hot-toast";
+import {SharedWishlistPage} from "@/pages/SharedWishlistPage/SharedWishlistPage.tsx";
 
 export function ErrorBoundary() {
   const error = useRouteError();
@@ -45,20 +46,17 @@ export function InitialNavigation() {
   const startParam = lp.tgWebAppStartParam;
   console.log(startParam);
 
-  return <Navigate to="/wishlists"/>
-  //
-  // if (!startParam) {
-  //   return <Navigate to="/wishlists"/>
-  // }
-  // const parts = startParam.split("_")
-  // if (parts.length < 2) {
-  //   return <Navigate to="/wishlists"/>
-  // }
-  // if (parts[0] === "wishlist") {
-  //   return <SharedWishlistPage/>
-  // }
-  //
-  // return lp.tgWebAppStartParam ? (<Navigate to="/dashboard" replace/>) : (<Navigate to="/login" replace/>);
+  if (startParam) {
+    const parts = startParam.split("_")
+    if (parts.length == 2) {
+      if (parts[0] === "wishlist") {
+
+        return <Navigate to="/shared/wishlist" replace={true}/>
+      }
+    }
+  }
+
+  return <Navigate to="/wishlists" replace={true}/>
 }
 
 export function App() {
@@ -85,18 +83,20 @@ const router = createBrowserRouter([
         {index: true, Component: InitialNavigation},
         {path: '/wishlists', Component: WishlistsPage},
         {path: '/wishlists/new', Component: NewWishlistPage},
-        {path: '/wishlists/:wishlistId/items', Component: WishlistPage},
-        {path: '/wishlists/:wishlistId/edit', Component: EditWishlistPage},
-        {path: '/wishlists/:wishlistId/items/new', Component: NewWishPage},
-        {path: '/wishlists/:wishlistId/items/:itemId', Component: WishPage},
-        {path: '/wishlists/:wishlistId/items/:itemId/edit', Component: EditWishPage},
+        {path: '/wishlist', Component: WishlistPage},
+        {path: '/wishlist/edit', Component: EditWishlistPage},
+        {path: '/wishlist/items/new', Component: NewWishPage},
+        {path: '/wishlist/item', Component: WishPage},
+        {path: '/wishlist/item/edit', Component: EditWishPage},
 
         {path: '/friends', Component: FriendsPage},
         {path: '/friends/new', Component: NewFriendPage},
         {path: '/friends/requests/incoming', Component: IncomingFriendsRequestsPage},
-        {path: '/friends/:friendId/wishlists', Component: FriendPage},
-        {path: '/friends/:friendId/wishlists/:wishlistId/items', Component: FriendWishlistPage},
-        {path: '/friends/:friendId/wishlists/:wishlistId/items/:itemId', Component: FriendWishPage},
+        {path: '/friend', Component: FriendPage},
+        {path: '/friend/wishlist', Component: FriendWishlistPage},
+        {path: '/friend/wishlist/item', Component: FriendWishPage},
+
+        {path: '/shared/wishlist', Component: SharedWishlistPage},
 
         {path: '/settings', Component: SettingsPage},
 

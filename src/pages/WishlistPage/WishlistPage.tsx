@@ -1,7 +1,7 @@
 import {WishlistItems} from '@/components/WishlistItems';
 import {useLocation, useNavigate} from 'react-router';
 import {FC, memo, useCallback} from 'react';
-import {ButtonCell, Cell, List, Section, Title} from "@telegram-apps/telegram-ui";
+import {Button, ButtonCell, Cell, List, Section, Title} from "@telegram-apps/telegram-ui";
 import {Page} from "@/components/Page.tsx";
 import {useBackendWishlistItems} from "@/hooks/useBackendWishlistItems.tsx";
 import {Icon28Plus} from "@/icons/28/Plus.tsx";
@@ -15,16 +15,16 @@ export const WishlistPage: FC = memo(function WishlistItemsPage() {
   const wishlist = state as ServiceWishlist
 
   const handleItemPress = useCallback((item: ServiceWishlistItem) => {
-    navigate(`${item.id}`, {relative: "path", state: item})
+    navigate(`item`, {state: item})
   }, [navigate]);
 
   const handleEditWishlistPress = useCallback(() => {
-    navigate(`../edit`, {replace: true, relative: "path", state: wishlist})
+    navigate(`edit`, {replace: true, state: wishlist})
   }, [navigate, wishlist]);
 
   const handleNewWishPress = useCallback(() => {
-    navigate(`new`)
-  }, [navigate]);
+    navigate(`items/new`, {state: wishlist})
+  }, [navigate, wishlist]);
 
   const {items, isLoading} = useBackendWishlistItems(wishlist.id!);
 
@@ -49,6 +49,18 @@ export const WishlistPage: FC = memo(function WishlistItemsPage() {
         >
           Edit wishlist
         </ButtonCell>
+      </Section>
+
+      <Section>
+        <div className="px-6 py-4">
+          <Button
+            mode="filled"
+            size="m"
+            stretched
+          >
+            Share wishlist
+          </Button>
+        </div>
       </Section>
 
       <Section header={"Wishlist items"}>

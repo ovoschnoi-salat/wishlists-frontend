@@ -50,7 +50,7 @@ export const Settings: FC<SettingsProps> = ({settings, isLoading, onSave}) => {
       />
     </Section>
 
-    <Section>
+    <Section header="Friend requests">
       <Cell
         after={
           <Switch
@@ -64,16 +64,18 @@ export const Settings: FC<SettingsProps> = ({settings, isLoading, onSave}) => {
     </Section>
 
     <Section>
-      <Button
-        mode="filled"
-        size="m"
-        stretched
-        onClick={handleSave}
-        disabled={isSaving}
-        loading={isSaving}
-      >
-        Save
-      </Button>
+      <div className="px-6 py-4">
+        <Button
+          mode="filled"
+          size="m"
+          stretched
+          onClick={handleSave}
+          disabled={isSaving}
+          loading={isSaving}
+        >
+          Save
+        </Button>
+      </div>
     </Section>
   </>
 };

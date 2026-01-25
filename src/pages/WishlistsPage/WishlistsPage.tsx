@@ -21,11 +21,11 @@ export const WishlistsPage: FC = memo(function WishlistsPage() {
   const {wishlists, isLoading, refetch} = useBackendWishlists();
 
   const handleNewWishlistPress = useCallback(() => {
-    navigate(`/wishlists/new`)
+    navigate(`new`)
   }, [navigate]);
 
   const handleWishlistPress = useCallback((wishlist: ServiceWishlist) => {
-    navigate(`/wishlists/${wishlist.id}/items`, {state: wishlist});
+    navigate(`/wishlist`, {state: wishlist});
   }, [navigate]);
 
   if (isLoading) {

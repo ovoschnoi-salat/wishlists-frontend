@@ -1,11 +1,12 @@
-import {useNavigate, useParams} from 'react-router';
-import {FC, memo} from 'react';
+import {useLocation, useNavigate} from 'react-router';
+import {FC, memo, useCallback} from 'react';
 import {List} from "@telegram-apps/telegram-ui";
 import {Page} from "@/components/Page.tsx";
 import {EditWishlistItem} from "@/components/EditWishlistItem/EditWishlistItem.tsx";
 import {
   postApiUserWishlistItem,
-  ServiceCreateWishlistItemRequest
+  ServiceCreateWishlistItemRequest,
+  ServiceWishlist
 } from "@/backend-client";
 import {toast} from "react-hot-toast";
 import {ToastBackendError} from "@/components/ToastBackendError/ToastBackendError.tsx";
@@ -13,22 +14,13 @@ import {ToastBackendError} from "@/components/ToastBackendError/ToastBackendErro
 export const NewWishPage: FC = memo(function NewWishlistItemPage() {
   const navigate = useNavigate()
 
-  const {wishlistId} = useParams<{ wishlistId: string }>();
+  const {state} = useLocation()
+  const wishlist = state as ServiceWishlist
 
-  if (!wishlistId) {
-    return <div>Wishlist ID not found</div>;
-  }
-
-  const wishlistIdNumber = parseInt(wishlistId, 10);
-
-  if (isNaN(wishlistIdNumber)) {
-    return <div>Invalid wishlist ID</div>;
-  }
-
-  const handleSaveNewWishlistItem = async (item: ServiceCreateWishlistItemRequest) => {
+  const handleSaveNewWishlistItem = useCallback(async (item: ServiceCreateWishlistItemRequest) => {
     const toastId = toast.loading("Creating new wish...")
 
-    item.wishlist_id = wishlistIdNumber
+    item.wishlist_id = wishlist.id
     const {data, error} = await postApiUserWishlistItem({
       body: item,
     })
@@ -40,8 +32,8 @@ export const NewWishPage: FC = memo(function NewWishlistItemPage() {
 
     toast.success("Wish created successfully", {id: toastId})
 
-    navigate(`/wishlists/${wishlistId}/items/${data.id!}`, {replace: true, state: data})
-  };
+    navigate(`/wishlist/item`, {replace: true, state: data})
+  }, [navigate, wishlist]);
 
   return <Page pageTitle={"New wish"}>
     <List>

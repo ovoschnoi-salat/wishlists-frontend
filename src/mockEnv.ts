@@ -1,4 +1,4 @@
-import {emitEvent, isTMA, LaunchParamsLike, mockTelegramEnv, RGB} from '@tma.js/sdk-react';
+import {emitEvent, isTMA, LaunchParamsLike, mockTelegramEnv, PopupParams, RGB} from '@tma.js/sdk-react';
 
 interface TgTheme {
   [p: string]: `#${string}` | undefined
@@ -65,6 +65,10 @@ if (import.meta.env.DEV) {
         }
         if (e.name === 'web_app_request_safe_area') {
           return emitEvent('safe_area_changed', noInsets);
+        }
+        if (e.name === 'web_app_open_popup') {
+          alert((e.params as PopupParams).message);
+          return emitEvent('popup_closed', {button_id: 'yes'})
         }
       },
       launchParams: {

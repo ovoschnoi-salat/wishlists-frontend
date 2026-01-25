@@ -143,12 +143,13 @@ export const EditWishlistItem: FC<NewWishlistItemProps> = ({wishlist, onSave, on
         />
       </Section>
 
-      {links.map((link) => (
-        <Section
-          key={link.fieldGroupId}
-          header={
-            <Section.Header>
-              {"Link"}
+      <Section
+        header="Links"
+      >
+        {links.map((link) => (
+          <>
+            <div className="px-6 flex items-center justify-between">
+              Link
               <Button
                 disabled={isDeleting || isSaving}
                 mode="plain"
@@ -156,35 +157,30 @@ export const EditWishlistItem: FC<NewWishlistItemProps> = ({wishlist, onSave, on
               >
                 Remove
               </Button>
-            </Section.Header>
-          }
-        >
-          <Input
-            disabled={isDeleting || isSaving}
-            name={"linkTitle" + link.fieldGroupId}
-            header={"Title"}
-            value={link.title}
-            placeholder="Link title"
-            onChange={(e) => handleInputChange(e.target.value, link.fieldGroupId, "title")}
-          />
-          <Textarea
-            disabled={isDeleting || isSaving}
-            name={"linkUrl" + link.fieldGroupId}
-            header={"Url"}
-            value={link.url}
-            placeholder="https://example-link.com/"
-            onChange={(e) => handleInputChange(e.target.value, link.fieldGroupId, "url")}
-          />
-        </Section>
-      ))}
-
-      <Section>
-        <Button
-          disabled={isDeleting || isSaving}
-          onClick={handleAddLink}
-        >
+            </div>
+            <Input
+              key={"link-title" + link.fieldGroupId}
+              disabled={isDeleting || isSaving}
+              name={"linkTitle" + link.fieldGroupId}
+              header={"Title"}
+              value={link.title}
+              placeholder="Link title"
+              onChange={(e) => handleInputChange(e.target.value, link.fieldGroupId, "title")}
+            />
+            <Textarea
+              key={"link-utl" + link.fieldGroupId}
+              disabled={isDeleting || isSaving}
+              name={"linkUrl" + link.fieldGroupId}
+              header={"Url"}
+              value={link.url}
+              placeholder="https://example-link.com/"
+              onChange={(e) => handleInputChange(e.target.value, link.fieldGroupId, "url")}
+            />
+          </>
+        ))}
+        <ButtonCell before={<Icon28Plus/>} disabled={isDeleting || isSaving} onClick={handleAddLink}>
           Add link
-        </Button>
+        </ButtonCell>
       </Section>
 
       {/* Privacy Settings Section */}
@@ -203,18 +199,21 @@ export const EditWishlistItem: FC<NewWishlistItemProps> = ({wishlist, onSave, on
       </Section>
 
       <Section>
-        <Button
-          mode="filled"
-          size="m"
-          stretched
-          onClick={handleSubmit}
-          disabled={!isFormValid() || isSaving || isDeleting}
-          loading={isSaving}
-          before={<Icon28Plus/>}
-        >
-          Save wish
-        </Button>
+        <div className="px-6 py-4">
+          <Button
+            mode="filled"
+            size="m"
+            stretched
+            onClick={handleSubmit}
+            disabled={!isFormValid() || isSaving || isDeleting}
+            loading={isSaving}
+            before={<Icon28Plus/>}
+          >
+            Save wish
+          </Button>
+        </div>
       </Section>
+
       {onDelete && <Section>
         <ButtonCell
          disabled={isDeleting || isSaving}

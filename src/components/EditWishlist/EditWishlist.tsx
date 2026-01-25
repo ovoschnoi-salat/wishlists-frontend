@@ -70,7 +70,7 @@ export const EditWishlist: FC<editWishlistProps> = memo(function EditWishlist({
     } finally {
       setIsDeleting(false)
     }
-  },[onDelete, setIsDeleting])
+  }, [onDelete, setIsDeleting])
 
   const handleUsersWithAccessPress = useCallback(() => {
     setShowSelectFriends(true)
@@ -138,24 +138,26 @@ export const EditWishlist: FC<editWishlistProps> = memo(function EditWishlist({
 
           {/* Create List Button */}
           <Section>
-            <Button
-              mode="filled"
-              size="m"
-              stretched
-              onClick={handleSave}
-              disabled={!title.trim() || isSaving || isDeleting}
-              loading={isSaving}
-              before={<Icon28Plus/>}
-            >
-              Save wishlist
-            </Button>
+            <div className="px-6 py-4">
+              <Button
+                mode="filled"
+                size="m"
+                stretched
+                onClick={handleSave}
+                disabled={!title.trim() || isSaving || isDeleting}
+                loading={isSaving}
+                before={<Icon28Plus/>}
+              >
+                Save wishlist
+              </Button>
+            </div>
           </Section>
           {onDelete && <Section>
             <ButtonCell
-              disabled={isDeleting || isSaving}
-              mode="destructive"
-              before={<Icon28Cancel/>}
-              onClick={handleDelete}
+             disabled={isDeleting || isSaving}
+             mode="destructive"
+             before={<Icon28Cancel/>}
+             onClick={handleDelete}
             >
               Delete Wishlist
             </ButtonCell>

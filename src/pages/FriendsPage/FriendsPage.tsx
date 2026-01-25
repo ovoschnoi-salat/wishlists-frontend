@@ -30,7 +30,7 @@ export const FriendsPage: FC = memo(function FriendsPage() {
   }, [navigate]);
 
   const handleFriendPress = (friend: ServiceFriend) => {
-    navigate(`${friend.id}/wishlists`, {state: friend});
+    navigate(`/friend`, {state: friend});
   };
 
   if (isLoading) {
