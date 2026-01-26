@@ -11,7 +11,7 @@ import {useTranslation} from "react-i18next";
 interface SettingsProps {
   settings: ServiceUserSettings;
   isLoading: boolean;
-  onSave: (settings: ServiceUserSettings, lang: languages) => Promise<void>;
+  onSave: (settings: ServiceUserSettings) => Promise<void>;
 }
 
 export const Settings: FC<SettingsProps> = ({settings, isLoading, onSave}) => {
@@ -35,7 +35,8 @@ export const Settings: FC<SettingsProps> = ({settings, isLoading, onSave}) => {
       await onSave({
         displayed_name: displayName,
         open_to_requests: openToFriendsRequests,
-      }, language)
+        language: language
+      })
     } finally {
       setIsSaving(false)
     }

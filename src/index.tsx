@@ -15,6 +15,9 @@ import './mockEnv.ts';
 
 import './index.css';
 
+import {getApiUserSettings} from "@/backend-client";
+import i18next from "@/i18next.ts";
+
 
 const root = ReactDOM.createRoot(document.getElementById('root')!);
 
@@ -30,7 +33,13 @@ try {
     eruda: debug && ['ios', 'android'].includes(platform),
     mockForMacOS: platform === 'macos',
   })
-    .then(() => {
+    .then(async () => {
+      const {data} = await getApiUserSettings()
+
+      if (data) {
+        await i18next.changeLanguage(data.language)
+      }
+
       root.render(
         <StrictMode>
           <App/>

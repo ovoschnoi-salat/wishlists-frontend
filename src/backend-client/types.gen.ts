@@ -65,6 +65,7 @@ export type ServiceUser = {
 
 export type ServiceUserSettings = {
     displayed_name?: string;
+    language?: string;
     open_to_requests?: boolean;
 };
 
