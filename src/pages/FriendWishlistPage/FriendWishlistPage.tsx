@@ -5,6 +5,7 @@ import {Page} from "@/components/Page.tsx";
 import {FriendWishlistItems} from "@/components/FriendWishlistItems";
 import {ServiceWishlist, ServiceWishlistItem} from "@/backend-client";
 import {useBackendFriendWishlistItems} from "@/hooks/useBackendFriendWishlistItems.tsx";
+import {useTranslation} from "react-i18next";
 
 const useLocationState = () => {
   const {state} = useLocation()
@@ -13,11 +14,12 @@ const useLocationState = () => {
 
 export const FriendWishlistPage: FC = memo(function FriendWishlistItemsPage() {
   const navigate = useNavigate()
+  const {t} = useTranslation();
 
   const wishlist = useLocationState()
 
   if (!wishlist) {
-    throw "invalid state"
+    throw t('invalidState')
   }
 
   const handleItemPress = (item: ServiceWishlistItem) => {
@@ -27,7 +29,7 @@ export const FriendWishlistPage: FC = memo(function FriendWishlistItemsPage() {
   const {items, isLoading} = useBackendFriendWishlistItems(wishlist.id!);
 
   const descriptionCells: ReactNode[] = [
-    <Cell key="title" subhead="Title" subtitle={wishlist.is_private ? "private" : undefined}>
+    <Cell key="title" subhead={t('wishlist.title')} subtitle={wishlist.is_private ? t('wishlist.private') : undefined}>
       <Title level="3">
         {wishlist.title}
       </Title>
@@ -36,7 +38,7 @@ export const FriendWishlistPage: FC = memo(function FriendWishlistItemsPage() {
 
   if (wishlist.description) {
     descriptionCells.push([
-      <Cell key="description" subhead="Description">
+      <Cell key="description" subhead={t('wishlist.description')}>
         {wishlist.description}
       </Cell>
     ])
@@ -44,11 +46,11 @@ export const FriendWishlistPage: FC = memo(function FriendWishlistItemsPage() {
 
   return <Page>
     <List>
-      <Section header={"Friend wishlist"}>
+      <Section header={t('wishlist.friendWishlist')}>
         {...descriptionCells}
       </Section>
 
-      <Section header={"Wishes"}>
+      <Section header={t('wishlist.wishes')}>
         <FriendWishlistItems items={items} isLoading={isLoading} onItemClick={handleItemPress}/>
       </Section>
     </List>

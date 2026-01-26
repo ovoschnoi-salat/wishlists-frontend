@@ -3,19 +3,21 @@ import {FC, memo} from 'react';
 import {useBackendSharedWishlist} from "@/hooks/useBackendSharedWishlist.tsx";
 import {useLaunchParams} from "@tma.js/sdk-react";
 import {Loading} from "@/components/Loading.tsx";
+import {useTranslation} from "react-i18next";
 
 export const SharedWishlistPage: FC = memo(function WishlistItemsPage() {
   const lp = useLaunchParams();
+  const {t} = useTranslation();
 
   const startParam = lp.tgWebAppStartParam;
 
   if (!startParam) {
-    throw "Unexpected state"
+    throw t('invalidStartParam')
   }
 
   const parts = startParam.split("_")
   if (parts.length !== 2 || parts[0] !== "wishlist") {
-    throw "Unexpected state"
+    throw t('invalidStartParam')
   }
 
   const {wishlist, isLoading} = useBackendSharedWishlist(parts[1])
@@ -25,8 +27,6 @@ export const SharedWishlistPage: FC = memo(function WishlistItemsPage() {
   }
 
   if (!wishlist) {
-    console.log("redirect to wishlists", wishlist)
-    console.log(wishlist)
     return <Navigate to="/wishlists" replace={true}/>
   }
 

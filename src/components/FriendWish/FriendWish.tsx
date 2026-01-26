@@ -9,6 +9,7 @@ import {ServiceFriendWishlistItem, ServiceWishlistItemLink} from "@/backend-clie
 import {Icon24Link} from "@/icons/24";
 import {openLink} from "@tma.js/sdk-react";
 import {StretchedButton} from "@/components/StretchedButton/StretchedButton.tsx";
+import {useTranslation} from "react-i18next";
 
 interface FriendWishlistItemProps {
   item: ServiceFriendWishlistItem;
@@ -21,6 +22,8 @@ export const FriendWish: FC<FriendWishlistItemProps> = memo(function FriendWishl
                                                                                           onPressReservation,
                                                                                           isReservationLoading
                                                                                         }) {
+  const {t} = useTranslation();
+
   const handleOpenLink = useCallback((url: string) => {
     openLink(url)
   }, []);
@@ -30,7 +33,7 @@ export const FriendWish: FC<FriendWishlistItemProps> = memo(function FriendWishl
   }
   if (item.description) {
     cells.push([
-      <Cell key="description" subhead="Description">
+      <Cell key="description" subhead={t('wish.description')}>
         {item.description}
       </Cell>
     ])
@@ -38,7 +41,7 @@ export const FriendWish: FC<FriendWishlistItemProps> = memo(function FriendWishl
 
   if (item.price) {
     cells.push([
-      <Cell key="price" subhead="Price">
+      <Cell key="price" subhead={t('wish.price')}>
         {item.price}
       </Cell>
     ])
@@ -49,14 +52,14 @@ export const FriendWish: FC<FriendWishlistItemProps> = memo(function FriendWishl
       item.links.map((link: ServiceWishlistItemLink, index) => (
         <Cell
           key={"link-" + index}
-          subhead="Link"
+          subhead={t('wish.link')}
           after={
             <Button
               mode="filled"
               size="s"
               onClick={() => handleOpenLink(link.url!)}
               before={<Icon24Link/>}>
-              Open
+              {t('wish.openLink')}
             </Button>
           }>
           {link.title}
@@ -72,22 +75,28 @@ export const FriendWish: FC<FriendWishlistItemProps> = memo(function FriendWishl
           (
             item.reserved ?
               (
-                item.reservation_can_be_canceled ? "This wish is reserved by you" : "This wish is already reserved"
+                item.reservation_can_be_canceled ? t('wish.ownReservationText') : t('wish.reservedText')
               )
               :
-              "This item can be reserved"
+              t('wish.canBeReservedText')
           )
           :
-          "This item is free of reservation"
+          t('wish.reservationFreeText')
       }
     </Cell>
   ]
 
   if (item.reservable && (!item.reserved || item.reservation_can_be_canceled)) {
     reservationCells.push([
-      <StretchedButton key="reserve" size="m" mode="filled" stretched disabled={isReservationLoading}
-                       onClick={onPressReservation}>
-        {item.reservation_can_be_canceled ? "Undo reservation" : "Reserve"}
+      <StretchedButton
+        key="reserve"
+        size="m"
+        mode="filled"
+        stretched
+        disabled={isReservationLoading}
+        onClick={onPressReservation}
+      >
+        {item.reservation_can_be_canceled ? t('wish.cancelReservation') : t('wish.reserve')}
       </StretchedButton>
     ])
   }
@@ -95,7 +104,7 @@ export const FriendWish: FC<FriendWishlistItemProps> = memo(function FriendWishl
   return (
     <>
       {/* Title Section */}
-      <Section header="Title">
+      <Section header={t('wish.title')}>
         <Cell>
           <Title level="2">
             {item.title}
@@ -104,12 +113,12 @@ export const FriendWish: FC<FriendWishlistItemProps> = memo(function FriendWishl
       </Section>
 
       {/* Description Section */}
-      {cells.length > 0 && <Section header="About">
+      {cells.length > 0 && <Section header={t('wish.about')}>
         {...cells}
       </Section>}
 
       {/* Reservation Section */}
-      <Section header="Reservation">
+      <Section header={t('wish.reservation')}>
         {...reservationCells}
       </Section>
     </>

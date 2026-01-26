@@ -8,12 +8,14 @@ import {Page} from "@/components/Page.tsx";
 import {NewFriend} from "@/components/NewFriend/NewFriend.tsx";
 import {toast} from "react-hot-toast"
 import {ToastBackendError} from "@/components/ToastBackendError/ToastBackendError.tsx";
+import {useTranslation} from "react-i18next";
 
 export const NewFriendPage: FC = memo(function NewFriendPage() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const {t} = useTranslation();
 
   const handleSendFriendRequest = useCallback(async (username: string) => {
-    const toastId = toast.loading("Sending request...")
+    const toastId = toast.loading(t('friends.toast.sendingRequest'))
 
     const {error} = await postApiUserFriendRequest({
       query: {username: username}
@@ -24,10 +26,10 @@ export const NewFriendPage: FC = memo(function NewFriendPage() {
       return
     }
 
-    toast.success("Request sent successfully", {id: toastId})
+    toast.success(t('friends.toast.requestSent'), {id: toastId})
 
     navigate(-1)
-  }, [navigate]);
+  }, [navigate, t]);
 
   return <Page>
     <List>

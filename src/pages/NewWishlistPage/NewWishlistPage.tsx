@@ -9,14 +9,16 @@ import {EditWishlist} from "@/components/EditWishlist/EditWishlist.tsx";
 import {toast} from "react-hot-toast";
 import {ToastBackendError} from "@/components/ToastBackendError/ToastBackendError.tsx";
 import {Loading} from "@/components/Loading.tsx";
+import {useTranslation} from "react-i18next";
 
 export const NewWishlistPage: FC = memo(function NewWishlistPage() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const {t} = useTranslation();
 
   const {friends, isLoading} = useBackendFriends();
 
   const handleSaveNewWishlist = async (newWishlist: ServiceCreateWishlistRequest) => {
-    const toastId = toast.loading("Creating new wishlist...")
+    const toastId = toast.loading(t('wishlist.toast.creating'))
 
     const {data, error} = await postApiUserWishlist({body: newWishlist});
 
@@ -28,7 +30,7 @@ export const NewWishlistPage: FC = memo(function NewWishlistPage() {
       return
     }
 
-    toast.success("Wishlist created successfully", {id: toastId})
+    toast.success(t('wishlist.toast.created'), {id: toastId})
 
     navigate(`/wishlist`, {replace: true, state: data})
   };

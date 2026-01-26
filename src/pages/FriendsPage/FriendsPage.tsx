@@ -2,7 +2,7 @@ import {
   List,
   Section, ButtonCell, Cell, Badge,
 } from '@telegram-apps/telegram-ui';
-import {FC, memo, useCallback} from 'react';
+import {FC, memo, ReactNode, useCallback} from 'react';
 
 import {useBackendFriends} from "@/hooks/useBackendFriends.tsx";
 import {Friends} from "@/components/Friends/Friends.tsx";
@@ -12,9 +12,11 @@ import {Icon28Plus} from "@/icons/28/Plus.tsx";
 import {useNavigate} from "react-router";
 import {useBackendIncomingFriendsRequestsCount} from "@/hooks/useBackendIncomingFriendsRequestsCount.tsx";
 import {ServiceFriend} from "@/backend-client";
+import {useTranslation} from "react-i18next";
 
 export const FriendsPage: FC = memo(function FriendsPage() {
   const navigate = useNavigate();
+  const {t} = useTranslation();
 
   const {friends, isLoading} = useBackendFriends();
 
@@ -37,27 +39,37 @@ export const FriendsPage: FC = memo(function FriendsPage() {
     return <Loading/>;
   }
 
+  const requestsCells: ReactNode[] = []
+
+  if (requestsCount !== 0) {
+    requestsCells.push([
+      <Cell
+        key="incoming"
+        after={<Badge type="number">{requestsCount}</Badge>}
+        onClick={handleIncomingFriendsRequestsPress}
+      >
+        {t('friends.incomingRequests')}
+      </Cell>
+    ])
+  }
+
+  requestsCells.push([
+    <ButtonCell
+      key="createRequest"
+      before={<Icon28Plus/>}
+      onClick={handleAddFriend}
+    >
+      {t('friends.add')}
+    </ButtonCell>
+  ])
+
   return <Page back={false}>
     <List>
-      <Section header='Friends requests'>
-        {requestsCount !== 0 &&
-         <Cell
-          after={<Badge type="number">{requestsCount}</Badge>}
-          onClick={handleIncomingFriendsRequestsPress}
-         >
-           Incoming friends requests
-         </Cell>
-        }
-
-        <ButtonCell
-          before={<Icon28Plus/>}
-          onClick={handleAddFriend}
-        >
-          Add friend
-        </ButtonCell>
+      <Section header={t('friends.requests')}>
+        {...requestsCells}
       </Section>
 
-      <Section header='My friends'>
+      <Section header={t('friends.myFriends')}>
         <Friends friends={friends} onFriendClick={handleFriendPress}/>
       </Section>
     </List>

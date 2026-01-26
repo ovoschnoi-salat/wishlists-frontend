@@ -1,8 +1,10 @@
 import {Placeholder} from '@telegram-apps/telegram-ui';
+import {useTranslation} from "react-i18next";
 // import {retrieveLaunchParams, isColorDark, isRGB} from '@tma.js/sdk-react';
 // import {useMemo} from 'react';
 
 export function Loading() {
+  const {t} = useTranslation();
   // const [platform, isDark] = useMemo(() => {
   //   try {
   //     const lp = retrieveLaunchParams();
@@ -13,10 +15,8 @@ export function Loading() {
   //   }
   // }, []);
 
-  return (
-    <Placeholder
-      description="Loading..."
-    >
-    </Placeholder>
-  );
+  return <Placeholder
+    description={t("loading")}
+  >
+  </Placeholder>;
 }

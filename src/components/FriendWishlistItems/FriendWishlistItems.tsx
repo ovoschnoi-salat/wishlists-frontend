@@ -5,6 +5,7 @@ import {
 import type {FC} from 'react';
 import {ServiceFriendWishlistItem} from '@/backend-client';
 import {Loading} from "@/components/Loading.tsx";
+import {useTranslation} from "react-i18next";
 
 export type WishlistItem = ServiceFriendWishlistItem;
 
@@ -15,12 +16,14 @@ interface FriendWishlistItemsProps {
 }
 
 export const FriendWishlistItems: FC<FriendWishlistItemsProps> = ({items, isLoading, onItemClick}) => {
+  const {t} = useTranslation();
+
   if (isLoading) {
     return <Loading/>;
   }
 
   if (items.length === 0) {
-    return <Cell>No items in this wishlist yet</Cell>
+    return <Cell>{t('wishlist.noWishes')}</Cell>
   }
 
   return items.map((item) => (
@@ -28,7 +31,7 @@ export const FriendWishlistItems: FC<FriendWishlistItemsProps> = ({items, isLoad
       key={item.id}
       onClick={() => onItemClick(item)}
       after={<Navigation/>}
-      disabled={item.reserved === true && item.reservation_can_be_canceled === false}
+      disabled={item.reserved === true && item.reservation_can_be_canceled === false} // TODO
     >
       {item.title}
     </Cell>

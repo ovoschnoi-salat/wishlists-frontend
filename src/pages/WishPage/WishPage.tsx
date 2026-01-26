@@ -5,15 +5,17 @@ import {useBackendWishlistItem} from "@/hooks/useBackendWishlistItem.tsx";
 import {Page} from "@/components/Page.tsx";
 import {WishlistItem} from '@/components/WishlistItem';
 import {ServiceWishlistItem} from "@/backend-client";
+import {useTranslation} from "react-i18next";
 
 export const WishPage: FC = memo(function WishlistItemPage() {
   const navigate = useNavigate()
+  const {t} = useTranslation();
 
   const {state} = useLocation()
   const wish = state as ServiceWishlistItem
 
   if (!wish) {
-    throw "invalid state"
+    throw t('invalidState')
   }
 
   const {item, isLoading} = useBackendWishlistItem(wish);

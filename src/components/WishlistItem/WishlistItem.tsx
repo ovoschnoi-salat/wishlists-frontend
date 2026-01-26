@@ -11,6 +11,7 @@ import {ServiceWishlistItem, ServiceWishlistItemLink} from "@/backend-client";
 import {Icon24Edit, Icon24Link} from "@/icons/24";
 import {Loading} from "@/components/Loading.tsx";
 import {openLink} from "@tma.js/sdk-react";
+import {useTranslation} from "react-i18next";
 
 interface WishlistItemProps {
   item: ServiceWishlistItem;
@@ -19,6 +20,8 @@ interface WishlistItemProps {
 }
 
 export const WishlistItem: FC<WishlistItemProps> = memo(function WishlistItem({item, isLoading, onPressEdit}) {
+  const {t} = useTranslation()
+
   const handleOpenLink = useCallback((url: string) => {
     openLink(url)
   }, []);
@@ -27,7 +30,7 @@ export const WishlistItem: FC<WishlistItemProps> = memo(function WishlistItem({i
 
   if (item.description) {
     cells.push([
-      <Cell key="description" subhead="Description">
+      <Cell key="description" subhead={t('wish.description')}>
         {item.description}
       </Cell>
     ])
@@ -35,7 +38,7 @@ export const WishlistItem: FC<WishlistItemProps> = memo(function WishlistItem({i
 
   if (item.price) {
     cells.push([
-      <Cell key="price" subhead="Price">
+      <Cell key="price" subhead={t('wish.price')}>
         {item.price}
       </Cell>
     ])
@@ -45,14 +48,14 @@ export const WishlistItem: FC<WishlistItemProps> = memo(function WishlistItem({i
     cells.push(item.links.map((link: ServiceWishlistItemLink, index) => (
       <Cell
         key={"link-" + index}
-        subhead="Link"
+        subhead={t('wish.link')}
         after={
           <Button
             mode="filled"
             size="s"
             onClick={() => handleOpenLink(link.url!)}
             before={<Icon24Link/>}>
-            Open
+            {t('wish.openLink')}
           </Button>
         }>
         {link.title}
@@ -61,9 +64,9 @@ export const WishlistItem: FC<WishlistItemProps> = memo(function WishlistItem({i
   }
 
   cells.push([
-    <Cell key="reservation" subhead="Reservation">
+    <Cell key="reservation" subhead={t('wish.reservation')}>
       <Text>
-        {item.reservable ? "This item is reservable" : "This item is free of reservation"}
+        {item.reservable ? t('wish.reservableText') : t('wish.reservationFreeText')}
       </Text>
     </Cell>
   ])
@@ -75,7 +78,7 @@ export const WishlistItem: FC<WishlistItemProps> = memo(function WishlistItem({i
         onClick={onPressEdit}
         before={<Icon24Edit/>}
       >
-        Edit wish
+        {t('wish.edit')}
       </ButtonCell>
     ])
   }
@@ -87,7 +90,7 @@ export const WishlistItem: FC<WishlistItemProps> = memo(function WishlistItem({i
   return (
     <>
       {/* Title Section */}
-      <Section header="Title">
+      <Section header={t('wish.title')}>
         <Cell>
           <Title level="3">
             {item.title}
@@ -96,7 +99,7 @@ export const WishlistItem: FC<WishlistItemProps> = memo(function WishlistItem({i
       </Section>
 
       {/* Content Section */}
-      <Section header="About">
+      <Section header={t('wish.about')}>
         {...cells}
       </Section>
     </>

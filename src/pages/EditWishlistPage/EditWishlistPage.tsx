@@ -15,6 +15,7 @@ import {EditWishlist} from "@/components/EditWishlist/EditWishlist.tsx";
 import {toast} from "react-hot-toast";
 import {ToastBackendError} from "@/components/ToastBackendError/ToastBackendError.tsx";
 import {Loading} from "@/components/Loading.tsx";
+import {useTranslation} from "react-i18next";
 
 const useLocationState = () => {
   const {state} = useLocation()
@@ -22,12 +23,13 @@ const useLocationState = () => {
 }
 
 export const EditWishlistPage: FC = memo(function EditWishlistPage() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const {t} = useTranslation();
 
   const wishlist = useLocationState()
 
   if (!wishlist) {
-    throw "invalid state"
+    throw t('invalidState')
   }
 
   const {friends, isLoading} = useBackendFriends();
@@ -35,7 +37,7 @@ export const EditWishlistPage: FC = memo(function EditWishlistPage() {
   const {accessList, isLoading: isLoadingAccessList} = useBackendWishlistAccessList(wishlist.id!)
 
   const handleDeleteWishlist = async () => {
-    const toastId = toast.loading("Deleting wishlist...")
+    const toastId = toast.loading(t('wishlist.toast.removing'))
 
     const {error} = await deleteApiUserWishlist({
       query: {wishlist_id: wishlist.id!}
@@ -46,13 +48,13 @@ export const EditWishlistPage: FC = memo(function EditWishlistPage() {
       return
     }
 
-    toast.success("Wishlist deleted successfully", {id: toastId})
+    toast.success(t('wishlist.toast.removed'), {id: toastId})
 
     navigate(-1)
   };
 
   const handleSaveWishlist = async (newWishlist: ServiceCreateWishlistRequest) => {
-    const toastId = toast.loading("Saving wishlist...")
+    const toastId = toast.loading(t('wishlist.toast.editing'))
 
     const {data, error} = await patchApiUserWishlist({
       body: newWishlist,
@@ -64,7 +66,7 @@ export const EditWishlistPage: FC = memo(function EditWishlistPage() {
       return
     }
 
-    toast.success("Wishlist saved successfully", {id: toastId})
+    toast.success(t('wishlist.toast.edited'), {id: toastId})
 
     navigate(`..`, {replace: true, relative: "path", state: data})
   };

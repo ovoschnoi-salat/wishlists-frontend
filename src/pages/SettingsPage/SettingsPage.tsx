@@ -10,12 +10,15 @@ import {patchApiUserSettings, ServiceUserSettings} from "@/backend-client";
 import {Loading} from "@/components/Loading.tsx";
 import {toast} from "react-hot-toast";
 import {ToastBackendError} from "@/components/ToastBackendError/ToastBackendError.tsx";
+import i18next, {languages} from "@/i18next.ts";
+import {useTranslation} from "react-i18next";
 
 export const SettingsPage: FC = memo(function SettingsPage() {
   const {settings, isLoading} = useBackendUserSettings()
+  const {t} = useTranslation();
 
-  const onSave = useCallback(async (settings: ServiceUserSettings) => {
-    const toastId = toast.loading("Saving settings...")
+  const onSave = useCallback(async (settings: ServiceUserSettings, lang: languages) => {
+    const toastId = toast.loading(t('settings.toast.saving'))
 
     const {error} = await patchApiUserSettings({
       body: settings
@@ -26,8 +29,10 @@ export const SettingsPage: FC = memo(function SettingsPage() {
       return
     }
 
-    toast.success("Settings saved successfully", {id: toastId})
-  }, [])
+    await i18next.changeLanguage(lang)
+
+    toast.success(t('settings.toast.saved'), {id: toastId})
+  }, [t])
 
   if (isLoading) {
     return <Loading/>;

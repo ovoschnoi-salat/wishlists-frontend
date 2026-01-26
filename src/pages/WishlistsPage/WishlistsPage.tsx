@@ -14,9 +14,11 @@ import {Loading} from "@/components/Loading.tsx";
 import {Icon28Plus} from "@/icons/28/Plus.tsx";
 import {ServiceWishlist} from "@/backend-client";
 import ReactPullToRefresh from "react-pull-to-refresh";
+import {useTranslation} from "react-i18next";
 
 export const WishlistsPage: FC = memo(function WishlistsPage() {
   const navigate = useNavigate()
+  const {t} = useTranslation()
 
   const {wishlists, isLoading, refetch} = useBackendWishlists();
 
@@ -35,14 +37,14 @@ export const WishlistsPage: FC = memo(function WishlistsPage() {
   return <Page back={false}>
     <ReactPullToRefresh onRefresh={refetch}>
       <List>
-        <Section header='Wishlists'>
+        <Section header={t("wishlists.wishlists")}>
           <Wishlists wishlists={wishlists} isLoading={isLoading} onWishlistClick={handleWishlistPress}/>
 
           <ButtonCell
             before={<Icon28Plus/>}
             onClick={handleNewWishlistPress}
           >
-            Add wishlist
+            {t("wishlists.addWishlist")}
           </ButtonCell>
         </Section>
       </List>

@@ -25,7 +25,7 @@ export const Friends: FC<FriendsProps> = ({friends, onFriendClick}) => {
       after={<Navigation/>}
       onClick={() => onFriendClick(friend)}
     >
-      {friend.name ? friend.name : "@"+friend.username}
-    </Cell>
+      {friend.name ? friend.name : "@" + friend.username}
+    </Cell>// TODO id when missing username
   )
 };

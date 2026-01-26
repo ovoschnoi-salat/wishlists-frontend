@@ -9,15 +9,17 @@ import {ServiceWishlist, ServiceWishlistItem} from "@/backend-client";
 import {Icon24Edit} from "@/icons/24";
 import {StretchedButton} from "@/components/StretchedButton/StretchedButton.tsx";
 import {copyTextToClipboard, shareURL} from "@tma.js/sdk-react";
+import {useTranslation} from "react-i18next";
 
 export const WishlistPage: FC = memo(function WishlistItemsPage() {
   const navigate = useNavigate();
+  const {t} = useTranslation();
 
   const {state} = useLocation()
   const wishlist = state as ServiceWishlist
 
   if (!wishlist) {
-    throw "invalid state"
+    throw t('invalidState')
   }
 
   const handleItemPress = useCallback((item: ServiceWishlistItem) => {
@@ -31,6 +33,7 @@ export const WishlistPage: FC = memo(function WishlistItemsPage() {
   const handleShareWishlistPress = useCallback(async () => {
     const link = "https://t.me/" + import.meta.env.VITE_BOT_NAME + "?startapp=wishlist_" + wishlist.share_uuid
     await copyTextToClipboard(link);
+    // TODO translate etc..
     shareURL(link, `\nHere is link to my wishlist "${wishlist.title}"`)
   }, [wishlist]);
 
@@ -41,7 +44,7 @@ export const WishlistPage: FC = memo(function WishlistItemsPage() {
   const {items, isLoading} = useBackendWishlistItems(wishlist.id!);
 
   const wishlistCells: ReactNode[] = [
-    <Cell key="title" subhead="Title" subtitle={wishlist.is_private ? "private" : undefined}>
+    <Cell key="title" subhead={t('wishlist.title')} subtitle={wishlist.is_private ? t('wishlist.private') : undefined}>
       <Title level="3">
         {wishlist.title}
       </Title>
@@ -50,7 +53,7 @@ export const WishlistPage: FC = memo(function WishlistItemsPage() {
 
   if (wishlist.description) {
     wishlistCells.push([
-      <Cell key="description" subhead="Description">
+      <Cell key="description" subhead={t('wishlist.description')}>
         {wishlist.description}
       </Cell>
     ])
@@ -62,7 +65,7 @@ export const WishlistPage: FC = memo(function WishlistItemsPage() {
       before={<Icon24Edit/>}
       onClick={handleEditWishlistPress}
     >
-      Edit wishlist
+      {t('wishlist.editWishlist')}
     </ButtonCell>
   ])
 
@@ -72,25 +75,25 @@ export const WishlistPage: FC = memo(function WishlistItemsPage() {
         {...wishlistCells}
       </Section>
 
-      <Section footer="User with this link will be added to your friends and added to wishlist access list if it is private">
+      <Section footer={t('wishlist.shareDescription')}>
         <StretchedButton
           mode="filled"
           size="m"
           stretched
           onClick={handleShareWishlistPress}
         >
-          Share wishlist
+          {t('wishlist.shareWishlist')}
         </StretchedButton>
       </Section>
 
-      <Section header={"Wishlist items"}>
+      <Section header={t('wishlist.wishes')}>
         <WishlistItems items={items} isLoading={isLoading} onItemClick={handleItemPress}/>
 
         <ButtonCell
           before={<Icon28Plus/>}
           onClick={handleNewWishPress}
         >
-          Add wish
+          {t('wishlist.addWish')}
         </ButtonCell>
       </Section>
     </List>

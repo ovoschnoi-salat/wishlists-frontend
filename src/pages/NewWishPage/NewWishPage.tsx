@@ -10,19 +10,21 @@ import {
 } from "@/backend-client";
 import {toast} from "react-hot-toast";
 import {ToastBackendError} from "@/components/ToastBackendError/ToastBackendError.tsx";
+import {useTranslation} from "react-i18next";
 
 export const NewWishPage: FC = memo(function NewWishlistItemPage() {
   const navigate = useNavigate()
+  const {t} = useTranslation();
 
   const {state} = useLocation()
   const wishlist = state as ServiceWishlist | undefined
 
   if (!wishlist) {
-    throw "invalid state"
+    throw t('invalidState')
   }
 
   const handleSaveNewWishlistItem = useCallback(async (item: ServiceCreateWishlistItemRequest) => {
-    const toastId = toast.loading("Creating new wish...")
+    const toastId = toast.loading(t('wish.toast.creating'))
 
     item.wishlist_id = wishlist.id
     const {data, error} = await postApiUserWishlistItem({
@@ -34,10 +36,10 @@ export const NewWishPage: FC = memo(function NewWishlistItemPage() {
       return
     }
 
-    toast.success("Wish created successfully", {id: toastId})
+    toast.success(t('wish.toast.created'), {id: toastId})
 
     navigate(`/wishlist/item`, {replace: true, state: data})
-  }, [navigate, wishlist]);
+  }, [navigate, t, wishlist.id]);
 
   return <Page>
     <List>

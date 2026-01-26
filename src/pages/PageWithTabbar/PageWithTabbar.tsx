@@ -7,6 +7,7 @@ import {Tabbar} from '@telegram-apps/telegram-ui';
 import {Icon28Actions, Icon28Group, Icon28Person, Icon28Settings} from "@/icons/28";
 
 import "./PageWithTabbar.css";
+import {useTranslation} from "react-i18next";
 
 enum Tab {
   Unknown = "Unknown",
@@ -37,6 +38,7 @@ function getCurrentTab(path: string): Tab {
 
 export const PageWithTabbar: FC = memo(function PageWithTabbar() {
   const location = useLocation()
+  const {t} = useTranslation()
   const [activeTab, setActiveTab] = useState(getCurrentTab(location.pathname));
   const [tabbarHeight, setTabbarHeight] = useState(200);
 
@@ -58,19 +60,19 @@ export const PageWithTabbar: FC = memo(function PageWithTabbar() {
   const tabs: tab[] = [
     {
       tabEnum: Tab.MyLists,
-      title: "My lists",
+      title: t('tabs.myLists'),
       icon: <Icon28Actions/>,
       navLink: "/wishlists",
     },
     {
       tabEnum: Tab.Friends,
-      title: "Friends",
+      title: t('tabs.friends'),
       icon: <Icon28Group/>,
       navLink: "/friends",
     },
     {
       tabEnum: Tab.Settings,
-      title: "Settings",
+      title: t('tabs.settings'),
       icon: <Icon28Settings/>,
       navLink: "/settings",
     },

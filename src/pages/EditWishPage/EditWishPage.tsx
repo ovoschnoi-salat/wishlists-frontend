@@ -10,6 +10,7 @@ import {
 } from "@/backend-client";
 import {toast} from "react-hot-toast";
 import {ToastBackendError} from "@/components/ToastBackendError/ToastBackendError.tsx";
+import {useTranslation} from "react-i18next";
 
 const useLocationState = () => {
   const {state} = useLocation()
@@ -17,16 +18,17 @@ const useLocationState = () => {
 }
 
 export const EditWishPage: FC = memo(function EditWishlistItemPage() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const {t} = useTranslation();
 
   const item = useLocationState()
 
   if (!item) {
-    throw "invalid state"
+    throw t('invalidState')
   }
 
   const handleSaveWish = useCallback(async (newItem: ServiceCreateWishlistItemRequest) => {
-    const toastId = toast.loading("Saving wish...")
+    const toastId = toast.loading(t('wish.toast.editing'))
 
     newItem.wishlist_id = item.wishlist_id
 
@@ -42,13 +44,13 @@ export const EditWishPage: FC = memo(function EditWishlistItemPage() {
       return
     }
 
-    toast.success("Wish saved successfully", {id: toastId})
+    toast.success(t('wish.toast.edited'), {id: toastId})
 
     navigate(`..`, {replace: true, relative: "path", state: data})
-  }, [item, navigate]);
+  }, [item.id, item.wishlist_id, navigate, t]);
 
   const handleDeleteWish = useCallback(async () => {
-    const toastId = toast.loading("Deleting wish...")
+    const toastId = toast.loading(t('wish.toast.removing'))
 
     const {error} = await deleteApiUserWish({
       query: {
@@ -61,10 +63,10 @@ export const EditWishPage: FC = memo(function EditWishlistItemPage() {
       return
     }
 
-    toast.success("Wish deleted successfully", {id: toastId})
+    toast.success(t('wish.toast.removed'), {id: toastId})
 
     navigate(-1)
-  }, [item.id, navigate])
+  }, [item.id, navigate, t])
 
   return <Page
     backNavFn={() => {

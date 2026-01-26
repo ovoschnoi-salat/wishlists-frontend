@@ -14,16 +14,18 @@ import {Icon28Cancel} from "@/icons/28/Cancel.tsx";
 import {toast} from "react-hot-toast";
 import {ToastBackendError} from "@/components/ToastBackendError/ToastBackendError.tsx";
 import {popup} from "@tma.js/sdk-react";
+import {useTranslation} from "react-i18next";
 
 export const FriendPage: FC = memo(function FriendWishlistsPage() {
   const navigate = useNavigate()
+  const {t} = useTranslation();
   const [isRemoving, setIsRemoving] = useState(false)
 
   const {state} = useLocation()
   const friend = state as ServiceFriend | undefined
 
   if (!friend) {
-    throw "invalid state"
+    throw t('invalidState')
   }
 
   const handleRemoveFromFriendsPress = useCallback(async () => {
@@ -31,11 +33,11 @@ export const FriendPage: FC = memo(function FriendWishlistsPage() {
       setIsRemoving(true)
 
       const promise = popup.show({
-        title: 'Remove friend',
-        message: `Remove @${friend?.username} from friends?`,
+        title: t('friend.remove'),
+        message: t('friend.removeQuestion', friend),
         buttons: [
-          {id: 'yes', type: 'destructive', text: 'Yes'},
-          {id: 'no', type: 'default', text: 'No'}
+          {id: 'yes', type: 'destructive', text: t('yes')},
+          {id: 'no', type: 'default', text: t('no')}
         ],
       });
 
@@ -45,11 +47,11 @@ export const FriendPage: FC = memo(function FriendWishlistsPage() {
         return
       }
 
-      const toastId = toast.loading("Removing from friends...")
+      const toastId = toast.loading(t('friend.toast.removing'))
 
       const {error} = await deleteApiUserFriend({
         query: {
-          friend_id: friend!.id!,
+          friend_id: friend.id!,
         }
       })
 
@@ -58,13 +60,13 @@ export const FriendPage: FC = memo(function FriendWishlistsPage() {
         return
       }
 
-      toast.success("Removed from friends successfully", {id: toastId})
+      toast.success(t('friend.toast.removed'), {id: toastId})
 
       navigate(`/friends`, {replace: true})
     } finally {
       setIsRemoving(false)
     }
-  }, [friend, navigate]);
+  }, [friend, navigate, t]);
 
   const handleWishlistPress = useCallback((wishlist: ServiceWishlist) => {
     navigate(`wishlist`, {state: wishlist});
@@ -76,13 +78,13 @@ export const FriendPage: FC = memo(function FriendWishlistsPage() {
 
   if (friend.name) {
     friendCells.push([
-      <Cell key="name" subhead="Name">
+      <Cell key="name" subhead={t('friend.name')}>
         {friend.name}
       </Cell>
     ])
   }
   friendCells.push([
-    <Cell key="username" subhead="Username">
+    <Cell key="username" subhead={t('friend.username')}>
       {"@" + friend.username}
     </Cell>,
     <ButtonCell
@@ -92,17 +94,17 @@ export const FriendPage: FC = memo(function FriendWishlistsPage() {
       before={<Icon28Cancel/>}
       onClick={handleRemoveFromFriendsPress}
     >
-      Remove from friends
+      {t('friend.remove')}
     </ButtonCell>
   ])
 
   return <Page>
     <List>
-      <Section header={"Friend"}>
+      <Section header={t('friend.friend')}>
         {...friendCells}
       </Section>
 
-      <Section header={"Friend wishlists"}>
+      <Section header={t('wishlists.friendWishlists')}>
         <FriendWishlists
           wishlists={wishlists}
           isLoading={isLoading || isRemoving}

@@ -8,6 +8,8 @@ import {usePlatform} from "@telegram-apps/telegram-ui/dist/hooks/usePlatform";
 export const StretchedButton = memo(forwardRef(({...props}: ButtonProps, ref) => {
   const platform = usePlatform()
 
+  props.stretched = true
+
   const button = <Button {...props} ref={ref}>
     {props.children}
   </Button>

@@ -6,6 +6,7 @@ import {FC, memo, useState} from 'react';
 import {ServiceFriend} from '@/backend-client';
 import {usernameAndNameToAcronym} from "@/helpers/acronym.ts";
 import {StretchedButton} from "@/components/StretchedButton/StretchedButton.tsx";
+import {useTranslation} from "react-i18next";
 
 export type Friend = ServiceFriend;
 
@@ -15,7 +16,12 @@ interface FriendsProps {
   saveFriendsList: (friendsIds: number[]) => void;
 }
 
-export const SelectFriends: FC<FriendsProps> = memo(function SelectFriends({friends, selectedFriendsIds, saveFriendsList}) {
+export const SelectFriends: FC<FriendsProps> = memo(function SelectFriends({
+                                                                             friends,
+                                                                             selectedFriendsIds,
+                                                                             saveFriendsList
+                                                                           }) {
+  const {t} = useTranslation();
   const [friendsIds, setFriendsIds] = useState(selectedFriendsIds)
 
   const onFriendClick = (friendId: number) => {
@@ -26,21 +32,26 @@ export const SelectFriends: FC<FriendsProps> = memo(function SelectFriends({frie
     }
   };
 
-  return <Section>
-    {friends.map((friend) =>
-      <Cell
-        key={"friend_" + friend.id}
-        subtitle={friend.name ? "@" + friend.username : undefined}
-        before={<Avatar size={28} src={friend.photo_url}
-                        acronym={usernameAndNameToAcronym(friend.name, friend.username!)}/>}
-        after={<Multiselectable checked={friendsIds.includes(friend.id!)} readOnly={true} onInput={() => onFriendClick(friend.id!)}/>}
-        onClick={() => onFriendClick(friend.id!)}
-      >
-        {friend.name ? friend.name : "@" + friend.username}
-      </Cell>
-    )}
-    <StretchedButton stretched onClick={() => saveFriendsList(friendsIds)}>
-      Save
-    </StretchedButton>
-  </Section>
+  return <>
+    <Section>
+      {friends.map((friend) =>
+        <Cell
+          key={"friend_" + friend.id}
+          subtitle={friend.name ? "@" + friend.username : undefined}
+          before={<Avatar size={28} src={friend.photo_url}
+                          acronym={usernameAndNameToAcronym(friend.name, friend.username!)}/>}
+          after={<Multiselectable checked={friendsIds.includes(friend.id!)} readOnly={true}
+                                  onInput={() => onFriendClick(friend.id!)}/>}
+          onClick={() => onFriendClick(friend.id!)}
+        >
+          {friend.name ? friend.name : "@" + friend.username}
+        </Cell>
+      )}
+    </Section>
+    <Section>
+      <StretchedButton stretched onClick={() => saveFriendsList(friendsIds)}>
+        {t('save')}
+      </StretchedButton>
+    </Section>
+  </>
 });

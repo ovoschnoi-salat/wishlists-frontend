@@ -1,4 +1,4 @@
-import {ChangeEvent, memo, useCallback, useState} from 'react';
+import {ChangeEvent, memo, ReactNode, useCallback, useState} from 'react';
 import {
   Section,
   Cell,
@@ -8,12 +8,12 @@ import {
   Badge, ButtonCell,
 } from '@telegram-apps/telegram-ui';
 import type {FC} from 'react';
-import {Icon28Plus} from '@/icons/28/Plus.tsx';
 import {SelectFriends} from "@/components/SelectFriends/SelectFriends.tsx";
 import {Friend} from "@/components/Friends/Friends.tsx";
 import {ServiceCreateWishlistRequest, ServiceWishlist} from "@/backend-client";
 import {Icon28Cancel} from "@/icons/28/Cancel.tsx";
 import {StretchedButton} from "@/components/StretchedButton/StretchedButton.tsx";
+import {useTranslation} from "react-i18next";
 
 interface editWishlistProps {
   wishlist: ServiceWishlist;
@@ -30,6 +30,7 @@ export const EditWishlist: FC<editWishlistProps> = memo(function EditWishlist({
                                                                                 onSave,
                                                                                 onDelete
                                                                               }) {
+  const {t} = useTranslation();
   const [title, setTitle] = useState(wishlist.title!);
   const [description, setDescription] = useState(wishlist.description!);
   const [isPrivate, setIsPrivate] = useState(wishlist.is_private!);
@@ -79,108 +80,99 @@ export const EditWishlist: FC<editWishlistProps> = memo(function EditWishlist({
     setUsersWithAccess(friendsIds)
   }, []);
 
-  return (
-    <>
-      {!showSelectFriends ?
-        <>
-          <Section
-            header="Title"
-          >
-            <Input
-              disabled={isDeleting || isSaving}
-              placeholder="Title"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-            />
-          </Section>
+  if (showSelectFriends) {
+    return <SelectFriends
+      friends={friends}
+      selectedFriendsIds={usersWithAccess}
+      saveFriendsList={handleSaveUsersWithAccess}
+    />
+  }
 
-          {/* Description Section */}
-          <Section
-            header="Description"
-          >
-            <Textarea
-              disabled={isDeleting || isSaving}
-              placeholder="Description"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              rows={3}
-            />
-          </Section>
-
-          {/* Privacy Settings Section */}
-          <Section
-            header="Privacy settings"
-          >
-            {isPrivate ? <>
-              {/* Private List Toggle */}
-              <Cell
-                after={
-                  <Switch
-                    disabled={isDeleting || isSaving}
-                    checked={isPrivate}
-                    onChange={handlePressIsPrivate}
-                  />
-                }
-              >
-                Private list
-              </Cell>
-
-              {/* Users with Access */}
-              <Cell
-                disabled={isDeleting || isSaving}
-                after={<Badge type="number">{usersWithAccess.length}</Badge>}
-                onClick={handleUsersWithAccessPress}
-              >
-                Users with access
-              </Cell>
-            </> : <>
-              {/* Private List Toggle */}
-              <Cell
-                after={
-                  <Switch
-                    disabled={isDeleting || isSaving}
-                    checked={isPrivate}
-                    onChange={handlePressIsPrivate}
-                  />
-                }
-              >
-                Private list
-              </Cell>
-            </>}
-          </Section>
-
-          {/* Create List Button */}
-          <Section>
-            <StretchedButton
-              mode="filled"
-              size="m"
-              stretched
-              onClick={handleSave}
-              disabled={!title.trim() || isSaving || isDeleting}
-              loading={isSaving}
-              before={<Icon28Plus/>}
-            >
-              Save wishlist
-            </StretchedButton>
-          </Section>
-
-          {onDelete && <Section>
-            <ButtonCell
-             disabled={isDeleting || isSaving}
-             mode="destructive"
-             before={<Icon28Cancel/>}
-             onClick={handleDelete}
-            >
-              Delete Wishlist
-            </ButtonCell>
-          </Section>}
-        </> :
-        <SelectFriends
-          friends={friends}
-          selectedFriendsIds={usersWithAccess}
-          saveFriendsList={handleSaveUsersWithAccess}
+  const privacyCells: ReactNode[] = [
+    <Cell
+      key="privacySwitch"
+      after={
+        <Switch
+          disabled={isDeleting || isSaving}
+          checked={isPrivate}
+          onChange={handlePressIsPrivate}
         />
       }
+    >
+      {t('wishlist.privateList')}
+    </Cell>
+  ]
+
+  if (isPrivate) {
+    privacyCells.push([
+      <Cell
+        key="accessList"
+        disabled={isDeleting || isSaving}
+        after={<Badge type="number">{usersWithAccess.length}</Badge>}
+        onClick={handleUsersWithAccessPress}
+      >
+        {t('wishlist.accessList')}
+      </Cell>
+    ])
+  }
+
+  return (
+    <>
+      <Section
+        header={t('wishlist.title')}
+      >
+        <Input
+          disabled={isDeleting || isSaving}
+          placeholder={t('wishlist.title')}
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
+      </Section>
+
+      {/* Description Section */}
+      <Section
+        header={t('wishlist.description')}
+      >
+        <Textarea
+          disabled={isDeleting || isSaving}
+          placeholder={t('wishlist.description')}
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          rows={3}
+        />
+      </Section>
+
+      {/* Privacy Settings Section */}
+      <Section
+        header={t('wishlist.privacySettings')}
+      >
+        {...privacyCells}
+      </Section>
+
+      {/* Create List Button */}
+      <Section>
+        <StretchedButton
+          mode="filled"
+          size="m"
+          stretched
+          onClick={handleSave}
+          disabled={!title.trim() || isSaving || isDeleting}
+          loading={isSaving}
+        >
+          {t('wishlist.save')}
+        </StretchedButton>
+      </Section>
+
+      {onDelete && <Section>
+        <ButtonCell
+         disabled={isDeleting || isSaving}
+         mode="destructive"
+         before={<Icon28Cancel/>}
+         onClick={handleDelete}
+        >
+          {t('wishlist.remove')}
+        </ButtonCell>
+      </Section>}
     </>
   );
 });

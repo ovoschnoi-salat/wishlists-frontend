@@ -4,6 +4,7 @@ import {
 import {FC, memo} from 'react';
 import {ServiceFriendWishlist} from '@/backend-client';
 import {Loading} from "@/components/Loading.tsx";
+import {useTranslation} from "react-i18next";
 
 export type Wishlist = ServiceFriendWishlist;
 
@@ -14,13 +15,14 @@ interface FriendWishlistsProps {
 }
 
 export const FriendWishlists: FC<FriendWishlistsProps> = memo(function FriendWishlists({wishlists, isLoading, onWishlistClick}) {
+  const {t} = useTranslation();
   if (isLoading) {
     return <Loading/>;
   }
 
   if (wishlists.length === 0) {
     return <Cell>
-      No wishlists yet
+      {t('wishlists.noWishlists')}
     </Cell>
   }
 

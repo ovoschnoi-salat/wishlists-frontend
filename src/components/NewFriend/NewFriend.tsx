@@ -6,12 +6,14 @@ import {
 import type {FC} from 'react';
 import {Icon28Plus} from '@/icons/28/Plus.tsx';
 import {StretchedButton} from "@/components/StretchedButton/StretchedButton.tsx";
+import {useTranslation} from "react-i18next";
 
 interface NewFriendProps {
   onSend: (username: string) => Promise<void>;
 }
 
 export const NewFriend: FC<NewFriendProps> = memo(function NewFriend({onSend}) {
+  const {t} = useTranslation();
   const [username, setUsername] = useState('');
   const [isSaving, setIsSaving] = useState(false);
 
@@ -32,12 +34,12 @@ export const NewFriend: FC<NewFriendProps> = memo(function NewFriend({onSend}) {
 
   return (
     <>
-      <Section header="Username">
+      <Section header={t('friend.username')}>
         <Input
           disabled={isSaving}
           placeholder="@Username"
           value={username}
-          header={"Your friend username from telegram"}
+          header={t('friend.usernameDescription')}
           onChange={handleChangeUsername}
         />
       </Section>
@@ -53,7 +55,7 @@ export const NewFriend: FC<NewFriendProps> = memo(function NewFriend({onSend}) {
           loading={isSaving}
           before={<Icon28Plus/>}
         >
-          Send friends request
+          {t('friends.sendRequest')}
         </StretchedButton>
       </Section>
     </>

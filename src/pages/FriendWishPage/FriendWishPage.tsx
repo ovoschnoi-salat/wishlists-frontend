@@ -11,13 +11,16 @@ import {
 import {useBackendFriendWishlistItem} from "@/hooks/useBackendFriendWishlistItem.tsx";
 import {toast} from "react-hot-toast";
 import {ToastBackendError} from "@/components/ToastBackendError/ToastBackendError.tsx";
+import {useTranslation} from "react-i18next";
 
 export const FriendWishPage: FC = memo(function FriendWishlistItemPage() {
+  const {t} = useTranslation();
+
   const {state} = useLocation()
   const itemFromState = state as ServiceFriendWishlistItem | undefined
 
   if (!itemFromState) {
-    throw "invalid state"
+    throw t('invalidState')
   }
 
   const {item, refetch} = useBackendFriendWishlistItem(itemFromState)
@@ -31,7 +34,7 @@ export const FriendWishPage: FC = memo(function FriendWishlistItemPage() {
 
     setIsReservationLoading(true)
     if (!item.reserved) {
-      const toastId = toast.loading("Reserving wish...")
+      const toastId = toast.loading(t('wish.toast.reserving'))
 
       const {error} = await postApiUserFriendWishlistWishReservationReserve({
         query: {
@@ -40,17 +43,13 @@ export const FriendWishPage: FC = memo(function FriendWishlistItemPage() {
       })
       if (error) {
         setIsReservationLoading(false)
-        toast.error(
-          <ToastBackendError
-            error={error}
-          />,
-          {id: toastId})
+        toast.error(<ToastBackendError error={error}/>, {id: toastId})
         return
       }
 
-      toast.success("Wish reserved successfully", {id: toastId})
+      toast.success(t('wish.toast.reserved'), {id: toastId})
     } else {
-      const toastId = toast.loading("Canceling wish reservation...")
+      const toastId = toast.loading(t('wish.toast.cancelingReservation'))
 
       const {error} = await postApiUserFriendWishlistWishReservationCancel({
         query: {
@@ -60,25 +59,21 @@ export const FriendWishPage: FC = memo(function FriendWishlistItemPage() {
 
       if (error) {
         setIsReservationLoading(false)
-        toast.error(
-          <ToastBackendError
-            error={error}
-          />,
-          {id: toastId})
+        toast.error(<ToastBackendError error={error}/>, {id: toastId})
         return
       }
 
-      toast.success("Wish reservation canceled successfully", {id: toastId})
+      toast.success(t('wish.toast.reservationCanceled'), {id: toastId})
     }
 
     setIsReservationLoading(false)
     refetch()
-  }, [item, refetch])
+  }, [item, refetch, t])
 
   if (!item) {
     return <Page>
       <Cell>
-        Error loading wish
+        {t('wish.loadingError')}
       </Cell>
     </Page>
   }

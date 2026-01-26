@@ -10,6 +10,7 @@ import {
 import {ServiceCreateWishlistItemRequest, ServiceWishlistItem, ServiceWishlistItemLink} from "@/backend-client";
 import {Icon28Cancel} from "@/icons/28/Cancel.tsx";
 import {StretchedButton} from "@/components/StretchedButton/StretchedButton.tsx";
+import {useTranslation} from "react-i18next";
 
 export interface WishlistItemLink {
   fieldGroupId: number;
@@ -24,6 +25,7 @@ export interface NewWishlistItemProps {
 }
 
 export const EditWishlistItem: FC<NewWishlistItemProps> = ({wishlist, onSave, onDelete}) => {
+  const {t} = useTranslation();
   const [isSaving, setIsSaving] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [title, setTitle] = useState(wishlist.title!);
@@ -114,20 +116,20 @@ export const EditWishlistItem: FC<NewWishlistItemProps> = ({wishlist, onSave, on
   return (
     <>
       {/* Title Section */}
-      <Section header="Title">
+      <Section header={t('wish.title')}>
         <Input
           disabled={isDeleting || isSaving}
-          placeholder="Title"
+          placeholder={t('wish.title')}
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
       </Section>
 
     {/* Description Section */}
-      <Section header="Description">
+      <Section header={t('wish.description')}>
         <Textarea
           disabled={isDeleting || isSaving}
-          placeholder="Description"
+          placeholder={t('wish.description')}
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           rows={3}
@@ -135,44 +137,44 @@ export const EditWishlistItem: FC<NewWishlistItemProps> = ({wishlist, onSave, on
       </Section>
 
     {/* Price Section */}
-      <Section header="Price">
+      <Section header={t('wish.price')}>
         <Input
           disabled={isDeleting || isSaving}
-          placeholder="Price"
+          placeholder={t('wish.price')}
           value={price}
           onChange={(e) => setPrice(e.target.value)}
         />
       </Section>
 
       <Section
-        header="Links"
+        header={t('wish.links')}
       >
         {links.map((link) => (
           <List key={"link-list-" + link.fieldGroupId}>
             <div className="px-6 flex items-center justify-between">
-              Link
+              {t('wish.link')}
               <Button
                 disabled={isDeleting || isSaving}
                 mode="plain"
                 onClick={() => removeLink(link.fieldGroupId)}
               >
-                Remove
+                {t('wish.removeLink')}
               </Button>
             </div>
             <Input
               key={"link-title" + link.fieldGroupId}
               disabled={isDeleting || isSaving}
               name={"linkTitle" + link.fieldGroupId}
-              header={"Title"}
+              header={t('wish.linkTitle')}
               value={link.title}
-              placeholder="Link title"
+              placeholder={t('wish.linkTitle')}
               onChange={(e) => handleInputChange(e.target.value, link.fieldGroupId, "title")}
             />
             <Textarea
-              key={"link-utl" + link.fieldGroupId}
+              key={"link-url" + link.fieldGroupId}
               disabled={isDeleting || isSaving}
               name={"linkUrl" + link.fieldGroupId}
-              header={"Url"}
+              header="URL"
               value={link.url}
               placeholder="https://example-link.com/"
               onChange={(e) => handleInputChange(e.target.value, link.fieldGroupId, "url")}
@@ -181,12 +183,12 @@ export const EditWishlistItem: FC<NewWishlistItemProps> = ({wishlist, onSave, on
         ))}
 
         <ButtonCell before={<Icon28Plus/>} disabled={isDeleting || isSaving} onClick={handleAddLink}>
-          Add link
+          {t('wish.addLink')}
         </ButtonCell>
       </Section>
 
       {/* Privacy Settings Section */}
-      <Section header="Reservation settings">
+      <Section header={t('wish.reservationSettings')}>
         <Cell
           after={
             <Switch
@@ -196,7 +198,7 @@ export const EditWishlistItem: FC<NewWishlistItemProps> = ({wishlist, onSave, on
             />
           }
         >
-          Reservable
+          {t('wish.reservable')}
         </Cell>
       </Section>
 
@@ -208,9 +210,8 @@ export const EditWishlistItem: FC<NewWishlistItemProps> = ({wishlist, onSave, on
           onClick={handleSubmit}
           disabled={!isFormValid() || isSaving || isDeleting}
           loading={isSaving}
-          before={<Icon28Plus/>}
         >
-          Save wish
+          {t('wish.save')}
         </StretchedButton>
       </Section>
 
@@ -222,7 +223,7 @@ export const EditWishlistItem: FC<NewWishlistItemProps> = ({wishlist, onSave, on
           before={<Icon28Cancel/>}
           onClick={handleDelete}
          >
-           Delete Wish
+           {t('wish.remove')}
          </ButtonCell>
        </Section>
       }

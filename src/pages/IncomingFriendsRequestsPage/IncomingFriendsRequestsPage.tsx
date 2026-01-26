@@ -16,14 +16,16 @@ import {useBackendIncomingFriendsRequests} from "@/hooks/useBackendIncomingFrien
 import {useNavigate} from "react-router";
 import {toast} from "react-hot-toast";
 import {ToastBackendError} from "@/components/ToastBackendError/ToastBackendError.tsx";
+import {useTranslation} from "react-i18next";
 
 export const IncomingFriendsRequestsPage: FC = memo(function IncomingFriendsRequestsPage() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const {t} = useTranslation();
 
   const {friends, setFriends, isLoading} = useBackendIncomingFriendsRequests()
 
   const handleAcceptPress = async (friendId: number) => {
-    const toastId = toast.loading("Accepting request...")
+    const toastId = toast.loading(t('friends.toast.accepting'))
 
     const {error} = await postApiUserFriendRequestAccept({query: {friend_id: friendId}})
 
@@ -32,13 +34,13 @@ export const IncomingFriendsRequestsPage: FC = memo(function IncomingFriendsRequ
       return
     }
 
-    toast.success("Request accepted successfully", {id: toastId})
+    toast.success(t('friends.toast.accepted'), {id: toastId})
 
     removeRequestFromList(friendId)
   };
 
   const handleDenyPress = async (friendId: number) => {
-    const toastId = toast.loading("Denying request...")
+    const toastId = toast.loading(t('friends.toast.denying'))
 
     const {error} = await postApiUserFriendRequestDeny({query: {friend_id: friendId}})
 
@@ -47,7 +49,7 @@ export const IncomingFriendsRequestsPage: FC = memo(function IncomingFriendsRequ
       return
     }
 
-    toast.success("Request denied successfully", {id: toastId})
+    toast.success(t('friends.toast.denied'), {id: toastId})
 
     removeRequestFromList(friendId)
   };
@@ -66,7 +68,7 @@ export const IncomingFriendsRequestsPage: FC = memo(function IncomingFriendsRequ
 
   return <Page>
     <List>
-      <Section header='Incoming friends requests'>
+      <Section header={t('friends.incomingRequests')}>
         <IncomingFriendsRequests friends={friends} onDenyClick={handleDenyPress} onAcceptClick={handleAcceptPress}/>
       </Section>
     </List>
