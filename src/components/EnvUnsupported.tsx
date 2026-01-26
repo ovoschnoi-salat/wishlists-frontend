@@ -1,6 +1,7 @@
 import { Placeholder, AppRoot } from '@telegram-apps/telegram-ui';
 import { retrieveLaunchParams, isColorDark, isRGB } from '@tma.js/sdk-react';
 import { useMemo } from 'react';
+import telegramGif from '../public/telegram.gif';
 
 export function EnvUnsupported() {
   const [platform, isDark] = useMemo(() => {
@@ -20,11 +21,11 @@ export function EnvUnsupported() {
     >
       <Placeholder
         header="Oops"
-        description="You are using too old Telegram client to run this application"
+        description="You are using too old Telegram client or trying to open this application outside of telegram"
       >
         <img
-          alt="Telegram sticker"
-          src="https://xelene.me/telegram.gif"
+          alt=""
+          src={telegramGif}
           style={{ display: 'block', width: '144px', height: '144px' }}
         />
       </Placeholder>

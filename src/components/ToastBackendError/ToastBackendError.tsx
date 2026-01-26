@@ -28,15 +28,17 @@ export const ToastBackendError: FC<Props> = ({error}) => {
     return msg
   }
 
-  return <div className="flex justify-center place-items-center">
+  return <div className="flex justify-center place-items-center gap-2">
     <span>{msg}</span>
     <div className="flex place-items-center">
-      <Button onClick={() => {
-        navigator.clipboard?.writeText(copyMsg).catch(() => {
-          console.log("error coping error msg")
-          console.log("error msg:", copyMsg)
-        });
-      }}>
+      <Button
+        onClick={() => {
+          navigator.clipboard?.writeText(copyMsg).catch(() => {
+            console.log("error coping error msg")
+            console.log("error msg:", copyMsg)
+          });
+        }}
+      >
         Copy
       </Button>
     </div>
