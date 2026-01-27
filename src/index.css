@@ -4,5 +4,6 @@ body {
   background: var(--tg-theme-bg-color, white);
   padding: 0;
   margin: 0;
+  padding-top: var(--tg-viewport-safe-area-inset-top, 0);
   padding-bottom: var(--tg-viewport-safe-area-inset-bottom, 0);
 }
