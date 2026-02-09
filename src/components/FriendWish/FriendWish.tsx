@@ -49,8 +49,12 @@ export const FriendWish: FC<FriendWishlistItemProps> = memo(function FriendWishl
 
   if (item.links) {
     cells.push(
-      item.links.map((link: ServiceWishlistItemLink, index) => (
-        <Cell
+      item.links.map((link: ServiceWishlistItemLink, index) => {
+        let title = link.title
+        if (!title && "parse" in URL) {
+          title = URL.parse(link.url ?? "")?.hostname
+        }
+        return <Cell
           key={"link-" + index}
           subhead={t('wish.link')}
           after={
@@ -62,9 +66,9 @@ export const FriendWish: FC<FriendWishlistItemProps> = memo(function FriendWishl
               {t('wish.openLink')}
             </Button>
           }>
-          {link.title}
+          {title}
         </Cell>
-      ))
+      })
     )
   }
 

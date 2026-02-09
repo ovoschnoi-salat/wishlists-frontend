@@ -45,22 +45,28 @@ export const WishlistItem: FC<WishlistItemProps> = memo(function WishlistItem({i
   }
 
   if (item.links) {
-    cells.push(item.links.map((link: ServiceWishlistItemLink, index) => (
-      <Cell
-        key={"link-" + index}
-        subhead={t('wish.link')}
-        after={
-          <Button
-            mode="filled"
-            size="s"
-            onClick={() => handleOpenLink(link.url!)}
-            before={<Icon24Link/>}>
-            {t('wish.openLink')}
-          </Button>
-        }>
-        {link.title}
-      </Cell>
-    )))
+    cells.push(
+      item.links.map((link: ServiceWishlistItemLink, index) => {
+        let title = link.title
+        if (!title && "parse" in URL) {
+          title = URL.parse(link.url ?? "")?.hostname
+        }
+        return <Cell
+          key={"link-" + index}
+          subhead={t('wish.link')}
+          after={
+            <Button
+              mode="filled"
+              size="s"
+              onClick={() => handleOpenLink(link.url!)}
+              before={<Icon24Link/>}>
+              {t('wish.openLink')}
+            </Button>
+          }>
+          {title}
+        </Cell>
+      })
+    )
   }
 
   cells.push([
