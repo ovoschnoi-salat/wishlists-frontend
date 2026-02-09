@@ -83,10 +83,20 @@ export const FriendPage: FC = memo(function FriendWishlistsPage() {
       </Cell>
     ])
   }
+  if (friend.username) {
+    friendCells.push([
+      <Cell key="username" subhead={t('friend.username')}>
+        {"@" + friend.username}
+      </Cell>
+    ])
+  } else {
+    friendCells.push([
+      <Cell key="id" subhead="id">
+        {friend.id}
+      </Cell>
+    ])
+  }
   friendCells.push([
-    <Cell key="username" subhead={t('friend.username')}>
-      {"@" + friend.username}
-    </Cell>,
     <ButtonCell
       key="remove"
       disabled={isRemoving}
