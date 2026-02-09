@@ -1,10 +1,9 @@
-export function usernameAndNameToAcronym(name: string|undefined, username: string): string {
-  if (!name) {
-    if (username.length > 0) {
-      return username[0]
-    } else {
-      return ""
+export function getAcronymFromNameOrUsername(name: string | undefined, username: string | undefined): string {
+  if (!name || name.trim().length === 0) {
+    if (!username || username.trim().length === 0) {
+      return "";
     }
+    return username.trim()[0]
   } else {
     const words = name.trim().split(" ")
     let acronym = words.map(value => {

@@ -5,7 +5,8 @@ import {
 import type {FC} from 'react';
 import {ServiceFriend} from '@/backend-client';
 import {useTranslation} from "react-i18next";
-import {usernameAndNameToAcronym} from "@/helpers/acronym.ts";
+import {getAcronymFromNameOrUsername} from "@/helpers/acronym.ts";
+import {getFriendUsernameOrId} from "@/helpers/user.ts";
 
 export type Friend = ServiceFriend;
 
@@ -20,9 +21,14 @@ export const IncomingFriendsRequests: FC<IncomingFriendsRequestsProps> = ({frien
   return friends.map((friend) =>
     <Cell
       key={"friend_" + friend.id}
-      subtitle={friend.name ? "@" + friend.username : undefined}
-      before={friend.photo_url ? <Avatar size={28} src={friend.photo_url} acronym={usernameAndNameToAcronym(friend.name, friend.username!)}/> : undefined}
-      after={ <>
+      subtitle={friend.name ? getFriendUsernameOrId(friend) : undefined}
+      before={
+        <Avatar
+          size={28}
+          src={friend.photo_url}
+          acronym={getAcronymFromNameOrUsername(friend.name, friend.username)}
+        />}
+      after={<>
         <Button
           mode="plain"
           size="s"
@@ -39,7 +45,7 @@ export const IncomingFriendsRequests: FC<IncomingFriendsRequestsProps> = ({frien
         </Button>
       </>}
     >
-      {friend.name ? friend.name : "@" + friend.username}
+      {friend.name ? friend.name : getFriendUsernameOrId(friend)}
     </Cell>
   )
 };
