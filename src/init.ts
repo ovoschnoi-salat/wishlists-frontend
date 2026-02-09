@@ -8,7 +8,10 @@ import {
   retrieveLaunchParams,
   ThemeParams,
   mockTelegramEnv,
-  themeParams, viewport, swipeBehavior, retrieveRawInitData
+  themeParams,
+  viewport,
+  swipeBehavior,
+  retrieveRawInitData,
 } from '@tma.js/sdk-react';
 import {client} from "@/backend-client/client.gen.ts";
 
@@ -33,7 +36,6 @@ export async function init(options: {
   }
 
 
-
   // Telegram for macOS has a ton of bugs, including cases, when the client doesn't
   // even response to the "web_app_request_theme" method. It also generates an incorrect
   // event for the "web_app_request_safe_area" method.
@@ -49,11 +51,11 @@ export async function init(options: {
             firstThemeSent = true;
             tp ||= retrieveLaunchParams().tgWebAppThemeParams;
           }
-          return emitEvent('theme_changed', { theme_params: tp });
+          return emitEvent('theme_changed', {theme_params: tp});
         }
 
         if (event.name === 'web_app_request_safe_area') {
-          return emitEvent('safe_area_changed', { left: 0, top: 0, right: 0, bottom: 0 });
+          return emitEvent('safe_area_changed', {left: 0, top: 0, right: 0, bottom: 0});
         }
 
         next();
@@ -73,8 +75,9 @@ export async function init(options: {
   }
 
   if (viewport.mount.isAvailable()) {
-    viewport.mount().then(() => {
+    viewport.mount().then(async () => {
       viewport.bindCssVars();
+      await viewport.requestFullscreen();
     });
   }
 
