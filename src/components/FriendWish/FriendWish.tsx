@@ -33,7 +33,7 @@ export const FriendWish: FC<FriendWishlistItemProps> = memo(function FriendWishl
   }
   if (item.description) {
     cells.push([
-      <Cell key="description" subhead={t('wish.description')}>
+      <Cell key="description" subhead={t('wish.description')} multiline={true}>
         {item.description}
       </Cell>
     ])
@@ -41,7 +41,7 @@ export const FriendWish: FC<FriendWishlistItemProps> = memo(function FriendWishl
 
   if (item.price) {
     cells.push([
-      <Cell key="price" subhead={t('wish.price')}>
+      <Cell key="price" subhead={t('wish.price')} multiline={true}>
         {item.price}
       </Cell>
     ])
@@ -69,7 +69,7 @@ export const FriendWish: FC<FriendWishlistItemProps> = memo(function FriendWishl
   }
 
   const reservationCells: ReactNode[] = [
-    <Cell key="reservaion-info">
+    <Cell key="reservaion-info" multiline={true}>
       {
         item.reservable ?
           (
@@ -105,7 +105,7 @@ export const FriendWish: FC<FriendWishlistItemProps> = memo(function FriendWishl
     <>
       {/* Title Section */}
       <Section header={t('wish.title')}>
-        <Cell>
+        <Cell multiline={true}>
           <Title level="2">
             {item.title}
           </Title>

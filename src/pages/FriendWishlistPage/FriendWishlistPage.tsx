@@ -29,7 +29,12 @@ export const FriendWishlistPage: FC = memo(function FriendWishlistItemsPage() {
   const {items, isLoading} = useBackendFriendWishlistItems(wishlist.id!);
 
   const descriptionCells: ReactNode[] = [
-    <Cell key="title" subhead={t('wishlist.title')} subtitle={wishlist.is_private ? t('wishlist.private') : undefined}>
+    <Cell
+      key="title"
+      subhead={t('wishlist.title')}
+      subtitle={wishlist.is_private ? t('wishlist.private') : undefined}
+      multiline={true}
+    >
       <Title level="3">
         {wishlist.title}
       </Title>
@@ -38,7 +43,7 @@ export const FriendWishlistPage: FC = memo(function FriendWishlistItemsPage() {
 
   if (wishlist.description) {
     descriptionCells.push([
-      <Cell key="description" subhead={t('wishlist.description')}>
+      <Cell key="description" subhead={t('wishlist.description')} multiline={true}>
         {wishlist.description}
       </Cell>
     ])

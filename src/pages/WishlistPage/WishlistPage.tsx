@@ -44,7 +44,12 @@ export const WishlistPage: FC = memo(function WishlistItemsPage() {
   const {items, isLoading} = useBackendWishlistItems(wishlist.id!);
 
   const wishlistCells: ReactNode[] = [
-    <Cell key="title" subhead={t('wishlist.title')} subtitle={wishlist.is_private ? t('wishlist.private') : undefined}>
+    <Cell
+      key="title"
+      subhead={t('wishlist.title')}
+      subtitle={wishlist.is_private ? t('wishlist.private') : undefined}
+      multiline={true}
+    >
       <Title level="3">
         {wishlist.title}
       </Title>
@@ -53,7 +58,7 @@ export const WishlistPage: FC = memo(function WishlistItemsPage() {
 
   if (wishlist.description) {
     wishlistCells.push([
-      <Cell key="description" subhead={t('wishlist.description')}>
+      <Cell key="description" subhead={t('wishlist.description')} multiline={true}>
         {wishlist.description}
       </Cell>
     ])

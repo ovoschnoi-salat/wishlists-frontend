@@ -30,7 +30,7 @@ export const WishlistItem: FC<WishlistItemProps> = memo(function WishlistItem({i
 
   if (item.description) {
     cells.push([
-      <Cell key="description" subhead={t('wish.description')}>
+      <Cell key="description" subhead={t('wish.description')} multiline={true}>
         {item.description}
       </Cell>
     ])
@@ -38,7 +38,7 @@ export const WishlistItem: FC<WishlistItemProps> = memo(function WishlistItem({i
 
   if (item.price) {
     cells.push([
-      <Cell key="price" subhead={t('wish.price')}>
+      <Cell key="price" subhead={t('wish.price')} multiline={true}>
         {item.price}
       </Cell>
     ])
@@ -64,7 +64,7 @@ export const WishlistItem: FC<WishlistItemProps> = memo(function WishlistItem({i
   }
 
   cells.push([
-    <Cell key="reservation" subhead={t('wish.reservation')}>
+    <Cell key="reservation" subhead={t('wish.reservation')} multiline={true}>
       <Text>
         {item.reservable ? t('wish.reservableText') : t('wish.reservationFreeText')}
       </Text>
@@ -91,7 +91,7 @@ export const WishlistItem: FC<WishlistItemProps> = memo(function WishlistItem({i
     <>
       {/* Title Section */}
       <Section header={t('wish.title')}>
-        <Cell>
+        <Cell multiline={true}>
           <Title level="3">
             {item.title}
           </Title>

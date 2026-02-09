@@ -9,3 +9,4 @@
 - support users without username
 - fix title display (wrap)
 - add friend request by id
+- think of wishes status in wishes list (disabled or colored dot if reserved)
