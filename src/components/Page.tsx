@@ -11,18 +11,14 @@ export function Page({children, back = true, backNavFn}: PropsWithChildren<{
   useEffect(() => {
     if (back && backButton.show.ifAvailable().ok) {
       if (backNavFn) {
-        console.log("register custom back callback")
         const off = backButton.onClick(() => {
-          console.log("go back custom")
           backNavFn();
           off();
         }, true);
 
         return off
       } else {
-        console.log("register default back callback")
         const off = backButton.onClick(() => {
-          console.log("go back default")
           navigate(-1);
           off();
         }, true);
