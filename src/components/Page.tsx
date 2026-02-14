@@ -12,8 +12,10 @@ export function Page({children, back = true, backNavFn}: PropsWithChildren<{
     if (back && backButton.show.ifAvailable().ok) {
       backButton.onClick(() => {
         if (backNavFn) {
+          console.log("go back custom")
           backNavFn();
         } else {
+          console.log("go back default")
           navigate(-1);
         }
       });
