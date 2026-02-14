@@ -1,4 +1,5 @@
 import {
+  Badge,
   Cell,
   Navigation
 } from '@telegram-apps/telegram-ui';
@@ -30,6 +31,7 @@ export const FriendWishlistItems: FC<FriendWishlistItemsProps> = ({items, isLoad
     <Cell
       key={item.id}
       onClick={() => onItemClick(item)}
+      titleBadge={item.reserved === true ? <Badge mode={item.reservation_can_be_canceled ? "primary" : "critical"} type="dot" /> : undefined}
       after={<Navigation/>}
       disabled={item.reserved === true && item.reservation_can_be_canceled === false} // TODO
     >
