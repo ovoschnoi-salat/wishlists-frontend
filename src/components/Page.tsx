@@ -17,6 +17,8 @@ export function Page({children, back = true, backNavFn}: PropsWithChildren<{
           backNavFn();
           off();
         }, true);
+
+        return off
       } else {
         console.log("register default back callback")
         const off = backButton.onClick(() => {
@@ -24,6 +26,8 @@ export function Page({children, back = true, backNavFn}: PropsWithChildren<{
           navigate(-1);
           off();
         }, true);
+
+        return off
       }
     } else {
       backButton.hide();
