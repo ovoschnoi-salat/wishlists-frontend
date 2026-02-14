@@ -46,7 +46,6 @@ export function InitialNavigation() {
   const lp = useLaunchParams();
 
   const startParam = lp.tgWebAppStartParam;
-  console.log(startParam);
 
   if (startParam) {
     const parts = startParam.split("_")

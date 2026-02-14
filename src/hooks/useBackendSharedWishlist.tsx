@@ -26,8 +26,6 @@ export const useBackendSharedWishlist = (wishlist_uuid: string): loadResult & { 
         return
       }
 
-      console.log("received shared wishlist", data)
-
       setData(data);
     } finally {
       setIsLoading(false);

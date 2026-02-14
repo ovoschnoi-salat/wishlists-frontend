@@ -27,7 +27,6 @@ export const FriendsPage: FC = memo(function FriendsPage() {
   }, [navigate]);
 
   const handleAddFriend = useCallback(() => {
-    console.log('nav to new')
     navigate(`new`);
   }, [navigate]);
 
