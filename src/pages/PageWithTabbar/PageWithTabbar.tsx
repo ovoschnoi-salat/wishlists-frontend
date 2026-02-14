@@ -1,5 +1,5 @@
 import {FC, ReactElement, useEffect, useState, memo} from 'react';
-import {Outlet} from "react-router";
+import {Outlet, ScrollRestoration} from "react-router";
 import {useLocation, useNavigate} from "react-router";
 
 import {Tabbar} from '@telegram-apps/telegram-ui';
@@ -109,6 +109,7 @@ export const PageWithTabbar: FC = memo(function PageWithTabbar() {
   }
 
   return <>
+    <ScrollRestoration/>
     <div style={{paddingBottom: tabbarHeight + "px"}}>
       <Outlet/>
     </div>

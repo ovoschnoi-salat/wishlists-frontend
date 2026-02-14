@@ -9,3 +9,7 @@
 - fix title display (wrap) done, need somewhere else?
 - add friend request by id
 - think of wishes status in wishes list (disabled or colored dot if reserved)
+- fix tabbar active tab on start
+- scroll restoration
+- disable "no items" strings
+- add swipe left to go back if possible
