@@ -11,5 +11,5 @@ export const showDestructivePopup = async (title: string, message: string, posit
   });
 
   const buttonId = await promise;
-  return buttonId !== "yes";
+  return buttonId === "yes";
 }
