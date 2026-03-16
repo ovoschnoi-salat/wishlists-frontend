@@ -32,13 +32,6 @@ export function ErrorBoundary() {
   const error = useRouteError();
   toast.error(errorToString(error))
   return <Navigate to="/"/>
-  // return (
-  //   <ErrorSnackbar
-  //     title={"Unexpected error"}
-  //     description={"please copy error and send report"}
-  //     copyMsg={errorToString(error)}
-  //   />
-  // );
 }
 
 export function InitialNavigation() {

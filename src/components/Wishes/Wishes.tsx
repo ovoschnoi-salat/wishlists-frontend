@@ -1,6 +1,6 @@
 import {
   Cell,
-  Navigation
+  Navigation, Section
 } from '@telegram-apps/telegram-ui';
 import {FC, memo} from 'react';
 import {ServiceWishlistItem} from '@/backend-client';
@@ -23,16 +23,18 @@ export const Wishes: FC<WishlistItemsProps> = memo(function WishlistItems({items
   }
 
   if (items.length === 0) {
-    return <Cell>{t('wishlist.noWishes')}</Cell>
+    return <Section header={t('wishlist.wishes')}><Cell>{t('wishlist.noWishes')}</Cell></Section>
   }
 
-  return items.map((item) => (
-    <Cell
-      key={item.id}
-      onClick={() => onItemClick(item)}
-      after={<Navigation/>}
-    >
-      {item.title}
-    </Cell>
-  ))
+  return <Section header={t('wishlist.wishes')}>
+    {items.map((item) => (
+      <Cell
+        key={item.id}
+        onClick={() => onItemClick(item)}
+        after={<Navigation/>}
+      >
+        {item.title}
+      </Cell>
+    ))}
+  </Section>
 });

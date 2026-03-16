@@ -91,9 +91,7 @@ export const WishlistPage: FC = memo(function WishlistItemsPage() {
         </StretchedButton>
       </Section>
 
-      <Section header={t('wishlist.wishes')}>
-        <Wishes items={items} isLoading={isLoading} onItemClick={handleItemPress}/>
-
+      <Section>
         <ButtonCell
           before={<Icon28Plus/>}
           onClick={handleNewWishPress}
@@ -101,6 +99,8 @@ export const WishlistPage: FC = memo(function WishlistItemsPage() {
           {t('wishlist.addWish')}
         </ButtonCell>
       </Section>
+
+      <Wishes items={items} isLoading={isLoading} onItemClick={handleItemPress}/>
     </List>
   </Page>
 });
