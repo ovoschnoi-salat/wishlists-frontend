@@ -16,7 +16,7 @@ interface FriendWishlistItemsProps {
   onItemClick: (item: WishlistItem) => void;
 }
 
-export const FriendWishlistItems: FC<FriendWishlistItemsProps> = ({items, isLoading, onItemClick}) => {
+export const FriendWishes: FC<FriendWishlistItemsProps> = ({items, isLoading, onItemClick}) => {
   const {t} = useTranslation();
 
   if (isLoading) {

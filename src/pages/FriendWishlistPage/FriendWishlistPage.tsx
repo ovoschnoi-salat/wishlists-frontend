@@ -2,7 +2,7 @@ import {useLocation, useNavigate} from 'react-router';
 import {FC, memo, ReactNode} from 'react';
 import {Cell, List, Section, Title} from "@telegram-apps/telegram-ui";
 import {Page} from "@/components/Page.tsx";
-import {FriendWishlistItems} from "@/components/FriendWishlistItems";
+import {FriendWishes} from "@/components/FriendWishes";
 import {ServiceWishlist, ServiceWishlistItem} from "@/backend-client";
 import {useBackendFriendWishlistItems} from "@/hooks/useBackendFriendWishlistItems.tsx";
 import {useTranslation} from "react-i18next";
@@ -56,7 +56,7 @@ export const FriendWishlistPage: FC = memo(function FriendWishlistItemsPage() {
       </Section>
 
       <Section header={t('wishlist.wishes')}>
-        <FriendWishlistItems items={items} isLoading={isLoading} onItemClick={handleItemPress}/>
+        <FriendWishes items={items} isLoading={isLoading} onItemClick={handleItemPress}/>
       </Section>
     </List>
   </Page>
