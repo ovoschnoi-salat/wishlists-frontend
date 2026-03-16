@@ -22,6 +22,7 @@ export const ru: TranslationType = {
     accessList: "Пользователи с доступом",
     save: "Сохранить список желаний",
     remove: "Удалить список желаний",
+    removeQuestion: "Удалить этот список желаний?",
     noWishes: "В этом списке пока нет желаний",
     toast: {
       creating: "Создаем новый список желаний...",
@@ -51,6 +52,7 @@ export const ru: TranslationType = {
     reservable: "Можно бронировать",
     save: "Сохранить желание",
     remove: "Удалить желание",
+    removeQuestion: "Удалить это желание?",
     loadingError: "Ошибка загрузки желания",
     ownReservationText: "Это желание забронировано вами",
     reservedText: "Это желание уже кем-то забронировано",

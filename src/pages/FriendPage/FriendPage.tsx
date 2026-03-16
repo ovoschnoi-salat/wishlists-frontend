@@ -13,8 +13,8 @@ import {FriendWishlists} from "@/components/FriendWishlists/FriendWishlists.tsx"
 import {Icon28Cancel} from "@/icons/28/Cancel.tsx";
 import {toast} from "react-hot-toast";
 import {ToastBackendError} from "@/components/ToastBackendError/ToastBackendError.tsx";
-import {popup} from "@tma.js/sdk-react";
 import {useTranslation} from "react-i18next";
+import {showDestructivePopup} from "@/pages/helpers/popup.ts";
 
 export const FriendPage: FC = memo(function FriendWishlistsPage() {
   const navigate = useNavigate()
@@ -32,18 +32,11 @@ export const FriendPage: FC = memo(function FriendWishlistsPage() {
     try {
       setIsRemoving(true)
 
-      const promise = popup.show({
-        title: t('friend.remove'),
-        message: t('friend.removeQuestion', friend),
-        buttons: [
-          {id: 'yes', type: 'destructive', text: t('yes')},
-          {id: 'no', type: 'default', text: t('no')}
-        ],
-      });
-
-      const buttonId = await promise;
-      if (buttonId !== "yes") {
-        console.log("returned from popup", buttonId)
+      if (!await showDestructivePopup(
+        t('friend.remove'),
+        t('friend.removeQuestion', friend),
+        t('yes'),
+        t('no'))) {
         return
       }
 

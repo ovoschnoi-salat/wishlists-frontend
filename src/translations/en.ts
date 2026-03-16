@@ -22,6 +22,7 @@ export const en: TranslationType = {
     accessList: "Users with access",
     save: "Save wishlist",
     remove: "Remove wishlist",
+    removeQuestion: "Remove this wishlist?",
     noWishes: "No wishes in this wishlist yet",
     toast: {
       creating: "Creating new wishlist...",
@@ -51,6 +52,7 @@ export const en: TranslationType = {
     reservable: "Reservable",
     save: "Save wish",
     remove: "Remove wish",
+    removeQuestion: "Remove this wish?",
     loadingError: "Error loading wish",
     ownReservationText: "This wish is reserved by you",
     reservedText: "This wish is already reserved",

@@ -20,6 +20,7 @@ export interface TranslationType {
     accessList: string;
     save: string;
     remove: string;
+    removeQuestion: string;
     noWishes: string;
     toast: {
       creating: string;
@@ -49,6 +50,7 @@ export interface TranslationType {
     reservable: string;
     save: string;
     remove: string;
+    removeQuestion: string;
     loadingError: string;
     ownReservationText: string;
     reservedText: string;

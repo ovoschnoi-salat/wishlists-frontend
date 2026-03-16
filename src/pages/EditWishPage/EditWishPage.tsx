@@ -11,6 +11,7 @@ import {
 import {toast} from "react-hot-toast";
 import {ToastBackendError} from "@/components/ToastBackendError/ToastBackendError.tsx";
 import {useTranslation} from "react-i18next";
+import {showDestructivePopup} from "@/pages/helpers/popup.ts";
 
 const useLocationState = () => {
   const {state} = useLocation()
@@ -50,6 +51,14 @@ export const EditWishPage: FC = memo(function EditWishlistItemPage() {
   }, [item.id, item.wishlist_id, navigate, t]);
 
   const handleDeleteWish = useCallback(async () => {
+    if (!await showDestructivePopup(
+      t('wish.remove'),
+      t('wish.removeQuestion'),
+      t('yes'),
+      t('no'))) {
+      return
+    }
+
     const toastId = toast.loading(t('wish.toast.removing'))
 
     const {error} = await deleteApiUserWish({
