@@ -16,7 +16,7 @@ interface WishlistItemsProps {
   onItemClick: (item: WishlistItem) => void;
 }
 
-export const WishlistItems: FC<WishlistItemsProps> = memo(function WishlistItems({items, isLoading, onItemClick}) {
+export const Wishes: FC<WishlistItemsProps> = memo(function WishlistItems({items, isLoading, onItemClick}) {
   const {t} = useTranslation();
   if (isLoading) {
     return <Loading/>;

@@ -1,4 +1,4 @@
-import {WishlistItems} from '@/components/WishlistItems';
+import {Wishes} from '@/components/Wishes';
 import {useLocation, useNavigate} from 'react-router';
 import {FC, memo, ReactNode, useCallback} from 'react';
 import {ButtonCell, Cell, List, Section, Title} from "@telegram-apps/telegram-ui";
@@ -92,7 +92,7 @@ export const WishlistPage: FC = memo(function WishlistItemsPage() {
       </Section>
 
       <Section header={t('wishlist.wishes')}>
-        <WishlistItems items={items} isLoading={isLoading} onItemClick={handleItemPress}/>
+        <Wishes items={items} isLoading={isLoading} onItemClick={handleItemPress}/>
 
         <ButtonCell
           before={<Icon28Plus/>}
