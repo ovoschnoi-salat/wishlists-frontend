@@ -3,7 +3,7 @@ import {FC, memo} from 'react';
 import {List} from "@telegram-apps/telegram-ui";
 import {useBackendWishlistItem} from "@/hooks/useBackendWishlistItem.tsx";
 import {Page} from "@/components/Page.tsx";
-import {WishlistItem} from '@/components/WishlistItem';
+import {Wish} from '@/components/Wish';
 import {ServiceWishlistItem} from "@/backend-client";
 import {useTranslation} from "react-i18next";
 
@@ -26,7 +26,7 @@ export const WishPage: FC = memo(function WishlistItemPage() {
 
   return <Page>
     <List>
-      <WishlistItem item={item} isLoading={isLoading} onPressEdit={handleEdit}/>
+      <Wish item={item} isLoading={isLoading} onPressEdit={handleEdit}/>
     </List>
   </Page>
 });

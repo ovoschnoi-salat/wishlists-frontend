@@ -19,7 +19,7 @@ interface WishlistItemProps {
   onPressEdit: () => void;
 }
 
-export const WishlistItem: FC<WishlistItemProps> = memo(function WishlistItem({item, isLoading, onPressEdit}) {
+export const Wish: FC<WishlistItemProps> = memo(function Wish({item, isLoading, onPressEdit}) {
   const {t} = useTranslation()
 
   const handleOpenLink = useCallback((url: string) => {
