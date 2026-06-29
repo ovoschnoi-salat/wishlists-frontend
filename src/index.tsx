@@ -17,6 +17,8 @@ import './index.css';
 
 import {getApiUserSettings} from "@/backend-client";
 import i18next from "@/i18next.ts";
+import {toast, Toaster} from "react-hot-toast";
+import {ToastBackendError} from "@/components/ToastBackendError/ToastBackendError.tsx";
 
 
 const root = ReactDOM.createRoot(document.getElementById('root')!);
@@ -34,18 +36,20 @@ try {
     mockForMacOS: platform === 'macos',
   })
     .then(async () => {
-      const {data} = await getApiUserSettings()
+      const {data, error} = await getApiUserSettings()
 
-      if (data) {
+      if (error) {
+        root.render(<Toaster position="bottom-center"/>)
+        toast.error(<ToastBackendError error={error}/>)
+      } else {
         await i18next.changeLanguage(data.language)
+        root.render(
+          <StrictMode>
+            <App/>
+          </StrictMode>,
+        );
       }
-
-      root.render(
-        <StrictMode>
-          <App/>
-        </StrictMode>,
-      );
-    });
+    })
 } catch (e) {
   console.error(e);
   root.render(<EnvUnsupported/>);

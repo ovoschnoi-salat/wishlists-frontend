@@ -5,15 +5,13 @@ import {Cell, List} from "@telegram-apps/telegram-ui";
 import {FriendWish} from "@/components/FriendWish";
 import {
   postApiUserFriendWishlistWishReservationCancel,
-  postApiUserFriendWishlistWishReservationReserve, postApiUserFriendWishlistWishSplitRequest,
+  postApiUserFriendWishlistWishReservationReserve,
   ServiceFriendWishlist,
   ServiceFriendWishlistItem,
 } from "@/backend-client";
 import {toast} from "react-hot-toast";
 import {ToastBackendError} from "@/components/ToastBackendError/ToastBackendError.tsx";
 import {useTranslation} from "react-i18next";
-import {useBackendWishSplitRequests} from "@/hooks/useBackendWishSplitRequests.tsx";
-import {Loading} from "@/components/Loading.tsx";
 import {useBackendFriendWishlistItem} from "@/hooks/useBackendFriendWishlistItem.tsx";
 
 export type FriendWishPageState = {
@@ -34,35 +32,7 @@ export const FriendWishPage: FC = memo(function FriendWishlistItemPage() {
 
   const {wish, refetch} = useBackendFriendWishlistItem(state.wish)
 
-  const [isSplitRequestLoading, setIsSplitRequestLoading] = useState(false)
   const [isReservationLoading, setIsReservationLoading] = useState(false)
-
-  const {split_requests, isLoading, refetch: refetchSplitRequests} = useBackendWishSplitRequests(state.wish.id!)
-
-  const handleCreateSplitRequest = useCallback(async () => {
-    if (!wish) {
-      return
-    }
-    try {
-      setIsSplitRequestLoading(true)
-      const toastId = toast.loading(t('wish.toast.reserving'))
-
-      const {error} = await postApiUserFriendWishlistWishSplitRequest({
-        query: {
-          wish_id: wish.id!
-        }
-      })
-      if (error) {
-        toast.error(<ToastBackendError error={error}/>, {id: toastId})
-        return
-      }
-
-      toast.success(t('wish.toast.reserved'), {id: toastId})
-      await refetchSplitRequests()
-    } finally {
-      setIsSplitRequestLoading(false)
-    }
-  },[refetchSplitRequests, t, wish])
 
   const handlePressReservation = useCallback(async () => {
     if (!wish || !wish.reservable || (wish.reserved && !wish.reservation_can_be_canceled)) {
@@ -116,20 +86,13 @@ export const FriendWishPage: FC = memo(function FriendWishlistItemPage() {
     </Page>
   }
 
-  if (isLoading) {
-    return <Loading/>
-  }
-
   return <Page>
     <List>
       <FriendWish
         wish={wish}
         wishlist={wishlist}
-        split_requests={split_requests}
         onPressReservation={handlePressReservation}
         isReservationLoading={isReservationLoading}
-        onCreateSplitRequest={handleCreateSplitRequest}
-        isSplitRequestLoading={isSplitRequestLoading}
       />
     </List>
   </Page>
