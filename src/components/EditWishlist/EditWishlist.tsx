@@ -5,15 +5,16 @@ import {
   Switch,
   Input,
   Textarea,
-  Badge, ButtonCell,
+  Badge, ButtonCell, Select,
 } from '@telegram-apps/telegram-ui';
 import type {FC} from 'react';
 import {SelectFriends} from "@/components/SelectFriends/SelectFriends.tsx";
 import {Friend} from "@/components/Friends/Friends.tsx";
-import {ServiceCreateWishlistRequest, ServiceWishlist} from "@/backend-client";
+import {ServiceCreateWishlistRequest, ServiceSplitRequestPrivacy, ServiceWishlist} from "@/backend-client";
 import {Icon28Cancel} from "@/icons/28/Cancel.tsx";
 import {StretchedButton} from "@/components/StretchedButton/StretchedButton.tsx";
 import {useTranslation} from "react-i18next";
+import type {DefaultNamespace, ParseKeys, TOptions} from "i18next";
 
 interface editWishlistProps {
   wishlist: ServiceWishlist;
@@ -22,6 +23,22 @@ interface editWishlistProps {
   onSave: (wishlist: ServiceCreateWishlistRequest) => Promise<void>;
   onDelete?: () => Promise<void>;
 }
+
+interface ServiceSplitRequestPrivacyOption {
+  key: ServiceSplitRequestPrivacy;
+  translationKey: ParseKeys<DefaultNamespace, TOptions, undefined>;
+}
+
+const splitRequestsVisibilityOptions: ServiceSplitRequestPrivacyOption[] = [
+  {
+    key: "invisible_to_owner",
+    translationKey: "wishlist.splitRequestsInvisibleToOwner"
+  },
+  {
+    key: "visible_to_owner",
+    translationKey: "wishlist.splitRequestsVisibleToOwner"
+  }
+]
 
 export const EditWishlist: FC<editWishlistProps> = memo(function EditWishlist({
                                                                                 wishlist,
@@ -34,6 +51,7 @@ export const EditWishlist: FC<editWishlistProps> = memo(function EditWishlist({
   const [title, setTitle] = useState(wishlist.title!);
   const [description, setDescription] = useState(wishlist.description!);
   const [isPrivate, setIsPrivate] = useState(wishlist.is_private!);
+  const [splitRequestsVisibility, setSplitRequestsVisibility] = useState<ServiceSplitRequestPrivacy | undefined>(wishlist.split_request_privacy );
   const [usersWithAccess, setUsersWithAccess] = useState(friendsWithAccess);
   const [isSaving, setIsSaving] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false)
@@ -52,12 +70,13 @@ export const EditWishlist: FC<editWishlistProps> = memo(function EditWishlist({
           description: description.trim(),
           is_private: isPrivate,
           users_with_access: isPrivate ? usersWithAccess : [],
+          split_request_privacy: splitRequestsVisibility,
         });
       } finally {
         setIsSaving(false)
       }
     }
-  }, [description, isPrivate, onSave, title, usersWithAccess]);
+  }, [description, isPrivate, onSave, splitRequestsVisibility, title, usersWithAccess]);
 
   const handleDelete = useCallback(async () => {
     if (!onDelete) {
@@ -78,6 +97,10 @@ export const EditWishlist: FC<editWishlistProps> = memo(function EditWishlist({
   const handleSaveUsersWithAccess = useCallback((friendsIds: number[]) => {
     setShowSelectFriends(false)
     setUsersWithAccess(friendsIds)
+  }, []);
+
+  const handleSaveSplitRequestsVisibility = useCallback((e: ChangeEvent<HTMLSelectElement>) => {
+    setSplitRequestsVisibility(e.target.value as ServiceSplitRequestPrivacy)
   }, []);
 
   if (showSelectFriends) {
@@ -142,11 +165,22 @@ export const EditWishlist: FC<editWishlistProps> = memo(function EditWishlist({
         />
       </Section>
 
-      {/* Privacy Settings Section */}
+      {/* Reservations Privacy Settings Section */}
       <Section
         header={t('wishlist.privacySettings')}
       >
         {...privacyCells}
+      </Section>
+
+      {/* Split Requests Privacy Settings Section */}
+      <Section
+        header={t('wishlist.splitRequests')}
+      >
+        <Select onChange={handleSaveSplitRequestsVisibility}>
+          {splitRequestsVisibilityOptions.map((option) => {
+            return <option key={option.key} value={option.key} selected={splitRequestsVisibility === option.key}>{t(option.translationKey)}</option>
+          })}
+        </Select>
       </Section>
 
       {/* Create List Button */}

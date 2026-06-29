@@ -19,28 +19,28 @@ export interface WishlistItemLink {
 }
 
 export interface NewWishlistItemProps {
-  wishlist: ServiceWishlistItem;
+  wish: ServiceWishlistItem;
   onSave: (wishlistItem: ServiceCreateWishlistItemRequest) => Promise<void>;
   onDelete?: () => Promise<void>;
 }
 
-export const EditWishlistItem: FC<NewWishlistItemProps> = ({wishlist, onSave, onDelete}) => {
+export const EditWishlistItem: FC<NewWishlistItemProps> = ({wish, onSave, onDelete}) => {
   const {t} = useTranslation();
   const [isSaving, setIsSaving] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
-  const [title, setTitle] = useState(wishlist.title!);
-  const [description, setDescription] = useState(wishlist.description!);
-  const [price, setPrice] = useState(wishlist.price!)
-  const [links, setLinks] = useState<WishlistItemLink[]>(wishlist.links ? wishlist.links.map((value, index) => {
+  const [title, setTitle] = useState(wish.title!);
+  const [description, setDescription] = useState(wish.description!);
+  const [price, setPrice] = useState(wish.price!)
+  const [links, setLinks] = useState<WishlistItemLink[]>(wish.links ? wish.links.map((value, index) => {
     return {
       fieldGroupId: index,
       title: value.title,
       url: value.url,
     } as WishlistItemLink
   }) : []);
-  const [isReservable, setIsReservable] = useState(wishlist.reservable!)
+  const [isReservable, setIsReservable] = useState(wish.reservable!)
 
-  const handleAddLink = () => {
+  const handleAddLink = useCallback(() => {
     setLinks((prevState) => [
       ...prevState,
       {
@@ -52,9 +52,9 @@ export const EditWishlistItem: FC<NewWishlistItemProps> = ({wishlist, onSave, on
         url: "",
       },
     ]);
-  };
+  }, []);
 
-  const handleInputChange = (
+  const handleLinkInputChange = useCallback((
     value: string,
     targetFieldGroupId: number,
     field: "title" | "url"
@@ -67,13 +67,13 @@ export const EditWishlistItem: FC<NewWishlistItemProps> = ({wishlist, onSave, on
           : link
       )
     );
-  };
+  },[]);
 
-  const removeLink = (targetFieldGroupId: number) => {
+  const removeLink = useCallback((targetFieldGroupId: number) => {
     setLinks((prevState) =>
       prevState.filter((link) => link.fieldGroupId !== targetFieldGroupId)
     );
-  };
+  },[]);
 
   const isFormValid = useCallback(() => {
     return (
@@ -81,27 +81,22 @@ export const EditWishlistItem: FC<NewWishlistItemProps> = ({wishlist, onSave, on
     );
   }, [links, title]);
 
-  const handleSubmit = async () => {
+  const handleSubmit = useCallback(async () => {
     if (isFormValid()) {
       setIsSaving(true);
       await onSave({
         title: title,
         description: description,
         price: price,
-        links: links.map((link) => {
-          return {
-            title: link.title,
-            url: link.url,
-          } as ServiceWishlistItemLink
-        }),
+        links: links.map((link) => ({title: link.title, url: link.url} as ServiceWishlistItemLink)),
         reservable: isReservable,
       });
 
       setIsSaving(false);
     }
-  };
+  }, [description, isFormValid, isReservable, links, onSave, price, title]);
 
-  const handleDelete = async () => {
+  const handleDelete = useCallback(async () => {
     if (!onDelete) {
       return
     }
@@ -111,7 +106,7 @@ export const EditWishlistItem: FC<NewWishlistItemProps> = ({wishlist, onSave, on
     } finally {
       setIsDeleting(false)
     }
-  }
+  },[onDelete])
 
   return (
     <>
@@ -168,7 +163,7 @@ export const EditWishlistItem: FC<NewWishlistItemProps> = ({wishlist, onSave, on
               header={t('wish.linkTitle')}
               value={link.title}
               placeholder={t('wish.linkTitle')}
-              onChange={(e) => handleInputChange(e.target.value, link.fieldGroupId, "title")}
+              onChange={(e) => handleLinkInputChange(e.target.value, link.fieldGroupId, "title")}
             />
             <Textarea
               key={"link-url" + link.fieldGroupId}
@@ -177,7 +172,7 @@ export const EditWishlistItem: FC<NewWishlistItemProps> = ({wishlist, onSave, on
               header="URL"
               value={link.url}
               placeholder="https://example-link.com/"
-              onChange={(e) => handleInputChange(e.target.value, link.fieldGroupId, "url")}
+              onChange={(e) => handleLinkInputChange(e.target.value, link.fieldGroupId, "url")}
             />
           </List>
         ))}

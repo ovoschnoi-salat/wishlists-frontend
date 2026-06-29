@@ -18,6 +18,7 @@ export type ServiceCreateWishlistItemRequest = {
 export type ServiceCreateWishlistRequest = {
     description?: string;
     is_private?: boolean;
+    split_request_privacy?: ServiceSplitRequestPrivacy;
     title?: string;
     users_with_access?: Array<number>;
 };
@@ -32,6 +33,8 @@ export type ServiceFriend = {
 export type ServiceFriendWishlist = {
     description?: string;
     id?: number;
+    is_private?: boolean;
+    split_request_privacy?: ServiceSplitRequestPrivacy;
     title?: string;
 };
 
@@ -47,21 +50,16 @@ export type ServiceFriendWishlistItem = {
     wishlist_id?: number;
 };
 
+export type ServiceGetSplitRequestsResponse = {
+    request_from_user_exists?: boolean;
+    split_requests?: Array<ServiceFriend>;
+};
+
 export type ServiceIncomingFriendsRequestsCountResponse = {
     count?: number;
 };
 
-export type ServiceUpdateUser = {
-    displayed_name?: string;
-    open_to_requests?: boolean;
-    photo_url?: string;
-};
-
-export type ServiceUser = {
-    displayed_name?: string;
-    open_to_requests?: boolean;
-    photo_url?: string;
-};
+export type ServiceSplitRequestPrivacy = 'unknown' | 'invisible_to_owner' | 'visible_to_owner';
 
 export type ServiceUserSettings = {
     displayed_name?: string;
@@ -74,6 +72,7 @@ export type ServiceWishlist = {
     id?: number;
     is_private?: boolean;
     share_uuid?: string;
+    split_request_privacy?: ServiceSplitRequestPrivacy;
     title?: string;
 };
 
@@ -134,42 +133,6 @@ export type GetApiSharedWishlistResponses = {
 };
 
 export type GetApiSharedWishlistResponse = GetApiSharedWishlistResponses[keyof GetApiSharedWishlistResponses];
-
-export type PatchApiUserData = {
-    /**
-     * request body
-     */
-    body: ServiceUpdateUser;
-    path?: never;
-    query?: never;
-    url: '/api/user';
-};
-
-export type PatchApiUserErrors = {
-    /**
-     * Bad Request
-     */
-    400: SubcodeErrorsResponse;
-    /**
-     * Unauthorized
-     */
-    401: SubcodeErrorsResponse;
-    /**
-     * Internal Server Error
-     */
-    500: SubcodeErrorsResponse;
-};
-
-export type PatchApiUserError = PatchApiUserErrors[keyof PatchApiUserErrors];
-
-export type PatchApiUserResponses = {
-    /**
-     * OK
-     */
-    200: ServiceUser;
-};
-
-export type PatchApiUserResponse = PatchApiUserResponses[keyof PatchApiUserResponses];
 
 export type DeleteApiUserFriendData = {
     body?: never;
@@ -457,6 +420,78 @@ export type PostApiUserFriendWishlistWishReservationReserveErrors = {
 export type PostApiUserFriendWishlistWishReservationReserveError = PostApiUserFriendWishlistWishReservationReserveErrors[keyof PostApiUserFriendWishlistWishReservationReserveErrors];
 
 export type PostApiUserFriendWishlistWishReservationReserveResponses = {
+    /**
+     * No Content
+     */
+    204: unknown;
+};
+
+export type DeleteApiUserFriendWishlistWishSplitRequestData = {
+    body?: never;
+    path?: never;
+    query: {
+        /**
+         * Wish ID
+         */
+        wish_id: number;
+    };
+    url: '/api/user/friend/wishlist/wish/split-request';
+};
+
+export type DeleteApiUserFriendWishlistWishSplitRequestErrors = {
+    /**
+     * Bad Request
+     */
+    400: SubcodeErrorsResponse;
+    /**
+     * Unauthorized
+     */
+    401: SubcodeErrorsResponse;
+    /**
+     * Internal Server Error
+     */
+    500: SubcodeErrorsResponse;
+};
+
+export type DeleteApiUserFriendWishlistWishSplitRequestError = DeleteApiUserFriendWishlistWishSplitRequestErrors[keyof DeleteApiUserFriendWishlistWishSplitRequestErrors];
+
+export type DeleteApiUserFriendWishlistWishSplitRequestResponses = {
+    /**
+     * No Content
+     */
+    204: unknown;
+};
+
+export type PostApiUserFriendWishlistWishSplitRequestData = {
+    body?: never;
+    path?: never;
+    query: {
+        /**
+         * wish id
+         */
+        wish_id: number;
+    };
+    url: '/api/user/friend/wishlist/wish/split-request';
+};
+
+export type PostApiUserFriendWishlistWishSplitRequestErrors = {
+    /**
+     * Bad Request
+     */
+    400: SubcodeErrorsResponse;
+    /**
+     * Unauthorized
+     */
+    401: SubcodeErrorsResponse;
+    /**
+     * Internal Server Error
+     */
+    500: SubcodeErrorsResponse;
+};
+
+export type PostApiUserFriendWishlistWishSplitRequestError = PostApiUserFriendWishlistWishSplitRequestErrors[keyof PostApiUserFriendWishlistWishSplitRequestErrors];
+
+export type PostApiUserFriendWishlistWishSplitRequestResponses = {
     /**
      * No Content
      */
@@ -885,6 +920,10 @@ export type GetApiUserWishlistItemErrors = {
      */
     401: SubcodeErrorsResponse;
     /**
+     * Not Found
+     */
+    404: SubcodeErrorsResponse;
+    /**
      * Internal Server Error
      */
     500: SubcodeErrorsResponse;
@@ -977,6 +1016,48 @@ export type PostApiUserWishlistItemResponses = {
 };
 
 export type PostApiUserWishlistItemResponse = PostApiUserWishlistItemResponses[keyof PostApiUserWishlistItemResponses];
+
+export type GetApiUserWishlistItemSplitRequestsData = {
+    body?: never;
+    path?: never;
+    query: {
+        /**
+         * Wishlist item ID
+         */
+        item_id: number;
+    };
+    url: '/api/user/wishlist/item/split-requests';
+};
+
+export type GetApiUserWishlistItemSplitRequestsErrors = {
+    /**
+     * Bad Request
+     */
+    400: SubcodeErrorsResponse;
+    /**
+     * Unauthorized
+     */
+    401: SubcodeErrorsResponse;
+    /**
+     * Not Found
+     */
+    404: SubcodeErrorsResponse;
+    /**
+     * Internal Server Error
+     */
+    500: SubcodeErrorsResponse;
+};
+
+export type GetApiUserWishlistItemSplitRequestsError = GetApiUserWishlistItemSplitRequestsErrors[keyof GetApiUserWishlistItemSplitRequestsErrors];
+
+export type GetApiUserWishlistItemSplitRequestsResponses = {
+    /**
+     * OK
+     */
+    200: ServiceGetSplitRequestsResponse;
+};
+
+export type GetApiUserWishlistItemSplitRequestsResponse = GetApiUserWishlistItemSplitRequestsResponses[keyof GetApiUserWishlistItemSplitRequestsResponses];
 
 export type GetApiUserWishlistItemsData = {
     body?: never;

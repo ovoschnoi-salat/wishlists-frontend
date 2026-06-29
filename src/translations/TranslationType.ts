@@ -17,6 +17,9 @@ export interface TranslationType {
     addWish: string;
     privacySettings: string;
     privateList: string;
+    splitRequests: string;
+    splitRequestsInvisibleToOwner: string;
+    splitRequestsVisibleToOwner: string;
     accessList: string;
     save: string;
     remove: string;
@@ -57,6 +60,12 @@ export interface TranslationType {
     canBeReservedText: string;
     reserve: string;
     cancelReservation: string;
+    splitRequestsTitle: string;
+    splitRequestsDescription: string;
+    splitRequestsInvisibleToOwnerDescription: string;
+    splitRequestsVisibleToOwnerDescription: string;
+    createSplitRequest: string;
+    removeSplitRequest: string;
     toast: {
       creating: string;
       created: string;
@@ -68,6 +77,10 @@ export interface TranslationType {
       reserved: string;
       cancelingReservation: string;
       reservationCanceled: string;
+      creatingSplitRequest: string;
+      createdSplitRequest: string;
+      removingSplitRequest: string;
+      removedSplitRequest: string;
     };
   };
   friends: {

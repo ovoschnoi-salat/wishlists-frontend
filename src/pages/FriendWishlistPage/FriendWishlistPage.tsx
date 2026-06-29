@@ -3,13 +3,14 @@ import {FC, memo, ReactNode} from 'react';
 import {Cell, List, Section, Title} from "@telegram-apps/telegram-ui";
 import {Page} from "@/components/Page.tsx";
 import {FriendWishes} from "@/components/FriendWishes";
-import {ServiceWishlist, ServiceWishlistItem} from "@/backend-client";
+import {ServiceFriendWishlist, ServiceWishlistItem} from "@/backend-client";
 import {useBackendFriendWishlistItems} from "@/hooks/useBackendFriendWishlistItems.tsx";
 import {useTranslation} from "react-i18next";
+import {FriendWishPageState} from "@/pages/FriendWishPage/FriendWishPage.tsx";
 
 const useLocationState = () => {
   const {state} = useLocation()
-  return state as ServiceWishlist | undefined
+  return state as ServiceFriendWishlist
 }
 
 export const FriendWishlistPage: FC = memo(function FriendWishlistItemsPage() {
@@ -23,7 +24,7 @@ export const FriendWishlistPage: FC = memo(function FriendWishlistItemsPage() {
   }
 
   const handleItemPress = (item: ServiceWishlistItem) => {
-    navigate(`item`, {state: item, relative: "path"})
+    navigate(`item`, {state: {wishlist: wishlist, wish: item} as FriendWishPageState, relative: "path"})
   };
 
   const {items, isLoading} = useBackendFriendWishlistItems(wishlist.id!);

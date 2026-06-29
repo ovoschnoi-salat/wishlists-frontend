@@ -11,6 +11,7 @@ import {
 import {toast} from "react-hot-toast";
 import {ToastBackendError} from "@/components/ToastBackendError/ToastBackendError.tsx";
 import {useTranslation} from "react-i18next";
+import {WishPageState} from "@/pages/WishPage/WishPage.tsx";
 
 export const NewWishPage: FC = memo(function NewWishlistItemPage() {
   const navigate = useNavigate()
@@ -38,14 +39,14 @@ export const NewWishPage: FC = memo(function NewWishlistItemPage() {
 
     toast.success(t('wish.toast.created'), {id: toastId})
 
-    navigate(`/wishlist/item`, {replace: true, state: data})
-  }, [navigate, t, wishlist.id]);
+    navigate(`/wishlist/item`, {replace: true, state: {wishlist, wish: data} as WishPageState})
+  }, [navigate, t, wishlist]);
 
   return <Page>
     <List>
       <EditWishlistItem
         onSave={handleSaveNewWishlistItem}
-        wishlist={{
+        wish={{
           description: "",
           id: undefined,
           links: [],

@@ -146,14 +146,14 @@ if (import.meta.env.DEV) {
         tgWebAppFullscreen: true,
         tgWebAppPlatform: "ios", // "android" | "android_x" | "ios" | "macos" | "tdesktop" | "unigram" | "unknown" | "web" | "weba"
         tgWebAppShowSettings: false,
-        tgWebAppStartParam: "wishlist_a790e7e0-cb16-4d1a-871a-db30e12d66a7",
+        // tgWebAppStartParam: "wishlist_a790e7e0-cb16-4d1a-871a-db30e12d66a7",
         tgWebAppThemeParams: themeParams,
         tgWebAppVersion: "8.5",
         tgWebAppData: new URLSearchParams([
           ['auth_date', (new Date().getTime() / 1000 | 0).toString()],
           ['hash', 'some-hash'],
           ['signature', 'some-signature'],
-          ['user', JSON.stringify({id: 1, first_name: 'Vladislav', username: 'username-test'})],
+          ['user', JSON.stringify({id: 2, first_name: 'Vladislav', username: 'username-test'})],
         ]).toString(),
       } as (Omit<LaunchParamsLike, "tgWebAppData"> & { tgWebAppData?: string }),
       // launchParams: new URLSearchParams([

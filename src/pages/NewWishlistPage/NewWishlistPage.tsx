@@ -48,7 +48,8 @@ export const NewWishlistPage: FC = memo(function NewWishlistPage() {
           description: "",
           id: undefined,
           is_private: false,
-          title: ""
+          title: "",
+          split_request_privacy: "invisible_to_owner",
         }}
         friendsWithAccess={[]}
       />

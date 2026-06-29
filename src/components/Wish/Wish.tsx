@@ -7,19 +7,21 @@ import {
   ButtonCell,
 } from '@telegram-apps/telegram-ui';
 import {FC, memo, useCallback} from 'react';
-import {ServiceWishlistItem, ServiceWishlistItemLink} from "@/backend-client";
+import {ServiceWishlist, ServiceWishlistItem, ServiceWishlistItemLink} from "@/backend-client";
 import {Icon24Edit, Icon24Link} from "@/icons/24";
 import {Loading} from "@/components/Loading.tsx";
 import {openLink} from "@tma.js/sdk-react";
 import {useTranslation} from "react-i18next";
+import {WishSplitRequests} from "@/components/WishSplitRequests/WishSplitRequests.tsx";
 
 interface WishlistItemProps {
+  wishlist: ServiceWishlist;
   item: ServiceWishlistItem;
   isLoading: boolean;
   onPressEdit: () => void;
 }
 
-export const Wish: FC<WishlistItemProps> = memo(function Wish({item, isLoading, onPressEdit}) {
+export const Wish: FC<WishlistItemProps> = memo(function Wish({wishlist, item, isLoading, onPressEdit}) {
   const {t} = useTranslation()
 
   const handleOpenLink = useCallback((url: string) => {
@@ -108,6 +110,8 @@ export const Wish: FC<WishlistItemProps> = memo(function Wish({item, isLoading, 
       <Section header={t('wish.about')}>
         {...cells}
       </Section>
+
+      {wishlist.split_request_privacy === "visible_to_owner" && <WishSplitRequests wishlist={wishlist} wish={item}/>}
     </>
   );
 });

@@ -4,52 +4,54 @@ import {
   Button,
   Title,
 } from '@telegram-apps/telegram-ui';
-import {FC, memo, ReactNode, useCallback} from 'react';
-import {ServiceFriendWishlistItem, ServiceWishlistItemLink} from "@/backend-client";
+import {FC, memo, ReactNode} from 'react';
+import {
+  ServiceFriendWishlist,
+  ServiceFriendWishlistItem,
+  ServiceWishlistItemLink
+} from "@/backend-client";
 import {Icon24Link} from "@/icons/24";
 import {openLink} from "@tma.js/sdk-react";
 import {StretchedButton} from "@/components/StretchedButton/StretchedButton.tsx";
 import {useTranslation} from "react-i18next";
+import {WishSplitRequests} from "@/components/WishSplitRequests/WishSplitRequests.tsx";
 
 interface FriendWishlistItemProps {
-  item: ServiceFriendWishlistItem;
+  wish: ServiceFriendWishlistItem;
+  wishlist: ServiceFriendWishlist;
   onPressReservation: () => void;
   isReservationLoading: boolean;
 }
 
 export const FriendWish: FC<FriendWishlistItemProps> = memo(function FriendWishlistItem({
-                                                                                          item,
+                                                                                          wish,
+                                                                                          wishlist,
                                                                                           onPressReservation,
-                                                                                          isReservationLoading
+                                                                                          isReservationLoading,
                                                                                         }) {
   const {t} = useTranslation();
 
-  const handleOpenLink = useCallback((url: string) => {
-    openLink(url)
-  }, []);
-
   const cells = []
-  {/* Description */
-  }
-  if (item.description) {
+
+  if (wish.description) {
     cells.push([
       <Cell key="description" subhead={t('wish.description')} multiline={true}>
-        {item.description}
+        {wish.description}
       </Cell>
     ])
   }
 
-  if (item.price) {
+  if (wish.price) {
     cells.push([
       <Cell key="price" subhead={t('wish.price')} multiline={true}>
-        {item.price}
+        {wish.price}
       </Cell>
     ])
   }
 
-  if (item.links) {
+  if (wish.links) {
     cells.push(
-      item.links.map((link: ServiceWishlistItemLink, index) => {
+      wish.links.map((link: ServiceWishlistItemLink, index) => {
         let title = link.title
         if (!title && "parse" in URL) {
           title = URL.parse(link.url ?? "")?.hostname
@@ -61,7 +63,7 @@ export const FriendWish: FC<FriendWishlistItemProps> = memo(function FriendWishl
             <Button
               mode="filled"
               size="s"
-              onClick={() => handleOpenLink(link.url!)}
+              onClick={() => openLink(link.url!)}
               before={<Icon24Link/>}>
               {t('wish.openLink')}
             </Button>
@@ -75,22 +77,21 @@ export const FriendWish: FC<FriendWishlistItemProps> = memo(function FriendWishl
   const reservationCells: ReactNode[] = [
     <Cell key="reservaion-info" multiline={true}>
       {
-        item.reservable ?
-          (
-            item.reserved ?
-              (
-                item.reservation_can_be_canceled ? t('wish.ownReservationText') : t('wish.reservedText')
-              )
+        wish.reservable ?
+          wish.reserved ?
+            wish.reservation_can_be_canceled ?
+              t('wish.ownReservationText')
               :
-              t('wish.canBeReservedText')
-          )
+              t('wish.reservedText')
+            :
+            t('wish.canBeReservedText')
           :
           t('wish.reservationFreeText')
       }
     </Cell>
   ]
 
-  if (item.reservable && (!item.reserved || item.reservation_can_be_canceled)) {
+  if (wish.reservable && (!wish.reserved || wish.reservation_can_be_canceled)) {
     reservationCells.push([
       <StretchedButton
         key="reserve"
@@ -100,7 +101,7 @@ export const FriendWish: FC<FriendWishlistItemProps> = memo(function FriendWishl
         disabled={isReservationLoading}
         onClick={onPressReservation}
       >
-        {item.reservation_can_be_canceled ? t('wish.cancelReservation') : t('wish.reserve')}
+        {wish.reservation_can_be_canceled ? t('wish.cancelReservation') : t('wish.reserve')}
       </StretchedButton>
     ])
   }
@@ -111,7 +112,7 @@ export const FriendWish: FC<FriendWishlistItemProps> = memo(function FriendWishl
       <Section header={t('wish.title')}>
         <Cell multiline={true}>
           <Title level="2">
-            {item.title}
+            {wish.title}
           </Title>
         </Cell>
       </Section>
@@ -125,6 +126,9 @@ export const FriendWish: FC<FriendWishlistItemProps> = memo(function FriendWishl
       <Section header={t('wish.reservation')}>
         {...reservationCells}
       </Section>
+
+      {/* Split Requests Section */}
+      <WishSplitRequests wishlist={wishlist} wish={wish}/>
     </>
   );
 });

@@ -6,37 +6,38 @@ import {EditWishlistItem} from "@/components/EditWishlistItem/EditWishlistItem.t
 import {
   deleteApiUserWish,
   patchApiUserWishlistItem,
-  ServiceCreateWishlistItemRequest, ServiceWishlistItem
+  ServiceCreateWishlistItemRequest
 } from "@/backend-client";
 import {toast} from "react-hot-toast";
 import {ToastBackendError} from "@/components/ToastBackendError/ToastBackendError.tsx";
 import {useTranslation} from "react-i18next";
 import {showDestructivePopup} from "@/pages/helpers/popup.ts";
+import {WishPageState} from "@/pages/WishPage/WishPage.tsx";
 
 const useLocationState = () => {
   const {state} = useLocation()
-  return state as ServiceWishlistItem | undefined
+  return state as WishPageState
 }
 
 export const EditWishPage: FC = memo(function EditWishlistItemPage() {
   const navigate = useNavigate();
   const {t} = useTranslation();
 
-  const item = useLocationState()
+  const {wishlist, wish} = useLocationState()
 
-  if (!item) {
+  if (!wish || !wishlist) {
     throw t('invalidState')
   }
 
   const handleSaveWish = useCallback(async (newItem: ServiceCreateWishlistItemRequest) => {
     const toastId = toast.loading(t('wish.toast.editing'))
 
-    newItem.wishlist_id = item.wishlist_id
+    newItem.wishlist_id = wish.wishlist_id
 
     const {data, error} = await patchApiUserWishlistItem({
       body: newItem,
       query: {
-        item_id: item.id!,
+        item_id: wish.id!,
       }
     })
 
@@ -47,8 +48,8 @@ export const EditWishPage: FC = memo(function EditWishlistItemPage() {
 
     toast.success(t('wish.toast.edited'), {id: toastId})
 
-    navigate(`..`, {replace: true, relative: "path", state: data})
-  }, [item.id, item.wishlist_id, navigate, t]);
+    navigate(`..`, {replace: true, relative: "path", state: {wishlist, wish: data} as WishPageState})
+  }, [t, wish.wishlist_id, wish.id, navigate, wishlist]);
 
   const handleDeleteWish = useCallback(async () => {
     if (!await showDestructivePopup(
@@ -63,7 +64,7 @@ export const EditWishPage: FC = memo(function EditWishlistItemPage() {
 
     const {error} = await deleteApiUserWish({
       query: {
-        wish_id: item.id!,
+        wish_id: wish.id!,
       }
     })
 
@@ -75,15 +76,15 @@ export const EditWishPage: FC = memo(function EditWishlistItemPage() {
     toast.success(t('wish.toast.removed'), {id: toastId})
 
     navigate(-1)
-  }, [item.id, navigate, t])
+  }, [wish.id, navigate, t])
 
   return <Page
     backNavFn={() => {
-      navigate(`..`, {replace: true, relative: "path", state: item})
+      navigate(`..`, {replace: true, relative: "path", state: {wishlist, wish} as WishPageState})
     }}>
     <List>
       <EditWishlistItem
-        onSave={handleSaveWish} onDelete={handleDeleteWish} wishlist={item}/>
+        onSave={handleSaveWish} onDelete={handleDeleteWish} wish={wish}/>
     </List>
   </Page>
 });

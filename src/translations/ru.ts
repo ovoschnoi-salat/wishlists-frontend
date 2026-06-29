@@ -20,6 +20,9 @@ export const ru: TranslationType = {
     privacySettings: "Настройки приватности",
     privateList: "Приватный список",
     accessList: "Пользователи с доступом",
+    splitRequests: "Видимость запросов на совместное бронирование желаний",
+    splitRequestsInvisibleToOwner: "Видны вам",
+    splitRequestsVisibleToOwner: "Не видны вам",
     save: "Сохранить список желаний",
     remove: "Удалить список желаний",
     removeQuestion: "Удалить этот список желаний?",
@@ -59,6 +62,12 @@ export const ru: TranslationType = {
     canBeReservedText: "Это желание можно забронировать",
     reserve: "Забронировать",
     cancelReservation: "Отменить бронирование",
+    splitRequestsTitle: "Запросы на совместное бронирование желания",
+    splitRequestsDescription: "Другие пользователи смогут увидеть ваш запрос и написать вам, чтобы обсудить подарок.",
+    splitRequestsInvisibleToOwnerDescription: "Владелец списка желаний решил не иметь возможности видеть эти зпросы.",
+    splitRequestsVisibleToOwnerDescription: "Владелец списка желаний решил иметь возможность видеть эти зпросы.",
+    createSplitRequest: "Создать запрос на совместное бронирование",
+    removeSplitRequest: "Удалить запрос на совместное бронирование",
     toast: {
       creating: "Создаем новое желание...",
       created: "Желание успешно создано",
@@ -70,6 +79,10 @@ export const ru: TranslationType = {
       reserved: "Желание успешно забронировано",
       cancelingReservation: "Отменяем бронирование желания...",
       reservationCanceled: "Бронирование желания успешно отменено",
+      creatingSplitRequest:  "Создаем запрос на совместное бронирование...",
+      createdSplitRequest:  "Запрос на совместное бронирование успешно создан",
+      removingSplitRequest:  "Удаляем запрос на совместное бронирование...",
+      removedSplitRequest:  "Запрос на совместное бронирование успешно удален",
     }
   },
   friends: {

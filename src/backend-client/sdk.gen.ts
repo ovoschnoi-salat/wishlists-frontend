@@ -2,7 +2,7 @@
 
 import type { Client, Options as Options2, TDataShape } from './client';
 import { client } from './client.gen';
-import type { DeleteApiUserFriendData, DeleteApiUserFriendErrors, DeleteApiUserFriendResponses, DeleteApiUserWishData, DeleteApiUserWishErrors, DeleteApiUserWishlistData, DeleteApiUserWishlistErrors, DeleteApiUserWishlistResponses, DeleteApiUserWishResponses, GetApiSharedWishlistData, GetApiSharedWishlistErrors, GetApiSharedWishlistResponses, GetApiUserFriendsData, GetApiUserFriendsErrors, GetApiUserFriendsRequestsIncomingCountData, GetApiUserFriendsRequestsIncomingCountErrors, GetApiUserFriendsRequestsIncomingCountResponses, GetApiUserFriendsRequestsIncomingData, GetApiUserFriendsRequestsIncomingErrors, GetApiUserFriendsRequestsIncomingResponses, GetApiUserFriendsRequestsOutcomingData, GetApiUserFriendsRequestsOutcomingErrors, GetApiUserFriendsRequestsOutcomingResponses, GetApiUserFriendsResponses, GetApiUserFriendWishlistItemData, GetApiUserFriendWishlistItemErrors, GetApiUserFriendWishlistItemResponses, GetApiUserFriendWishlistItemsData, GetApiUserFriendWishlistItemsErrors, GetApiUserFriendWishlistItemsResponses, GetApiUserFriendWishlistsData, GetApiUserFriendWishlistsErrors, GetApiUserFriendWishlistsResponses, GetApiUserSettingsData, GetApiUserSettingsErrors, GetApiUserSettingsResponses, GetApiUserWishlistAccessData, GetApiUserWishlistAccessErrors, GetApiUserWishlistAccessResponses, GetApiUserWishlistItemData, GetApiUserWishlistItemErrors, GetApiUserWishlistItemResponses, GetApiUserWishlistItemsData, GetApiUserWishlistItemsErrors, GetApiUserWishlistItemsResponses, GetApiUserWishlistsData, GetApiUserWishlistsErrors, GetApiUserWishlistsResponses, PatchApiUserData, PatchApiUserErrors, PatchApiUserResponses, PatchApiUserSettingsData, PatchApiUserSettingsErrors, PatchApiUserSettingsResponses, PatchApiUserWishlistData, PatchApiUserWishlistErrors, PatchApiUserWishlistItemData, PatchApiUserWishlistItemErrors, PatchApiUserWishlistItemResponses, PatchApiUserWishlistResponses, PostApiUserFriendRequestAcceptData, PostApiUserFriendRequestAcceptErrors, PostApiUserFriendRequestAcceptResponses, PostApiUserFriendRequestData, PostApiUserFriendRequestDenyData, PostApiUserFriendRequestDenyErrors, PostApiUserFriendRequestDenyResponses, PostApiUserFriendRequestErrors, PostApiUserFriendRequestResponses, PostApiUserFriendWishlistWishReservationCancelData, PostApiUserFriendWishlistWishReservationCancelErrors, PostApiUserFriendWishlistWishReservationCancelResponses, PostApiUserFriendWishlistWishReservationReserveData, PostApiUserFriendWishlistWishReservationReserveErrors, PostApiUserFriendWishlistWishReservationReserveResponses, PostApiUserWishlistData, PostApiUserWishlistErrors, PostApiUserWishlistItemData, PostApiUserWishlistItemErrors, PostApiUserWishlistItemResponses, PostApiUserWishlistResponses } from './types.gen';
+import type { DeleteApiUserFriendData, DeleteApiUserFriendErrors, DeleteApiUserFriendResponses, DeleteApiUserFriendWishlistWishSplitRequestData, DeleteApiUserFriendWishlistWishSplitRequestErrors, DeleteApiUserFriendWishlistWishSplitRequestResponses, DeleteApiUserWishData, DeleteApiUserWishErrors, DeleteApiUserWishlistData, DeleteApiUserWishlistErrors, DeleteApiUserWishlistResponses, DeleteApiUserWishResponses, GetApiSharedWishlistData, GetApiSharedWishlistErrors, GetApiSharedWishlistResponses, GetApiUserFriendsData, GetApiUserFriendsErrors, GetApiUserFriendsRequestsIncomingCountData, GetApiUserFriendsRequestsIncomingCountErrors, GetApiUserFriendsRequestsIncomingCountResponses, GetApiUserFriendsRequestsIncomingData, GetApiUserFriendsRequestsIncomingErrors, GetApiUserFriendsRequestsIncomingResponses, GetApiUserFriendsRequestsOutcomingData, GetApiUserFriendsRequestsOutcomingErrors, GetApiUserFriendsRequestsOutcomingResponses, GetApiUserFriendsResponses, GetApiUserFriendWishlistItemData, GetApiUserFriendWishlistItemErrors, GetApiUserFriendWishlistItemResponses, GetApiUserFriendWishlistItemsData, GetApiUserFriendWishlistItemsErrors, GetApiUserFriendWishlistItemsResponses, GetApiUserFriendWishlistsData, GetApiUserFriendWishlistsErrors, GetApiUserFriendWishlistsResponses, GetApiUserSettingsData, GetApiUserSettingsErrors, GetApiUserSettingsResponses, GetApiUserWishlistAccessData, GetApiUserWishlistAccessErrors, GetApiUserWishlistAccessResponses, GetApiUserWishlistItemData, GetApiUserWishlistItemErrors, GetApiUserWishlistItemResponses, GetApiUserWishlistItemsData, GetApiUserWishlistItemsErrors, GetApiUserWishlistItemSplitRequestsData, GetApiUserWishlistItemSplitRequestsErrors, GetApiUserWishlistItemSplitRequestsResponses, GetApiUserWishlistItemsResponses, GetApiUserWishlistsData, GetApiUserWishlistsErrors, GetApiUserWishlistsResponses, PatchApiUserSettingsData, PatchApiUserSettingsErrors, PatchApiUserSettingsResponses, PatchApiUserWishlistData, PatchApiUserWishlistErrors, PatchApiUserWishlistItemData, PatchApiUserWishlistItemErrors, PatchApiUserWishlistItemResponses, PatchApiUserWishlistResponses, PostApiUserFriendRequestAcceptData, PostApiUserFriendRequestAcceptErrors, PostApiUserFriendRequestAcceptResponses, PostApiUserFriendRequestData, PostApiUserFriendRequestDenyData, PostApiUserFriendRequestDenyErrors, PostApiUserFriendRequestDenyResponses, PostApiUserFriendRequestErrors, PostApiUserFriendRequestResponses, PostApiUserFriendWishlistWishReservationCancelData, PostApiUserFriendWishlistWishReservationCancelErrors, PostApiUserFriendWishlistWishReservationCancelResponses, PostApiUserFriendWishlistWishReservationReserveData, PostApiUserFriendWishlistWishReservationReserveErrors, PostApiUserFriendWishlistWishReservationReserveResponses, PostApiUserFriendWishlistWishSplitRequestData, PostApiUserFriendWishlistWishSplitRequestErrors, PostApiUserFriendWishlistWishSplitRequestResponses, PostApiUserWishlistData, PostApiUserWishlistErrors, PostApiUserWishlistItemData, PostApiUserWishlistItemErrors, PostApiUserWishlistItemResponses, PostApiUserWishlistResponses } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean> = Options2<TData, ThrowOnError> & {
     /**
@@ -25,19 +25,6 @@ export const getApiSharedWishlist = <ThrowOnError extends boolean = false>(optio
     security: [{ name: 'Authorization', type: 'apiKey' }],
     url: '/api/shared/wishlist',
     ...options
-});
-
-/**
- * updates user
- */
-export const patchApiUser = <ThrowOnError extends boolean = false>(options: Options<PatchApiUserData, ThrowOnError>) => (options.client ?? client).patch<PatchApiUserResponses, PatchApiUserErrors, ThrowOnError>({
-    security: [{ name: 'Authorization', type: 'apiKey' }],
-    url: '/api/user',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
 });
 
 /**
@@ -109,6 +96,24 @@ export const postApiUserFriendWishlistWishReservationCancel = <ThrowOnError exte
 export const postApiUserFriendWishlistWishReservationReserve = <ThrowOnError extends boolean = false>(options: Options<PostApiUserFriendWishlistWishReservationReserveData, ThrowOnError>) => (options.client ?? client).post<PostApiUserFriendWishlistWishReservationReserveResponses, PostApiUserFriendWishlistWishReservationReserveErrors, ThrowOnError>({
     security: [{ name: 'Authorization', type: 'apiKey' }],
     url: '/api/user/friend/wishlist/wish/reservation/reserve',
+    ...options
+});
+
+/**
+ * creates wish split request
+ */
+export const deleteApiUserFriendWishlistWishSplitRequest = <ThrowOnError extends boolean = false>(options: Options<DeleteApiUserFriendWishlistWishSplitRequestData, ThrowOnError>) => (options.client ?? client).delete<DeleteApiUserFriendWishlistWishSplitRequestResponses, DeleteApiUserFriendWishlistWishSplitRequestErrors, ThrowOnError>({
+    security: [{ name: 'Authorization', type: 'apiKey' }],
+    url: '/api/user/friend/wishlist/wish/split-request',
+    ...options
+});
+
+/**
+ * creates a wishlist item split requests
+ */
+export const postApiUserFriendWishlistWishSplitRequest = <ThrowOnError extends boolean = false>(options: Options<PostApiUserFriendWishlistWishSplitRequestData, ThrowOnError>) => (options.client ?? client).post<PostApiUserFriendWishlistWishSplitRequestResponses, PostApiUserFriendWishlistWishSplitRequestErrors, ThrowOnError>({
+    security: [{ name: 'Authorization', type: 'apiKey' }],
+    url: '/api/user/friend/wishlist/wish/split-request',
     ...options
 });
 
@@ -265,6 +270,15 @@ export const postApiUserWishlistItem = <ThrowOnError extends boolean = false>(op
         'Content-Type': 'application/json',
         ...options.headers
     }
+});
+
+/**
+ * returns wish split requests
+ */
+export const getApiUserWishlistItemSplitRequests = <ThrowOnError extends boolean = false>(options: Options<GetApiUserWishlistItemSplitRequestsData, ThrowOnError>) => (options.client ?? client).get<GetApiUserWishlistItemSplitRequestsResponses, GetApiUserWishlistItemSplitRequestsErrors, ThrowOnError>({
+    security: [{ name: 'Authorization', type: 'apiKey' }],
+    url: '/api/user/wishlist/item/split-requests',
+    ...options
 });
 
 /**

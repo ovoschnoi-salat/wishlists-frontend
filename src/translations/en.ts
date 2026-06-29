@@ -20,6 +20,9 @@ export const en: TranslationType = {
     privacySettings: "Privacy settings",
     privateList: "Private list",
     accessList: "Users with access",
+    splitRequests: "Wishes split requests visibility",
+    splitRequestsInvisibleToOwner: "Invisible to you",
+    splitRequestsVisibleToOwner: "Visible to you",
     save: "Save wishlist",
     remove: "Remove wishlist",
     removeQuestion: "Remove this wishlist?",
@@ -59,6 +62,12 @@ export const en: TranslationType = {
     canBeReservedText: "This wish can be reserved",
     reserve: "Reserve",
     cancelReservation: "Cancel reservation",
+    splitRequestsTitle: "Wish split requests",
+    splitRequestsDescription: "Other users will be able to see your request and contact you to discuss the gift.",
+    splitRequestsInvisibleToOwnerDescription: "The wishlist owner chose not to be able to see the split requests.",
+    splitRequestsVisibleToOwnerDescription: "The wishlist owner chose to be able to see the split requests.",
+    createSplitRequest: "Create wish split request",
+    removeSplitRequest: "Remove wish split request",
     toast: {
       creating: "Creating new wish...",
       created: "Wish created successfully",
@@ -70,6 +79,10 @@ export const en: TranslationType = {
       reserved: "Wish reserved successfully",
       cancelingReservation: "Canceling wish reservation...",
       reservationCanceled: "Wish reservation canceled successfully",
+      creatingSplitRequest:  "Creating wish split request...",
+      createdSplitRequest:  "Wish split request created successfully",
+      removingSplitRequest:  "Removing wish split request...",
+      removedSplitRequest:  "Wish split request removed successfully",
     }
   },
   friends: {

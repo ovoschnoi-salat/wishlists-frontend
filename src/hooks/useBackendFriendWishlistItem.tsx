@@ -1,4 +1,4 @@
-import {useState, useEffect, useCallback} from 'react';
+import {useState, useCallback} from 'react';
 import {
   getApiUserFriendWishlistItem,
   ServiceFriendWishlistItem,
@@ -7,7 +7,7 @@ import {loadResult} from "@/hooks/loaderProps.ts";
 import {toast} from "react-hot-toast";
 import {ToastBackendError} from "@/components/ToastBackendError/ToastBackendError.tsx";
 
-export const useBackendFriendWishlistItem = (wish: ServiceFriendWishlistItem | undefined): loadResult & { item: ServiceFriendWishlistItem | undefined } => {
+export const useBackendFriendWishlistItem = (wish: ServiceFriendWishlistItem | undefined): loadResult & { wish: ServiceFriendWishlistItem | undefined } => {
   const [data, setData] = useState<ServiceFriendWishlistItem | undefined>(wish);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -37,12 +37,8 @@ export const useBackendFriendWishlistItem = (wish: ServiceFriendWishlistItem | u
     }
   }, [wish]);
 
-  useEffect(() => {
-    fetch();
-  }, [fetch]);
-
   return {
-    item: data,
+    wish: data,
     isLoading: isLoading,
     refetch: fetch,
   };

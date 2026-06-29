@@ -10,6 +10,7 @@ import {Icon24Edit} from "@/icons/24";
 import {StretchedButton} from "@/components/StretchedButton/StretchedButton.tsx";
 import {copyTextToClipboard, shareURL} from "@tma.js/sdk-react";
 import {useTranslation} from "react-i18next";
+import {WishPageState} from "@/pages/WishPage/WishPage.tsx";
 
 export const WishlistPage: FC = memo(function WishlistItemsPage() {
   const navigate = useNavigate();
@@ -22,9 +23,9 @@ export const WishlistPage: FC = memo(function WishlistItemsPage() {
     throw t('invalidState')
   }
 
-  const handleItemPress = useCallback((item: ServiceWishlistItem) => {
-    navigate(`item`, {state: item})
-  }, [navigate]);
+  const handleItemPress = useCallback((wish: ServiceWishlistItem) => {
+    navigate(`item`, {state: {wishlist, wish} as WishPageState})
+  }, [navigate, wishlist]);
 
   const handleEditWishlistPress = useCallback(() => {
     navigate(`edit`, {replace: true, state: wishlist})
