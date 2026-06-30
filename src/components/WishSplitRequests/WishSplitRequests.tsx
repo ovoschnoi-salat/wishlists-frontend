@@ -87,7 +87,12 @@ export const WishSplitRequests: FC<WishSplitRequestsProps> = memo(function Selec
   }, [refetch, t, wish])
 
   const onSplitRequestClick = (requester: ServiceFriend) => {
-    openLink("tg://user?id=" + requester.id)
+    if (requester.username == "") {
+      return
+    }
+    const link = "https://t.me/" + requester.username
+    console.log("open link", link)
+    openLink(link)
   };
 
   if (isLoading) {
@@ -161,7 +166,6 @@ export const WishSplitRequests: FC<WishSplitRequestsProps> = memo(function Selec
         >
           {t('wish.createSplitRequest')}
         </StretchedButton>
-
     }
   </Section>
 });
